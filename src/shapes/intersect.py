@@ -134,3 +134,45 @@ def rounded_rect_intersect_x(x1, y1, x2, y2, x_offset, y_offset, x):
             unique.append(p)
 
     return unique
+
+
+def rounded_rect_asym_intersect_x(
+    x1, y1, x2, y2,
+    x_offset_left, y_offset_left,
+    x_offset_right, y_offset_right,
+    x,
+):
+    """Find y coordinates where an asymmetric rounded rect crosses a vertical line x=k.
+
+    Returns a list of (x, y) points sorted by y.
+    """
+    mid_x = (x1 + x2) / 2
+    mid_y = (y1 + y2) / 2
+
+    curves = [
+        # Bottom-right
+        ((mid_x, y1), (mid_x + x_offset_right, y1), (x2, mid_y - y_offset_right), (x2, mid_y)),
+        # Top-right
+        ((x2, mid_y), (x2, mid_y + y_offset_right), (mid_x + x_offset_right, y2), (mid_x, y2)),
+        # Top-left
+        ((mid_x, y2), (mid_x - x_offset_left, y2), (x1, mid_y + y_offset_left), (x1, mid_y)),
+        # Bottom-left
+        ((x1, mid_y), (x1, mid_y - y_offset_left), (mid_x - x_offset_left, y1), (mid_x, y1)),
+    ]
+
+    points = []
+    for p0, p1, p2, p3 in curves:
+        a = -p0[0] + 3 * p1[0] - 3 * p2[0] + p3[0]
+        b = 3 * p0[0] - 6 * p1[0] + 3 * p2[0]
+        c = -3 * p0[0] + 3 * p1[0]
+        d = p0[0] - x
+        for t in _solve_cubic_roots_01(a, b, c, d):
+            y_val = _eval_cubic(p0[1], p1[1], p2[1], p3[1], t)
+            points.append((x, y_val))
+
+    unique = []
+    for p in sorted(points, key=lambda p: p[1]):
+        if not unique or abs(p[0] - unique[-1][0]) > 1e-6 or abs(p[1] - unique[-1][1]) > 1e-6:
+            unique.append(p)
+
+    return unique

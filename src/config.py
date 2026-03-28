@@ -11,19 +11,20 @@ class FontConfig:
     X_WIDTH = 320
     ACCENT = 605
 
-    X_OFFSET = 115
-    Y_OFFSET = 165
+    X_OFFSET = 100
+    Y_OFFSET = 150
 
-    X_OFFSET_TAPER = 115
+    X_OFFSET_TAPER = 100
     Y_OFFSET_TAPER = 150
-    RATIO_TAPER = 1
+    RATIO_TAPER = 0.3
+    TAPER_RATIO = 0.3
+
+    INTERSECTION_FILL_HEIGHT = 10
+    INK_TRAP = 20
 
     # Angle for slanted cuts (in degrees)
     CUT_ANGLE = 70
 
-    # Taper ratio for most letters
-    TAPER_RATIO = 1
-    INK_TRAP = 10
 
     # Control point offsets for flat hooks (g, y, f etc.)
     HOOK_X_OFFSET = 200

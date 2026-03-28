@@ -86,3 +86,14 @@ def rounded_loop_tapered(
         y_offset=inner_yo,
         clockwise=True,
     )
+
+    return {
+        "x1": outer_x1,
+        "y1": y1,
+        "x2": outer_x2,
+        "y2": y2,
+        "x_offset_left": xo_left,
+        "y_offset_left": yo_left,
+        "x_offset_right": xo_right,
+        "y_offset_right": yo_right,
+    }

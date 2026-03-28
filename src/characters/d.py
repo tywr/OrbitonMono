@@ -1,7 +1,8 @@
-import pathops
-
 from config import FontConfig
 from shapes.rounded_loop_tapered import rounded_loop_tapered
+from shapes.intersect import rounded_rect_intersect_x
+from shapes.rect import rect
+from shapes.intersection_filler import intersection_filler
 
 
 def draw_d(pen, font_config: FontConfig, stroke: int):
@@ -14,11 +15,13 @@ def draw_d(pen, font_config: FontConfig, stroke: int):
     x_offset = min(FontConfig.X_OFFSET, max_xo)
     y_offset = min(FontConfig.Y_OFFSET, max_yo)
 
+    # Right vertical bar (ascender height)
+    bar_left = outer_right - stroke
+    rect(pen, bar_left, 0, outer_right, FontConfig.ASCENT)
+
     # Loop tapered on the right (where the stem is)
-    loop = pathops.Path()
-    loop_pen = loop.getPen()
     rounded_loop_tapered(
-        loop_pen,
+        pen,
         x1=outer_left,
         y1=0,
         x2=outer_right,
@@ -31,16 +34,16 @@ def draw_d(pen, font_config: FontConfig, stroke: int):
         ratio_taper=FontConfig.RATIO_TAPER,
         direction="right",
     )
+    intersection_filler(
+        pen=pen,
+        stroke=stroke,
+        outer_left=outer_left,
+        outer_right=outer_right - stroke * FontConfig.RATIO_TAPER,
+        height=FontConfig.X_HEIGHT,
+        x_offset=x_offset,
+        y_offset=y_offset,
+        bar_left=bar_left,
+        fill_height=FontConfig.INTERSECTION_FILL_HEIGHT,
+    )
 
-    # Right vertical bar (ascender height)
-    bar_left = outer_right - stroke
-    bar = pathops.Path()
-    bar_pen = bar.getPen()
-    bar_pen.moveTo((bar_left, 0))
-    bar_pen.lineTo((bar_left, FontConfig.ASCENT))
-    bar_pen.lineTo((outer_right, FontConfig.ASCENT))
-    bar_pen.lineTo((outer_right, 0))
-    bar_pen.closePath()
-
-    result = pathops.op(loop, bar, pathops.PathOp.UNION)
-    result.draw(pen)
+    return None
