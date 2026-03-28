@@ -14,6 +14,7 @@ from characters.f import draw_f
 from characters.g import draw_g
 from characters.i import draw_i
 from characters.j import draw_j
+from characters.k import draw_k
 from characters.l import draw_l
 from characters.p import draw_p
 from characters.h import draw_h
@@ -21,12 +22,14 @@ from characters.m import draw_m
 from characters.n import draw_n
 from characters.q import draw_q
 from characters.r import draw_r
+from characters.s import draw_s
 from characters.t import draw_t
 from characters.u import draw_u
 from characters.v import draw_v
 from characters.w import draw_w
 from characters.x import draw_x
 from characters.y import draw_y
+from characters.z import draw_z
 
 
 def draw_notdef(pen):
@@ -53,6 +56,7 @@ def build_font(output_path="OrbitonMono.ttf"):
             "h",
             "i",
             "j",
+            "k",
             "l",
             "o",
             "g",
@@ -61,12 +65,14 @@ def build_font(output_path="OrbitonMono.ttf"):
             "p",
             "q",
             "r",
+            "s",
             "t",
             "u",
             "v",
             "w",
             "x",
             "y",
+            "z",
         ]
     )
     fb.setupCharacterMap(
@@ -84,17 +90,20 @@ def build_font(output_path="OrbitonMono.ttf"):
             104: "h",
             105: "i",
             106: "j",
+            107: "k",
             109: "m",
             110: "n",
             112: "p",
             113: "q",
             114: "r",
+            115: "s",
             116: "t",
             117: "u",
             118: "v",
             119: "w",
             120: "x",
             121: "y",
+            122: "z",
         }
     )
 
@@ -136,6 +145,9 @@ def build_font(output_path="OrbitonMono.ttf"):
     j_pen = TTGlyphPen(None)
     draw_j(j_pen, font_config=FontConfig, stroke=60)
 
+    k_pen = TTGlyphPen(None)
+    draw_k(k_pen, font_config=FontConfig, stroke=60)
+
     p_pen = TTGlyphPen(None)
     draw_p(p_pen, font_config=FontConfig, stroke=60)
 
@@ -153,6 +165,9 @@ def build_font(output_path="OrbitonMono.ttf"):
 
     r_pen = TTGlyphPen(None)
     draw_r(r_pen, font_config=FontConfig, stroke=60)
+
+    s_pen = TTGlyphPen(None)
+    draw_s(s_pen, font_config=FontConfig, stroke=60)
 
     t_pen = TTGlyphPen(None)
     draw_t(t_pen, font_config=FontConfig, stroke=60)
@@ -172,6 +187,9 @@ def build_font(output_path="OrbitonMono.ttf"):
     y_pen = TTGlyphPen(None)
     draw_y(y_pen, font_config=FontConfig, stroke=60)
 
+    z_pen = TTGlyphPen(None)
+    draw_z(z_pen, font_config=FontConfig, stroke=60)
+
     fb.setupGlyf(
         {
             ".notdef": notdef_pen.glyph(),
@@ -180,6 +198,7 @@ def build_font(output_path="OrbitonMono.ttf"):
             "l": l_pen.glyph(),
             "i": i_pen.glyph(),
             "j": j_pen.glyph(),
+            "k": k_pen.glyph(),
             "o": o_pen.glyph(),
             "c": c_pen.glyph(),
             "b": b_pen.glyph(),
@@ -193,12 +212,14 @@ def build_font(output_path="OrbitonMono.ttf"):
             "p": p_pen.glyph(),
             "q": q_pen.glyph(),
             "r": r_pen.glyph(),
+            "s": s_pen.glyph(),
             "t": t_pen.glyph(),
             "u": u_pen.glyph(),
             "v": v_pen.glyph(),
             "w": w_pen.glyph(),
             "x": x_pen.glyph(),
             "y": y_pen.glyph(),
+            "z": z_pen.glyph(),
         }
     )
 
@@ -219,14 +240,29 @@ def build_font(output_path="OrbitonMono.ttf"):
         {
             "familyName": FontConfig.FAMILY_NAME,
             "styleName": "Regular",
+            "uniqueFontIdentifier": FontConfig.FAMILY_NAME + "-Regular",
+            "fullName": FontConfig.FAMILY_NAME + " Regular",
+            "version": "Version 1.000",
+            "psName": FontConfig.FAMILY_NAME + "-Regular",
         }
     )
+    # Add gasp table for proper rasterization on macOS
+    from fontTools.ttLib.tables._g_a_s_p import table__g_a_s_p
+    gasp = table__g_a_s_p()
+    gasp.version = 1
+    gasp.gaspRange = {0xFFFF: 0x000A}
+    fb.font["gasp"] = gasp
     fb.setupOS2(
         sTypoAscender=FontConfig.ASCENT,
         sTypoDescender=FontConfig.DESCENT,
         sTypoLineGap=0,
+        fsType=0,
+        sxHeight=FontConfig.X_HEIGHT,
+        sCapHeight=FontConfig.CAP,
+        usDefaultChar=0,
+        usBreakChar=32,
     )
-    fb.setupPost()
+    fb.setupPost(isFixedPitch=1)
 
     fb.font.save(output_path)
     print(f"Font saved to {output_path}")

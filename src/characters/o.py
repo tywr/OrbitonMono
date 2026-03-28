@@ -55,12 +55,12 @@ def draw_o(
     # Outer shape
     rounded_rect(
         pen,
-        left=outer_left,
-        bottom=0,
-        right=outer_right,
-        top=height,
-        corner_h=outer_corner_h,
-        corner_v=outer_corner_v,
+        x1=outer_left,
+        y1=0,
+        x2=outer_right,
+        y2=height,
+        radius_v=outer_corner_v,
+        radius_h=outer_corner_h,
         clockwise=False,
     )
 
@@ -74,12 +74,12 @@ def draw_o(
     # Inner shape
     rounded_rect(
         pen,
-        left=inner_left,
-        bottom=stroke,
-        right=inner_right,
-        top=height - stroke,
-        corner_h=inner_corner_h,
-        corner_v=inner_corner_v,
+        x1=inner_left,
+        y1=stroke,
+        x2=inner_right,
+        y2=height - stroke,
+        radius_v=inner_corner_v,
+        radius_h=inner_corner_h,
         clockwise=True,
     )
 

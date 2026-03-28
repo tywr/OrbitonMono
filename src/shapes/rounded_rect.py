@@ -1,22 +1,20 @@
-def rounded_rect(pen, left, bottom, right, top, corner_h, corner_v, clockwise=False):
+def rounded_rect(pen, x1, y1, x2, y2, radius_v, radius_h, clockwise=False):
     """Draw a rounded rectangle where each corner is an identical curve.
 
     The shape is 4 straight sides connected by 4 identical quadratic bezier
-    corners. Each corner curve starts `corner_h` units from the corner along
-    the horizontal edge and ends `corner_v` units from the corner along the
+    corners. Each corner curve starts `radius_h` units from the corner along
+    the horizontal edge and ends `radius_v` units from the corner along the
     vertical edge. The control point sits at the sharp corner itself.
 
     Args:
-        left, bottom, right, top: bounding box edges.
-        corner_h: horizontal extent of each corner curve — how far from
-                  the corner (along x) the curve begins/ends on the
-                  horizontal edges. Larger = rounder horizontal transition.
-        corner_v: vertical extent of each corner curve — how far from
-                  the corner (along y) the curve begins/ends on the
-                  vertical edges. Larger = rounder vertical transition.
+        x1, y1: bottom-left corner of the bounding box.
+        x2, y2: top-right corner of the bounding box.
+        radius_v: vertical extent of each corner curve.
+        radius_h: horizontal extent of each corner curve.
         clockwise: winding direction (True for inner counter / hole).
     """
-    ch, cv = corner_h, corner_v
+    left, bottom, right, top = x1, y1, x2, y2
+    ch, cv = radius_h, radius_v
 
     if not clockwise:
         # Counter-clockwise (outer contour)

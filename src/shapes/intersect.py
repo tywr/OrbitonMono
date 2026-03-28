@@ -27,12 +27,13 @@ def _eval_quad(p0, p1, p2, t):
     return (1 - t) ** 2 * p0 + 2 * t * (1 - t) * p1 + t ** 2 * p2
 
 
-def rounded_rect_intersect_y(left, bottom, right, top, corner_h, corner_v, y):
+def rounded_rect_intersect_y(x1, y1, x2, y2, radius_h, radius_v, y):
     """Find x coordinates where the rounded rect outline crosses a horizontal line y=k.
 
     Returns a list of (x, y) points sorted by x.
     """
-    ch, cv = corner_h, corner_v
+    left, bottom, right, top = x1, y1, x2, y2
+    ch, cv = radius_h, radius_v
     points = []
 
     # Left edge: x=left, from y=bottom+cv to y=top-cv
@@ -96,12 +97,13 @@ def rounded_rect_intersect_y(left, bottom, right, top, corner_h, corner_v, y):
     return unique
 
 
-def rounded_rect_intersect_x(left, bottom, right, top, corner_h, corner_v, x):
+def rounded_rect_intersect_x(x1, y1, x2, y2, radius_h, radius_v, x):
     """Find y coordinates where the rounded rect outline crosses a vertical line x=k.
 
     Returns a list of (x, y) points sorted by y.
     """
-    ch, cv = corner_h, corner_v
+    left, bottom, right, top = x1, y1, x2, y2
+    ch, cv = radius_h, radius_v
     points = []
 
     # Bottom edge: y=bottom, from x=left+ch to x=right-ch
