@@ -8,9 +8,15 @@ from characters.o import draw_o
 from characters.c import draw_c
 from characters.b import draw_b
 from characters.d import draw_d
+from characters.g import draw_g
 from characters.p import draw_p
+from characters.h import draw_h
+from characters.m import draw_m
 from characters.n import draw_n
 from characters.q import draw_q
+from characters.r import draw_r
+from characters.u import draw_u
+from characters.y import draw_y
 
 
 def draw_notdef(pen):
@@ -24,10 +30,11 @@ def draw_notdef(pen):
 
 def build_font(output_path="OrbitonMono.ttf"):
     fb = FontBuilder(FontConfig.UNITS_PER_EM, isTTF=True)
-    fb.setupGlyphOrder([".notdef", "space", "o", "c", "b", "d", "n", "p", "q"])
+    fb.setupGlyphOrder([".notdef", "space", "o", "c", "b", "d", "g", "h", "m", "n", "p", "q", "r", "u", "y"])
     fb.setupCharacterMap({
         32: "space", 111: "o", 99: "c",
-        98: "b", 100: "d", 110: "n", 112: "p", 113: "q",
+        98: "b", 100: "d", 103: "g", 104: "h", 109: "m", 110: "n", 112: "p", 113: "q",
+        114: "r", 117: "u", 121: "y",
     })
 
     notdef_pen = TTGlyphPen(None)
@@ -47,14 +54,32 @@ def build_font(output_path="OrbitonMono.ttf"):
     d_pen = TTGlyphPen(None)
     draw_d(d_pen, font_config=FontConfig, stroke=60)
 
+    g_pen = TTGlyphPen(None)
+    draw_g(g_pen, font_config=FontConfig, stroke=60)
+
     p_pen = TTGlyphPen(None)
     draw_p(p_pen, font_config=FontConfig, stroke=60)
+
+    h_pen = TTGlyphPen(None)
+    draw_h(h_pen, font_config=FontConfig, stroke=60)
+
+    m_pen = TTGlyphPen(None)
+    draw_m(m_pen, font_config=FontConfig, stroke=60)
 
     n_pen = TTGlyphPen(None)
     draw_n(n_pen, font_config=FontConfig, stroke=60)
 
     q_pen = TTGlyphPen(None)
     draw_q(q_pen, font_config=FontConfig, stroke=60)
+
+    r_pen = TTGlyphPen(None)
+    draw_r(r_pen, font_config=FontConfig, stroke=60)
+
+    u_pen = TTGlyphPen(None)
+    draw_u(u_pen, font_config=FontConfig, stroke=60)
+
+    y_pen = TTGlyphPen(None)
+    draw_y(y_pen, font_config=FontConfig, stroke=60)
 
     fb.setupGlyf(
         {
@@ -64,25 +89,29 @@ def build_font(output_path="OrbitonMono.ttf"):
             "c": c_pen.glyph(),
             "b": b_pen.glyph(),
             "d": d_pen.glyph(),
+            "g": g_pen.glyph(),
+            "h": h_pen.glyph(),
+            "m": m_pen.glyph(),
             "n": n_pen.glyph(),
             "p": p_pen.glyph(),
             "q": q_pen.glyph(),
+            "r": r_pen.glyph(),
+            "u": u_pen.glyph(),
+            "y": y_pen.glyph(),
         }
     )
 
-    fb.setupHorizontalMetrics(
-        {
-            ".notdef": (500, 50),
-            "space": (500, 0),
-            "o": (500, 20),
-            "c": (500, 20),
-            "b": (500, 20),
-            "d": (500, 20),
-            "n": (500, 20),
-            "p": (500, 20),
-            "q": (500, 20),
-        }
-    )
+    # Compute LSB from actual glyph bounds so renderers don't shift glyphs
+    glyf_table = fb.font["glyf"]
+    metrics = {}
+    for name in fb.font.getGlyphOrder():
+        glyph = glyf_table[name]
+        if glyph.numberOfContours == 0 or not hasattr(glyph, "xMin"):
+            lsb = 0
+        else:
+            lsb = glyph.xMin
+        metrics[name] = (FontConfig.WIDTH, lsb)
+    fb.setupHorizontalMetrics(metrics)
 
     fb.setupHorizontalHeader(ascent=FontConfig.ASCENT, descent=FontConfig.DESCENT)
     fb.setupNameTable(
