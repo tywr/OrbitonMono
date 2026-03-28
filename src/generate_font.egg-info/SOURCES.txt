@@ -1,0 +1,6 @@
+pyproject.toml
+src/generate_font.py
+src/generate_font.egg-info/PKG-INFO
+src/generate_font.egg-info/SOURCES.txt
+src/generate_font.egg-info/dependency_links.txt
+src/generate_font.egg-info/top_level.txt
