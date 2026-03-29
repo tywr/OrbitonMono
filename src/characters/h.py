@@ -1,4 +1,3 @@
-from fontTools.pens.recordingPen import RecordingPen
 from shapes.rounded_half_loop import rounded_half_loop_tapered
 from shapes.rect import rect
 from shapes.intersection_filler import intersection_filler
