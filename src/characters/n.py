@@ -4,7 +4,6 @@ from shapes.intersection_filler import intersection_filler
 
 from config import FontConfig
 
-
 def draw_n(pen, font_config: FontConfig, stroke: int):
     """Draw an 'n' by cutting the bottom half of an 'o' and adding two vertical bars.
 
