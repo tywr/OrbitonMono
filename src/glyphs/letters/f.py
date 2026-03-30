@@ -8,7 +8,17 @@ def draw_f(
     stroke: int,
 ):
     xmid = fc.width / 2 + fc.f_offset
+    # Stem
     draw_rect(pen, xmid - stroke / 2, 0, xmid + stroke / 2, fc.x_height)
+    # Cross-bar
+    draw_rect(
+        pen,
+        xmid - fc.f_len_left - stroke / 2,
+        fc.bar_height - stroke,
+        xmid + fc.f_len_right + stroke / 2,
+        fc.bar_height,
+    )
+    # Corner
     draw_corner(
         pen,
         stroke,
@@ -20,13 +30,7 @@ def draw_f(
         fc.f_hy,
         orientation="top-right",
     )
-    draw_rect(
-        pen,
-        xmid - fc.f_len_left - stroke / 2,
-        fc.bar_height - stroke,
-        xmid + fc.f_len_right + stroke / 2,
-        fc.bar_height,
-    )
+    # Extension after the corner to the right
     if fc.f_len_right > fc.f_corner_width:
         draw_rect(
             pen,

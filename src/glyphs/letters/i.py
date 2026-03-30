@@ -7,7 +7,9 @@ def draw_i(
     stroke: int,
 ):
     xmid = fc.width / 2 + fc.i_offset
+    # Stem
     draw_rect(pen, xmid - stroke / 2, 0, xmid + stroke / 2, fc.x_height)
+    # Footer
     draw_rect(
         pen,
         xmid - fc.i_len_left - stroke / 2,
@@ -15,6 +17,7 @@ def draw_i(
         xmid + fc.i_len_right + stroke / 2,
         stroke,
     )
+    # Left cap
     draw_rect(
         pen,
         xmid - fc.i_len_cap - stroke / 2,
@@ -22,6 +25,7 @@ def draw_i(
         xmid,
         fc.x_height,
     )
+    # Accent dot
     draw_rect(
         pen,
         xmid - fc.i_dot_width - stroke / 2,
