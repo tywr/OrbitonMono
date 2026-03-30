@@ -44,7 +44,7 @@ class FontConfig:
     i_len_cap = 140
 
     j_offset = 0
-    j_len_left = 180
+    j_len_left = 160
     j_corner_width = 150
     j_hx = 150
     j_hy = 150
