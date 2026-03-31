@@ -2,9 +2,9 @@ from config import FontConfig as fc
 from glyph import Glyph
 from shapes.superellipse_loop import draw_superellipse_loop
 
-class OGlyph(Glyph):
 
-    character = "o"
+class OGlyph(Glyph):
+    name = "o"
     unicode = "0x6F"
 
     def draw(

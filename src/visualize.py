@@ -10,6 +10,7 @@ from fontTools.pens.recordingPen import RecordingPen
 
 sys.path.insert(0, "src")
 from config import FontConfig as fc
+from glyph import Glyph
 
 STROKE = 60
 
@@ -60,7 +61,12 @@ def visualize(family, glyph, show_controls=False, strokes=None):
         strokes = [STROKE]
 
     mod = importlib.import_module(f"glyphs.{family}.{glyph}")
-    draw_fn = getattr(mod, f"draw_{glyph}")
+    glyph_cls = None
+    for attr in vars(mod).values():
+        if isinstance(attr, type) and issubclass(attr, Glyph) and attr is not Glyph:
+            glyph_cls = attr
+            break
+    draw_fn = glyph_cls().draw
 
     fig, ax = plt.subplots(1, 1, figsize=(6, 8))
 
