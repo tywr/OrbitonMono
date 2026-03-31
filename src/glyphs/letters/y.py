@@ -1,10 +1,10 @@
-from math import atan, cos, sin, tan, pi
+from math import atan, cos, sin
 from config import FontConfig as fc
 from glyph import Glyph
 from shapes.polygon import draw_polygon
 
 
-class LowercaseVGlyph(Glyph):
+class LowercaseYGlyph(Glyph):
     name = "y"
     unicode = "0x77"
 
