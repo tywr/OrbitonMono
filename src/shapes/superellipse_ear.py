@@ -51,7 +51,7 @@ def draw_superellipse_ear(
             # Top half: outer right mid → outer top → p_top → inner left mid → inner top → inner right mid → closePath
             pen.moveTo((x2, mid_y))
             pen.curveTo((x2, mid_y + hy), (mid_x + hx, y2), (mid_x, y2))
-            pen.curveTo((mid_x, y2), (p_top[0], y2), p_top)
+            pen.curveTo((p_top[0], y2), p_top, p_top)
             pen.lineTo((ix1, imid_y))
             pen.curveTo((ix1, imid_y + ihy), (imid_x - ihx, iy2), (imid_x, iy2))
             pen.curveTo((imid_x + ihx, iy2), (ix2, imid_y + ihy), (ix2, imid_y))
