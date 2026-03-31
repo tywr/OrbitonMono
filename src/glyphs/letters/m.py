@@ -15,8 +15,8 @@ class LowercaseMGlyph(Glyph):
     ):
         offset = 0
         width = 400
-        hx = 150
-        hy = 150
+        hx = 160
+        hy = 160
         mid_len = 0.6
 
         x1 = fc.width / 2 - width / 2 - stroke / 2 + offset

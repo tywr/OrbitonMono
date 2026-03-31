@@ -12,7 +12,7 @@ class LowercaseLGlyph(Glyph):
         pen,
         stroke: int,
     ):
-        offset = 0
+        offset = 20
         len_left = 150
         len_right = 160
         len_cap = 140

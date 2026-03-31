@@ -14,7 +14,7 @@ class LowercaseAGlyph(Glyph):
         pen,
         stroke: int,
     ):
-        offset = 0
+        offset = -12
         width = fc.body_width + fc.h_overshoot
         loop_ratio = 0.6
         hx = 135

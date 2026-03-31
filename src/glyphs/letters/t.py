@@ -13,13 +13,13 @@ class LowercaseTGlyph(Glyph):
         pen,
         stroke: int,
     ):
-        offset = -25
+        offset = -50
         len_left = 120
-        len_right = 180
-        corner_width = 150
-        corner_height = 150
-        hx = 150
-        hy = 150
+        len_right = 190
+        corner_width = 180
+        corner_height = 250
+        hx = 180
+        hy = 240
 
         xmid = fc.width / 2 + offset
 
