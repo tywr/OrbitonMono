@@ -13,8 +13,8 @@ class LowercaseLGlyph(Glyph):
         stroke: int,
     ):
         offset = 20
-        len_left = 150
-        len_right = 160
+        len_left = 120
+        len_right = 120
         len_cap = 140
 
         xmid = fc.width / 2 + offset
@@ -26,7 +26,7 @@ class LowercaseLGlyph(Glyph):
             xmid - len_left - stroke / 2,
             0,
             xmid + len_right + stroke / 2,
-            stroke,
+            stroke
         )
         # Left cap
         draw_rect(

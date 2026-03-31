@@ -13,12 +13,12 @@ class LowercaseJGlyph(Glyph):
         pen,
         stroke: int,
     ):
-        offset = 100
-        len_left = 160
-        corner_width = 150
-        hx = 150
-        hy = 150
-        dot_width = 43
+        offset = 54
+        len_left = 200
+        corner_width = 160
+        hx = 160
+        hy = 160
+        dot_width = 23
         len_cap = 140
 
         xmid = fc.width / 2 + offset

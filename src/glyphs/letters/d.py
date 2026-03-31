@@ -13,7 +13,7 @@ class LowercaseDGlyph(Glyph):
         pen,
         stroke: int,
     ):
-        offset = 0
+        offset = -26
         width = fc.body_width + fc.h_overshoot
         hx = fc.hx
         hy = fc.hy

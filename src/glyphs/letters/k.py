@@ -14,7 +14,7 @@ class LowercaseKGlyph(Glyph):
         pen,
         stroke: int,
     ):
-        offset = 0
+        offset = 46
         bowl_width = 320
         neck_len = 100
         width = 300

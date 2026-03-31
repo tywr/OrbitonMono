@@ -14,13 +14,14 @@ class LowercaseAGlyph(Glyph):
         pen,
         stroke: int,
     ):
-        offset = -12
+        offset = 0
         width = fc.body_width + fc.h_overshoot
         loop_ratio = 0.6
         hx = 135
         hy = 150
-        cap_hx = 200
-        cap_hy = 230
+        cap_hx = 180
+        cap_hy = 160
+        len_cap = 225
 
         x1 = fc.width / 2 - width / 2 - stroke / 2 + offset
         y1 = -fc.overshoot
@@ -56,7 +57,7 @@ class LowercaseAGlyph(Glyph):
             orientation="top-left",
         )
         # Cap
-        draw_rect(pen, x1 + stroke / 4, fc.x_height - stroke, xmid, fc.x_height)
+        draw_rect(pen, xmid - len_cap / 2 - stroke / 2, fc.x_height - stroke, xmid, fc.x_height)
         draw_corner(
             pen,
             stroke,

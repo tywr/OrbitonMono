@@ -12,10 +12,10 @@ class LowercaseIGlyph(Glyph):
         pen,
         stroke: int,
     ):
-        offset = 30
-        len_left = 150
-        len_right = 160
-        dot_width = 43
+        offset = 13
+        len_left = 120
+        len_right = 120
+        dot_width = 23
         len_cap = 140
 
         xmid = fc.width / 2 + offset
@@ -23,11 +23,7 @@ class LowercaseIGlyph(Glyph):
         draw_rect(pen, xmid - stroke / 2, 0, xmid + stroke / 2, fc.x_height)
         # Footer
         draw_rect(
-            pen,
-            xmid - len_left - stroke / 2,
-            0,
-            xmid + len_right + stroke / 2,
-            stroke,
+            pen, xmid - len_left - stroke / 2, 0, xmid + len_right + stroke / 2, stroke
         )
         # Left cap
         draw_rect(

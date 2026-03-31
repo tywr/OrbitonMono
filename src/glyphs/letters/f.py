@@ -13,7 +13,7 @@ class LowercaseFGlyph(Glyph):
         pen,
         stroke: int,
     ):
-        offset = -25
+        offset = -28
         len_left = 120
         len_right = 180
         corner_width = 150
