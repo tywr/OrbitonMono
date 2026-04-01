@@ -7,7 +7,7 @@ class FontConfig:
     ascent = 730
     descent = -200
     cap = 730
-    width = 560
+    width = 600
     x_height = 550
     accent = 645
     overshoot = 10

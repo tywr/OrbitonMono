@@ -15,6 +15,7 @@ class LowercaseVGlyph(Glyph):
     ):
         offset = 0
         width = 345
+        taper = 0.6
 
         xmid = fc.width / 2 + offset
 
@@ -27,12 +28,12 @@ class LowercaseVGlyph(Glyph):
         draw_polygon(
             pen,
             points=[
-                (xmid + x_delta / 2, 0),
+                (xmid + taper * x_delta / 2, 0),
                 (xmid + width / 2 + x_delta / 2, fc.x_height),
                 (xmid + width / 2 - x_delta / 2, fc.x_height),
-                (xmid, y_delta),
+                (xmid, taper * y_delta),
                 (xmid - width / 2 + x_delta / 2, fc.x_height),
                 (xmid - width / 2 - x_delta / 2, fc.x_height),
-                (xmid - x_delta / 2, 0),
+                (xmid - taper * x_delta / 2, 0),
             ],
         )

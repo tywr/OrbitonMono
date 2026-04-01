@@ -16,7 +16,7 @@ class LowercaseWGlyph(Glyph):
         offset = 0
         width = 400
         overlap = 40
-        taper = 0.75
+        taper = 0.6
         joint_height = 0.8 * fc.x_height
 
         xmid = fc.width / 2 + offset
