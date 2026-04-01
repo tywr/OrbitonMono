@@ -16,7 +16,7 @@ def draw_superellipse_ear(
     m_junction=None,
     cut=None,
 ):
-    mid_x = (x1 + x2) / 2
+    mid_x = (x1 + x2) / 2 + stroke / 2
     mid_y = (y1 + y2) / 2
 
     w = (x2 - x1) / 2
@@ -54,9 +54,9 @@ def draw_superellipse_ear(
             if m_junction is not None:
                 mx, my = m_junction
                 pen.lineTo((mx, my))
-                pen.curveTo((mx, y2), (x2 - stroke, y2), (mid_x, y2))
+                pen.curveTo((mx, y2), (mx - stroke, y2), (mid_x, y2))
             else:
-                pen.curveTo((x2, mid_y + hy), (mid_x + hx, y2), (mid_x, y2))
+                pen.curveTo((x2, mid_y + ihy + stroke / 2), (mid_x + ihx + stroke / 2, y2), (mid_x, y2))
             pen.curveTo((p_top[0], y2), (p_top[0], p_top[1]), p_top)
             pen.lineTo((ix1, imid_y))
             pen.curveTo((ix1, imid_y + ihy), (imid_x - ihx, iy2), (imid_x, iy2))
