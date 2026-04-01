@@ -29,10 +29,10 @@ def draw_corner(
         ix2 = x2
         iy2 = y2 + stroke
 
-        pen.moveTo((x1, y1))
-        pen.curveTo((x1, y1 - hy), (x2 + hx, y2), (x2, y2))
-        pen.lineTo((ix2, iy2))
-        pen.curveTo((ix2 + ihx, iy2), (ix1, iy1 - ihy), (ix1, iy1))
+        pen.moveTo((ix1, iy1))
+        pen.curveTo((ix1, iy1 - ihy), (ix2 + ihx, iy2), (ix2, iy2))
+        pen.lineTo((x2, y2))
+        pen.curveTo((x2 + hx, y2), (x1, y1 - hy), (x1, y1))
         pen.closePath()
 
     elif orientation == "top-left":

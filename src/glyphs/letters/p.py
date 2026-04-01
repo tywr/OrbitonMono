@@ -33,7 +33,9 @@ class LowercasePGlyph(Glyph):
             y2,
             hx,
             hy,
+            tooth=fc.tooth + fc.overshoot,
             side="left",
         )
         # Descender
-        draw_rect(pen, x1, fc.descent, x1 + stroke, fc.x_height)
+        draw_rect(pen, x1, fc.descent, x1 + stroke - fc.gap, fc.x_height)
+        draw_rect(pen, x1, fc.tooth, x1 + stroke, fc.x_height - fc.tooth)

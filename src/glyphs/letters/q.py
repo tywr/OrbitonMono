@@ -33,7 +33,9 @@ class LowercaseQGlyph(Glyph):
             y2,
             hx,
             hy,
+            tooth=fc.tooth + fc.overshoot,
             side="right",
         )
         # Descender
-        draw_rect(pen, x2 - stroke, fc.descent, x2, fc.x_height)
+        draw_rect(pen, x2 - stroke + fc.gap, fc.descent, x2, fc.x_height)
+        draw_rect(pen, x2 - stroke, fc.tooth, x2, fc.x_height - fc.tooth)

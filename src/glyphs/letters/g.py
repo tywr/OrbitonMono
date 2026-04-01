@@ -26,6 +26,7 @@ class LowercaseGGlyph(Glyph):
         y1 = -fc.overshoot
         x2 = fc.width / 2 + width / 2 + stroke / 2 + offset
         y2 = fc.x_height + fc.overshoot
+        # Bowl
         draw_superellipse_arch(
             pen,
             stroke,
@@ -38,7 +39,10 @@ class LowercaseGGlyph(Glyph):
             tooth=fc.tooth + fc.overshoot,
             side="right",
         )
+        # Right step
         draw_rect(pen, x2 - stroke + fc.gap, 0, x2, fc.x_height)
+        draw_rect(pen, x2 - stroke, fc.tooth, x2, fc.x_height - fc.tooth)
+        # Curve to the bottom left
         draw_corner(
             pen,
             stroke - fc.gap,
