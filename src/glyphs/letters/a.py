@@ -55,7 +55,13 @@ class LowercaseAGlyph(Glyph):
             orientation="top-left",
         )
         # Cap
-        draw_rect(pen, xmid - len_cap / 2 - stroke / 2, fc.x_height - stroke, xmid, fc.x_height)
+        draw_rect(
+            pen,
+            xmid - len_cap / 2 - stroke / 2,
+            fc.x_height - stroke,
+            xmid,
+            fc.x_height,
+        )
         draw_corner(
             pen,
             stroke,
@@ -73,4 +79,19 @@ class LowercaseAGlyph(Glyph):
             fc.x_height * loop_ratio - stroke,
             x2 - stroke,
             fc.x_height * loop_ratio,
+        )
+        # Stem
+        draw_rect(
+            pen,
+            x2 - stroke + fc.gap,
+            0,
+            x2,
+            loop_ratio * (fc.x_height + 2 * fc.overshoot) - fc.overshoot,
+        )
+        draw_rect(
+            pen,
+            x2 - stroke,
+            fc.tooth,
+            x2,
+            loop_ratio * (fc.x_height + 2 * fc.overshoot) - fc.overshoot,
         )
