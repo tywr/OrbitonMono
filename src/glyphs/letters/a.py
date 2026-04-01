@@ -38,10 +38,10 @@ class LowercaseAGlyph(Glyph):
             y2,
             hx,
             hy,
+            tooth=fc.tooth + fc.overshoot,
             side="right",
             cut="top",
         )
-        draw_rect(pen, x2 - stroke, 0, x2, fc.x_height / 2)
         # Curve to the cap
         draw_corner(
             pen,

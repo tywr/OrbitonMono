@@ -35,6 +35,7 @@ class LowercaseGGlyph(Glyph):
             y2,
             hx,
             hy,
+            tooth=fc.tooth + fc.overshoot,
             side="right",
         )
         draw_rect(pen, x2 - stroke, 0, x2, fc.x_height)

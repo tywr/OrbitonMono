@@ -12,11 +12,11 @@ class FontConfig:
     h_overshoot = 5
 
     # Depth of tooth
-    tooth = 80
+    tooth = 70
     ear_taper = 1
 
     # Amount of tooth gap coverage
-    gap = 10
+    gap = 5
     cover = 10
 
     # Y-axis offset of the tail above descender line (g, y)

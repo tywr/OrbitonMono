@@ -31,6 +31,7 @@ class LowercaseHGlyph(Glyph):
             y2,
             hx,
             hy,
+            tooth = fc.tooth + fc.overshoot,
             side="left",
             cut="bottom",
         )

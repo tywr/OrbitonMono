@@ -20,11 +20,9 @@ def draw_superellipse_arch(
     cut=None,
 ):
     w, h = (x2 - x1) / 2, (y2 - y1) / 2
-    x_mid, y_mid = x1 + w, y1 + h
+    y_mid = y1 + h
 
-    tooth = 80
     offset = find_offset(x1, y1, x2, y2, hx, hy, stroke, tooth)
-    print(offset)
 
     # Outer box
     ox1 = x1 + (stroke - offset if side == "left" else 0)
@@ -51,13 +49,13 @@ def draw_superellipse_arch(
 
     if cut == "bottom":
         cut_glyph = ufoLib2.objects.Glyph()
-        draw_rect(cut_glyph.getPen(), x1, y1, x2, y_mid)
+        draw_rect(cut_glyph.getPen(), x1 - 10, y1, x2 + 10, y_mid)
         result = BooleanGlyph(loop_glyph).difference(BooleanGlyph(cut_glyph))
         result.draw(pen)
 
     elif cut == "top":
         cut_glyph = ufoLib2.objects.Glyph()
-        draw_rect(cut_glyph.getPen(), x1, y_mid, x2, y2)
+        draw_rect(cut_glyph.getPen(), x1 - 10, y_mid, x2 + 10, y2)
         result = BooleanGlyph(loop_glyph).difference(BooleanGlyph(cut_glyph))
         result.draw(pen)
 

@@ -17,6 +17,7 @@ class LowercaseMGlyph(Glyph):
         width = 400
         hx = 120
         hy = fc.hy
+        mid_len = 0.6
 
         x1 = fc.width / 2 - width / 2 - stroke / 2 + offset
         y1 = -fc.overshoot
@@ -34,6 +35,7 @@ class LowercaseMGlyph(Glyph):
             y2,
             hx,
             hy,
+            tooth=fc.tooth + fc.overshoot,
             side="left",
             cut="bottom",
         )
@@ -47,6 +49,7 @@ class LowercaseMGlyph(Glyph):
             y2,
             hx,
             hy,
+            tooth=fc.tooth + fc.overshoot,
             side="left",
             cut="bottom",
         )
@@ -57,10 +60,10 @@ class LowercaseMGlyph(Glyph):
             pen, x2 - stroke, 0, x2, (fc.x_height + 2 * fc.overshoot) / 2 - fc.overshoot
         )
         # Middle extension
-        # draw_rect(
-        #     pen,
-        #     xmid - stroke / 2,
-        #     (1 - mid_len) * fc.x_height - stroke / 2,
-        #     xmid + stroke / 2,
-        #     fc.x_height / 2,
-        # )
+        draw_rect(
+            pen,
+            xmid - stroke / 2,
+            200,
+            xmid + stroke / 2,
+            fc.x_height - fc.tooth,
+        )
