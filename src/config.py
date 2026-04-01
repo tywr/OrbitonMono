@@ -12,7 +12,7 @@ class FontConfig:
     h_overshoot = 5
 
     # Depth of tooth
-    tooth = 120
+    tooth = 80
 
     # Amount of tooth gap coverage
     cover = 26

@@ -12,18 +12,22 @@ def draw_superellipse_ear(
     hy,
     tooth,
     cover,
+    ehx=10,
     ehy=30,
+    gap=5,
     side="right",
     m_junction=None,
     cut=None,
 ):
-    mid_x = (x1 + x2) / 2 + (stroke / 2 if side == "left" else -stroke / 2)
+    mid_x = (x1 + x2) / 2 + (stroke / 4 if side == "left" else -stroke / 4)
     mid_y = (y1 + y2) / 2
 
     w = (x2 - x1) / 2
     h = (y2 - y1) / 2
     ihx = hx * (w - stroke) / w
     ihy = hy * (h - stroke) / h
+    ehy = hy * (tooth - stroke / 2) / h
+    ehx = stroke / 4
 
     # Inner box
     ix1 = x1 + stroke
@@ -35,14 +39,17 @@ def draw_superellipse_ear(
 
     if side == "left":
         # Junction on left side
-        p_bot = (x1 + stroke, y1 + tooth - stroke / 2)
-        p_top = (x1 + stroke, y2 - tooth + stroke / 2)
+        p_bot = (x1 + stroke + gap, y1 + tooth - stroke / 2)
+        p_top = (x1 + stroke + gap, y2 - tooth + stroke / 2)
         junction_x = x1 + stroke
 
         if cut != "bottom":
             # Bottom half: p_bot → outer bottom → outer right mid → inner right mid → inner bottom → closePath
-            pen.moveTo(p_bot)
-            pen.curveTo((p_bot[0], p_bot[1] - ehy), (p_bot[0], y1), (mid_x, y1))
+            pen.moveTo((p_bot[0] - gap, p_bot[1]))
+            pen.lineTo((p_bot[0], p_bot[1]))
+            pen.curveTo(
+                (p_bot[0] + ehx, p_bot[1] - ehy), (mid_x - ihx, y1), (mid_x, y1)
+            )
             pen.curveTo(
                 (mid_x + ihx + stroke / 2, y1),
                 (x2, mid_y - ihy - stroke / 2),
@@ -66,7 +73,8 @@ def draw_superellipse_ear(
                     (mid_x + ihx + stroke / 2, y2),
                     (mid_x, y2),
                 )
-            pen.curveTo((p_top[0], y2), (p_top[0], p_top[1] + ehy), p_top)
+            pen.curveTo((p_top[0] + ehx, y2), (p_top[0], p_top[1] + ehy), p_top)
+            pen.lineTo((p_top[0] - gap, p_top[1]))
             pen.lineTo((ix1, imid_y))
             pen.curveTo((ix1, imid_y + ihy), (imid_x - ihx, iy2), (imid_x, iy2))
             pen.curveTo((imid_x + ihx, iy2), (ix2, imid_y + ihy), (ix2, imid_y))
@@ -106,12 +114,12 @@ def draw_superellipse_ear(
             pen.curveTo((imid_x - ihx, iy1), (ix1, imid_y - ihy), (ix1, imid_y))
             pen.closePath()
 
-    # Draw the covers
-    xl = junction_x if side == "left" else junction_x - stroke / 8
-    xr = junction_x if side == "right" else junction_x + stroke / 8
-    y_low = y1 + tooth - stroke / 2
-    y_high = y2 - tooth + stroke / 2
-    if cut != "bottom":
-        draw_rect(pen, xl, y_low - cover, xr, y_low)
-    if cut != "top":
-        draw_rect(pen, xl, y_high, xr, y_high + cover)
+    # # Draw the covers
+    # xl = junction_x if side == "left" else junction_x - stroke / 8
+    # xr = junction_x if side == "right" else junction_x + stroke / 8
+    # y_low = y1 + tooth - stroke / 2
+    # y_high = y2 - tooth + stroke / 2
+    # if cut != "bottom":
+    #     draw_rect(pen, xl, y_low - cover, xr, y_low)
+    # if cut != "top":
+    #     draw_rect(pen, xl, y_high, xr, y_high + cover)
