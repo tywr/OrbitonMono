@@ -15,13 +15,12 @@ class LowercaseRGlyph(Glyph):
     ):
         offset = 20
         width = fc.body_width + fc.h_overshoot
-        height_ratio = 0.25
-        hx = fc.hx
-        hy = 0.4 * fc.hy
-        tooth = fc.tooth
+        ratio = fc.a_ratio
+        hx = fc.a_hx
+        hy = fc.a_hy
 
         x1 = fc.width / 2 - width / 2 - stroke / 2 + offset
-        y1 = -fc.overshoot + (1 - 2 * height_ratio) * fc.x_height - stroke / 2
+        y1 = -fc.overshoot + ratio * fc.x_height - stroke / 2
         x2 = fc.width / 2 + width / 2 + stroke / 2 + offset
         y2 = fc.x_height + fc.overshoot
 
@@ -35,10 +34,10 @@ class LowercaseRGlyph(Glyph):
             y2,
             hx,
             hy,
-            tooth = tooth + fc.overshoot,
+            tooth=fc.tooth + fc.overshoot,
             side="left",
             cut="bottom",
         )
         # Ascender
         draw_rect(pen, x1, 0, x1 + stroke - fc.gap, fc.x_height)
-        draw_rect(pen, x1, 0, x1 + stroke, fc.x_height - tooth)
+        draw_rect(pen, x1, 0, x1 + stroke, fc.x_height - fc.tooth)

@@ -15,8 +15,9 @@ class LowercaseSGlyph(Glyph):
     ):
         offset = 0
         width = fc.body_width + 2 * fc.h_overshoot
-        hx = fc.hx
-        hy = fc.hy / 2
+        ratio = fc.a_ratio
+        hx = fc.a_hx
+        hy = fc.a_hy
 
         x1 = fc.width / 2 - width / 2 - stroke / 2 + offset
         y1 = -fc.overshoot
@@ -24,19 +25,43 @@ class LowercaseSGlyph(Glyph):
         y2 = fc.x_height + fc.overshoot
         ymid = y1 + (y2 - y1) / 2
 
+        loop_len = (fc.x_height + fc.overshoot) * ratio
+        ym1 = -fc.overshoot + loop_len - stroke / 2
+        ym2 = fc.x_height + fc.overshoot - loop_len + stroke / 2
+        delta_y = ratio * (fc.x_height + 2 * fc.overshoot) / 2
+
         # Bottom arch
-        draw_superellipse_loop(pen, stroke, x1, y1, x2, ymid, hx, hy, cut="top")
-        # Upper arch
-        draw_superellipse_loop(pen, stroke, x1, ymid, x2, y2, hx, hy, cut="bottom")
-        # Upper middle corner
+        draw_superellipse_loop(
+            pen,
+            stroke,
+            x1,
+            y1,
+            x2,
+            ym1,
+            hx,
+            hy,
+            cut="top",
+        )
+        draw_superellipse_loop(
+            pen,
+            stroke,
+            x1,
+            ym2,
+            x2,
+            y2,
+            hx,
+            hy,
+            cut="bottom",
+        )
+        # Middle cross junction
         draw_cross_curve(
             pen,
             stroke,
             x1,
-            y1 + (y2 - y1) / 4,
+            y1 + (ym1 - y1) / 2,
             x2,
-            y1 + 3 * (y2 - y1) / 4,
-            hx / 2,
+            y2 - (y2 - ym2) / 2,
+            hx,
             hy,
             invert=True,
         )
