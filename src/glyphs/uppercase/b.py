@@ -7,10 +7,10 @@ class UppercaseBGlyph(Glyph):
     name = "uppercase_b"
     unicode = "0x42"
     offset = 0
-    loop_ratio = 0.6  # Horizontal split between left stem and loops
-    upper_ratio = 0.9  # Upper loop width as a fraction of the lower loop width
+    loop_ratio = 1  # Horizontal split between left stem and loops
+    upper_ratio = 0.95  # Upper loop width as a fraction of the lower loop width
     hx = 200  # Side curve radii (flatter than standard)
-    hy = 140
+    hy = 200
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
