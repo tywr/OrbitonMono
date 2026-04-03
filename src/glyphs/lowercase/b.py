@@ -20,8 +20,6 @@ class LowercaseBGlyph(Glyph):
             overshoot_top=True,
             overshoot_right=True,
         )
-
-        print(b)
         draw_superellipse_arch(
             pen,
             dc.stroke,

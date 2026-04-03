@@ -1,4 +1,3 @@
-from config import FontConfig as fc
 from glyph import Glyph
 from shapes.superellipse_arch import draw_superellipse_arch
 from shapes.rect import draw_rect
@@ -7,62 +6,59 @@ from shapes.rect import draw_rect
 class UppercaseBGlyph(Glyph):
     name = "uppercase_b"
     unicode = "0x42"
+    offset = 0
+    loop_ratio = 0.6  # Horizontal split between left stem and loops
+    upper_ratio = 0.9  # Upper loop width as a fraction of the lower loop width
+    hx = 200  # Side curve radii (flatter than standard)
+    hy = 140
 
-    def draw(
-        self,
-        pen,
-        stroke: int,
-    ):
-        offset = 0
-        width = 350 + fc.h_overshoot
-        ratio = 0.6
-        hx = fc.side_hx
-        hy = fc.side_hy
-        arch_offset = 3 * stroke / 4
+    def draw(self, pen, dc):
+        b = dc.body_bounds(
+            offset=self.offset,
+            height="ascent",
+            overshoot_right=True,
+        )
+        arch_offset = 3 * dc.stroke / 4
+        w = b.width / 2
+        lower_x1 = b.x1 + (1 - self.loop_ratio) * w
+        lower_x2 = b.x1 + (1 - self.loop_ratio * self.upper_ratio) * w
+        upper_x2 = lower_x1 + (b.x2 - lower_x1) * self.upper_ratio
+        cut_x = (lower_x1 + b.x2) / 2
+        cut_x_up = (lower_x1 + upper_x2) / 2
 
-        x1 = fc.width / 2 - width / 2 - stroke / 2 + offset
-        y1 = 0
-        x2 = fc.width / 2 + width / 2 + stroke / 2 + offset + fc.h_overshoot
-        y2 = fc.ascent
-        ymid = y1 + (y2 - y1) / 2
-        w = (x2 - x1) / 2
+        # Left stem
+        draw_rect(pen, b.x1, 0, b.x1 + dc.stroke, dc.ascent)
 
-        # Left ascent
-        draw_rect(pen, x1, 0, x1 + stroke, fc.ascent)
-
-        # Upper loop
+        # Upper loop (narrower, displaced left)
         draw_superellipse_arch(
             pen,
-            stroke,
-            x1 + (1 - ratio) * w,
-            ymid - stroke / 2,
-            x2,
-            y2,
-            hx,
-            hy,
+            dc.stroke,
+            lower_x1,
+            b.ymid - dc.stroke / 2,
+            upper_x2,
+            b.y2,
+            self.hx,
+            self.hy,
             offset=arch_offset,
             side="bottom",
             cut="left",
         )
-
-        # Bottom loop
+        # Lower loop (full width)
         draw_superellipse_arch(
             pen,
-            stroke,
-            x1 + (1 - ratio) * w,
+            dc.stroke,
+            lower_x1,
             0,
-            x2,
-            ymid + stroke / 2,
-            hx,
-            hy,
+            b.x2,
+            b.ymid + dc.stroke / 2,
+            self.hx,
+            self.hy,
             offset=arch_offset,
             side="top",
             cut="left",
         )
 
-        # Lines to connect
-        arch_x1 = x1 + (1 - ratio) * w
-        cut_x = (arch_x1 + x2) / 2
-        draw_rect(pen, x1, y2 - stroke, cut_x, y2)
-        draw_rect(pen, x1, ymid - stroke / 2, cut_x, ymid + stroke / 2)
-        draw_rect(pen, x1, y1, cut_x, y1 + stroke)
+        # Connecting bars
+        draw_rect(pen, b.x1, b.y2 - dc.stroke, cut_x_up, b.y2)
+        draw_rect(pen, b.x1, b.ymid - dc.stroke / 2, cut_x, b.ymid + dc.stroke / 2)
+        draw_rect(pen, b.x1, 0, cut_x, dc.stroke)

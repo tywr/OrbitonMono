@@ -1,43 +1,40 @@
-from config import FontConfig as fc
+import ufoLib2
+from booleanOperations.booleanGlyph import BooleanGlyph
 from glyph import Glyph
 from shapes.superellipse_loop import draw_superellipse_loop
 from shapes.rect import draw_rect
-import ufoLib2
-from booleanOperations.booleanGlyph import BooleanGlyph
 
 
 class UppercaseCGlyph(Glyph):
     name = "uppercase_c"
     unicode = "0x43"
+    offset = 0
+    width_ratio = 350 / 340
+    opening = 280  # Opening height at x_height, scaled to ascent in draw
 
-    def draw(
-        self,
-        pen,
-        stroke: int,
-    ):
-        offset = 0
-        width = 350 + 2 * fc.h_overshoot
-        hx = fc.hx
-        hy = fc.hy * fc.ascent / fc.x_height
-        opening = 280 * fc.ascent / fc.x_height
-
-        x1 = fc.width / 2 - width / 2 - stroke / 2 + offset
-        y1 = -fc.overshoot
-        x2 = fc.width / 2 + width / 2 + stroke / 2 + offset
-        y2 = fc.ascent + fc.overshoot
-        xmid = x1 + (x2 - x1) / 2
-        ymid = fc.ascent / 2
+    def draw(self, pen, dc):
+        b = dc.body_bounds(
+            offset=self.offset,
+            height="ascent",
+            width_ratio=self.width_ratio,
+            overshoot_bottom=True,
+            overshoot_top=True,
+            overshoot_left=True,
+            overshoot_right=True,
+        )
+        hy = dc.hy * dc.ascent / dc.x_height  # Scale hy to cap height
+        opening = self.opening * dc.ascent / dc.x_height
 
         loop_glyph = ufoLib2.objects.Glyph()
-        draw_superellipse_loop(loop_glyph.getPen(), stroke, x1, y1, x2, y2, hx, hy)
+        draw_superellipse_loop(loop_glyph.getPen(), dc.stroke, b.x1, b.y1, b.x2, b.y2, dc.hx, hy)
 
         cut_glyph = ufoLib2.objects.Glyph()
         draw_rect(
             cut_glyph.getPen(),
-            xmid,
-            ymid - opening / 2 + stroke / 2,
-            xmid + fc.width,
-            ymid + opening / 2 - stroke / 2,
+            b.xmid,
+            b.ymid - opening / 2 + dc.stroke / 2,
+            b.xmid + dc.window_width,
+            b.ymid + opening / 2 - dc.stroke / 2,
         )
 
         result = BooleanGlyph(loop_glyph).difference(BooleanGlyph(cut_glyph))
