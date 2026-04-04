@@ -8,7 +8,7 @@ class LowercaseXGlyph(Glyph):
     name = "lowercase_x"
     unicode = "0x78"
     offset = 0
-    width_ratio = 380 / 340
+    width_ratio = 1.2
 
     def draw(self, pen, dc):
         b = dc.body_bounds(offset=self.offset, width_ratio=self.width_ratio)

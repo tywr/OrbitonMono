@@ -10,11 +10,14 @@ class FontConfig:
     window_ascent: int = 1020
     window_descent: int = -300
     window_width: int = 600
+
     ascent: int = 730
     descent: int = -200
     cap: int = 730
     x_height: int = 550
     accent: int = 710
+
+    default_stroke = 90
 
 
 @dataclass

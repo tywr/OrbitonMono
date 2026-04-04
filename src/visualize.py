@@ -204,7 +204,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "-s",
         type=str,
-        default="60",
+        default=f"{fc.default_stroke}",
         help="Stroke width(s), comma-separated (e.g. 100,60,80)",
     )
     args = parser.parse_args()
