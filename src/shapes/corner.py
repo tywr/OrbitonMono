@@ -1,6 +1,7 @@
 def draw_corner(
     pen,
-    stroke,
+    stroke_x,
+    stroke_y,
     x1, y1,
     x2, y2,
     hx, hy,
@@ -19,15 +20,15 @@ def draw_corner(
     """
     w = abs(x2 - x1)
     h = abs(y2 - y1)
-    ihx = hx * (w - stroke) / w if w > 0 else 0
-    ihy = hy * (h - stroke) / h if h > 0 else 0
+    ihx = hx * (w - stroke_x) / w if w > 0 else 0
+    ihy = hy * (h - stroke_y) / h if h > 0 else 0
 
     if orientation == "bottom-left":
         # Corner at (x1, y2). Start on right, end on bottom.
-        ix1 = x1 - stroke
+        ix1 = x1 - stroke_x
         iy1 = y1
         ix2 = x2
-        iy2 = y2 + stroke
+        iy2 = y2 + stroke_y
 
         pen.moveTo((ix1, iy1))
         pen.curveTo((ix1, iy1 - ihy), (ix2 + ihx, iy2), (ix2, iy2))
@@ -37,10 +38,10 @@ def draw_corner(
 
     elif orientation == "top-left":
         # Corner at (x1, y2). Start on right, end on top.
-        ix1 = x1 - stroke
+        ix1 = x1 - stroke_x
         iy1 = y1
         ix2 = x2
-        iy2 = y2 - stroke
+        iy2 = y2 - stroke_y
 
         pen.moveTo((x1, y1))
         pen.curveTo((x1, y1 + hy), (x2 + hx, y2), (x2, y2))
@@ -50,10 +51,10 @@ def draw_corner(
 
     elif orientation == "top-right":
         # Corner at (x1, y2). Start on left, end on top.
-        ix1 = x1 + stroke
+        ix1 = x1 + stroke_x
         iy1 = y1
         ix2 = x2
-        iy2 = y2 - stroke
+        iy2 = y2 - stroke_y
 
         pen.moveTo((ix1, iy1))
         pen.curveTo((ix1, iy1 + ihy), (ix2 - ihx, iy2), (ix2, iy2))
@@ -63,10 +64,10 @@ def draw_corner(
 
     elif orientation == "bottom-right":
         # Corner at (x1, y2). Start on left, end on bottom.
-        ix1 = x1 + stroke
+        ix1 = x1 + stroke_x
         iy1 = y1
         ix2 = x2
-        iy2 = y2 + stroke
+        iy2 = y2 + stroke_y
 
         pen.moveTo((x1, y1))
         pen.curveTo((x1, y1 - hy), (x2 - hx, y2), (x2, y2))

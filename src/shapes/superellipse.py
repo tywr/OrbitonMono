@@ -11,9 +11,12 @@ class Superellipse:
 
     def translate(self, dx=0, dy=0):
         return Superellipse(
-            self.x1 + dx, self.y1 + dy,
-            self.x2 + dx, self.y2 + dy,
-            self.hx, self.hy,
+            self.x1 + dx,
+            self.y1 + dy,
+            self.x2 + dx,
+            self.y2 + dy,
+            self.hx,
+            self.hy,
         )
 
 
