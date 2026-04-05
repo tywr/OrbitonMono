@@ -8,7 +8,8 @@ from utils.intersection import find_offset
 
 def draw_superellipse_arch(
     pen,
-    stroke,
+    stroke_x,
+    stroke_y,
     x1,
     y1,
     x2,
@@ -25,26 +26,26 @@ def draw_superellipse_arch(
 
     if offset is None:
         if side in ("left", "right"):
-            offset = find_offset(x1, y1, x2, y2, hx, hy, stroke, dent)
+            offset = find_offset(x1, y1, x2, y2, hx, hy, stroke_x, dent)
         else:
-            offset = find_offset(-y2, x1, -y1, x2, hy, hx, stroke, dent)
+            offset = find_offset(-y2, x1, -y1, x2, hy, hx, stroke_y, dent)
 
     # Outer box
-    ox1 = x1 + (stroke - offset if side == "left" else 0)
-    oy1 = y1 + (stroke - offset if side == "bottom" else 0)
-    ox2 = x2 - (stroke - offset if side == "right" else 0)
-    oy2 = y2 - (stroke - offset if side == "top" else 0)
+    ox1 = x1 + (stroke_x - offset if side == "left" else 0)
+    oy1 = y1 + (stroke_y - offset if side == "bottom" else 0)
+    ox2 = x2 - (stroke_x - offset if side == "right" else 0)
+    oy2 = y2 - (stroke_y - offset if side == "top" else 0)
     ohx = hx * (w - offset) / w
     ohy = hy * (h - offset) / h
 
-    ihx = hx * (w - stroke) / w
-    ihy = hy * (h - stroke) / h
+    ihx = hx * (w - stroke_x) / w
+    ihy = hy * (h - stroke_y) / h
 
     # Inner box
-    ix1 = x1 + stroke
-    iy1 = y1 + stroke
-    ix2 = x2 - stroke
-    iy2 = y2 - stroke
+    ix1 = x1 + stroke_x
+    iy1 = y1 + stroke_y
+    ix2 = x2 - stroke_x
+    iy2 = y2 - stroke_y
 
     loop_glyph = ufoLib2.objects.Glyph()
     draw_superellipse(
@@ -114,13 +115,3 @@ def draw_superellipse_arch(
             hy=ihy,
         ),
     }
-
-    # # Draw the covers
-    # xl = junction_x if side == "left" else junction_x - stroke / 8
-    # xr = junction_x if side == "right" else junction_x + stroke / 8
-    # y_low = y1 + dent - stroke / 2
-    # y_high = y2 - dent + stroke / 2
-    # if cut != "bottom":
-    #     draw_rect(pen, xl, y_low - cover, xr, y_low)
-    # if cut != "top":
-    #     draw_rect(pen, xl, y_high, xr, y_high + cover)

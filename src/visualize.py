@@ -137,7 +137,7 @@ def visualize(
 
     for i, stroke in enumerate(sorted(strokes, reverse=True)):
         rec = RecordingPen()
-        draw_fn(rec, dc=DrawConfig(stroke=stroke))
+        draw_fn(rec, dc=DrawConfig(stroke_x=stroke, stroke_y=stroke - 20))
         path = recording_to_mpl_path(rec)
         color = COLORS[i % len(COLORS)]
         patch = mpatches.PathPatch(path, facecolor=color, edgecolor="none", alpha=0.7)

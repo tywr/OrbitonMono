@@ -23,7 +23,8 @@ class FontConfig:
 @dataclass
 class DrawConfig(FontConfig):
     # Default parameters
-    stroke: int = 90
+    stroke_x: int = 90
+    stroke_y: int = 70
     width: int = 340
     hx: int = 200
     hy: int = 200
@@ -52,9 +53,9 @@ class DrawConfig(FontConfig):
         width = self.width * width_ratio
         if height not in ["x_height", "ascent"]:
             raise ValueError(f"Value {height} should be `x_height` or `ascent`")
-        x1 = self.window_width / 2 - width / 2 - self.stroke / 2 + offset
+        x1 = self.window_width / 2 - width / 2 - self.stroke_x / 2 + offset
         y1 = 0
-        x2 = self.window_width / 2 + width / 2 + self.stroke / 2 + offset
+        x2 = self.window_width / 2 + width / 2 + self.stroke_x / 2 + offset
         y2 = getattr(self, height)
 
         # Add horizontal overshoots
