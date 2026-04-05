@@ -9,7 +9,6 @@ class LowercaseMGlyph(Glyph):
     offset = 0
     width_ratio = 1.4
     mid_y = 200
-    taper = 0.25**2
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
@@ -18,10 +17,11 @@ class LowercaseMGlyph(Glyph):
             overshoot_top=True,
             width_ratio=self.width_ratio,
         )
+        taper = dc.taper**2
 
         # Left arch (x1 to xmid) and store offset_x
 
-        mid_offset = ((1 + self.taper) * dc.stroke_x - dc.gap) / 2
+        mid_offset = ((1 + taper) * dc.stroke_x - dc.gap) / 2
         arch_params = draw_superellipse_arch(
             pen,
             dc.stroke_x,
@@ -32,7 +32,7 @@ class LowercaseMGlyph(Glyph):
             b.y2,
             dc.hx,
             dc.hy,
-            taper=self.taper,
+            taper=taper,
             side="left",
             cut="m_junction",
         )
@@ -48,7 +48,7 @@ class LowercaseMGlyph(Glyph):
             b.y2,
             dc.hx,
             dc.hy,
-            taper=self.taper,
+            taper=taper,
             side="left",
             cut="bottom",
         )
@@ -66,8 +66,8 @@ class LowercaseMGlyph(Glyph):
         # Middle stem extension
         draw_rect(
             pen,
-            b.xmid - (1 - self.taper) * dc.stroke_x / 2 - dc.gap / 2,
+            b.xmid - (1 - taper) * dc.stroke_x / 2 - dc.gap / 2,
             self.mid_y,
-            b.xmid + (1 - self.taper) * dc.stroke_x / 2 + dc.gap / 2,
+            b.xmid + (1 - taper) * dc.stroke_x / 2 + dc.gap / 2,
             y2,
         )

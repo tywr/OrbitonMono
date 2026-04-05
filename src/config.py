@@ -29,6 +29,9 @@ class DrawConfig(FontConfig):
     hx: int = 200
     hy: int = 200
     taper: float = 0.25
+    # hx: int = 180
+    # hy: int = 180
+    # taper: float = 0.4
     gap: int = 5
     v_overshoot: int = 10
     h_overshoot: int = 5

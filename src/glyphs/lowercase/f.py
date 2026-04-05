@@ -8,6 +8,7 @@ class LowercaseFGlyph(Glyph):
     unicode = "0x66"
     offset = -28
     rl_ratio = 0.6
+    bar_height = 490
 
     def draw(self, pen, dc):
         b = dc.body_bounds(offset=self.offset, height="x_height")
@@ -20,9 +21,9 @@ class LowercaseFGlyph(Glyph):
         draw_rect(
             pen,
             b.xmid - left_len - dc.stroke_x / 2,
-            dc.x_height - dc.stroke_y,
+            self.bar_height - dc.stroke_y,
             b.xmid + right_len + dc.stroke_x / 2,
-            dc.x_height,
+            self.bar_height,
         )
         # Corner
         draw_corner(
