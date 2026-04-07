@@ -7,9 +7,9 @@ class LowercaseJGlyph(Glyph):
     name = "lowercase_j"
     unicode = "0x6A"
     offset = -50
-    dot_width = 20
+    dot_width = 25
     tail_offset = 0
-    width_ratio = 0.7
+    width_ratio = 0.75
     updown_ratio = 0.9
 
     def draw(self, pen, dc):
@@ -48,8 +48,8 @@ class LowercaseJGlyph(Glyph):
         # Accent dot
         draw_rect(
             pen,
-            b.x2 - dc.stroke_x / 2 - self.dot_width / 2 - dc.stroke_x / 2,
+            b.x2 - dc.stroke_x - self.dot_width,
             dc.accent - self.dot_width / 2 - dc.stroke_x / 2,
-            b.x2 + self.dot_width / 2,
+            b.x2,
             dc.accent + dc.stroke_x / 2 + self.dot_width / 2,
         )

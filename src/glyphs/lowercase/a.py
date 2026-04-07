@@ -38,7 +38,7 @@ class LowercaseAGlyph(Glyph):
         draw_corner(
             pen,
             dc.stroke_x,
-            dc.stroke_y,
+            dc.stroke_alt,
             b.x1,
             b.y1 + b.height * self.loop_ratio / 2,
             b.xmid,
@@ -51,7 +51,7 @@ class LowercaseAGlyph(Glyph):
         draw_rect(
             pen,
             b.xmid,
-            b.y1 + b.height * self.loop_ratio - dc.stroke_y,
+            b.y1 + b.height * self.loop_ratio - dc.stroke_alt,
             b.x2 - dc.stroke_x,
             b.y1 + b.height * self.loop_ratio,
         )
