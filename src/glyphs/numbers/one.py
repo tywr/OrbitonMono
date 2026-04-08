@@ -6,9 +6,9 @@ from draw.parallelogramm import draw_parallelogramm_vertical
 class OneGlyph(NumberGlyph):
     name = "one"
     unicode = "0x31"
-    offset = -32
+    offset = -70
     branch_height = 0.35
-    width_ratio = 0.7
+    width_ratio = 0.8
 
     def draw(self, pen, dc):
         b = dc.body_bounds(

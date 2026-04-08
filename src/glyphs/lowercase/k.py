@@ -10,7 +10,7 @@ class LowercaseKGlyph(Glyph):
     offset = 28
     bowl_width = 320
     neck_len = 100
-    width_ratio = 1.0
+    width_ratio = 1.06
     branch_ratio = 0.75
 
     def draw(self, pen, dc):

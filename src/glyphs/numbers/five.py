@@ -12,8 +12,8 @@ class FiveGlyph(NumberGlyph):
     unicode = "0x35"
     offset = 0
     width_ratio = 1.1
-    loop_ratio = 0.6
-    junction_ratio = 0.42
+    loop_ratio = 0.68
+    junction_ratio = 0.43
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
@@ -40,7 +40,7 @@ class FiveGlyph(NumberGlyph):
             b.y1 + b.height * self.loop_ratio,
             b.hx,
             b.hy * self.loop_ratio,
-            cut="top"
+            cut="top",
         )
         params = draw_superellipse_arch(
             base_glyph.getPen(),
@@ -57,12 +57,16 @@ class FiveGlyph(NumberGlyph):
             cut="bottom",
         )
 
+        (x1, _), (x2, _) = params["inner"].intersection_y(y=yj)
+        xj = min(x1, x2)
+
         # Remove the left-middle part
         cut_glyph = ufoLib2.objects.Glyph()
+        ymid = b.y1 + b.height * self.loop_ratio / 2
         draw_rect(
             cut_glyph.getPen(),
             b.x1,
-            b.y1 + b.height * self.loop_ratio / 2,
+            2 * ymid - yj,
             b.xmid,
             yj,
         )
@@ -70,8 +74,7 @@ class FiveGlyph(NumberGlyph):
         result = BooleanGlyph(base_glyph).difference(BooleanGlyph(cut_glyph))
         result.draw(pen)
 
-        (x1, _), (x2, _) = params["inner"].intersection_y(y=yj)
-        xj = min(x1, x2)
-
         draw_rect(pen, xj - dc.stroke_x, yj, xj, b.y2)
-        draw_rect(pen, xj - dc.stroke_x, b.y2 - dc.stroke_y, b.x2 - dc.h_overshoot, b.y2)
+        draw_rect(
+            pen, xj - dc.stroke_x, b.y2 - dc.stroke_y, b.x2 - dc.h_overshoot, b.y2
+        )
