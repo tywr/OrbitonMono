@@ -13,8 +13,8 @@ class Acute(Accent):
         w = self.width * dc.width
         draw_parallelogramm_vertical(
             pen,
-            dc.stroke_x,
-            dc.stroke_y,
+            dc.stroke_alt,
+            dc.stroke_alt,
             x - w / 2,
             y - h / 2,
             x + w / 2,
