@@ -84,7 +84,7 @@ def visualize_text(text, point_size=None, guides=False):
             ax.text(cursor_x + 10, y, label, fontsize=7, color=color, va="center")
 
     ax.set_xlim(-50, cursor_x + 80)
-    ax.set_ylim(fc.descent - 50, fc.ascent + 50)
+    ax.set_ylim(fc.window_descent - 50, fc.window_ascent + 50)
     ax.set_aspect("equal")
     if point_size is not None:
         ax.set_title(f"{point_size}pt", fontsize=14)
