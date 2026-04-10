@@ -20,6 +20,8 @@ class FontConfig:
     accent_cap: int = 860
 
     math: int = 345
+    parenthesis: int = 400
+    parenthesis_length: int = 975
 
     default_stroke = 90
 

@@ -7,7 +7,6 @@ from draw.superellipse_loop import draw_superellipse_loop
 from draw.superellipse_arch import draw_superellipse_arch
 from draw.rect import draw_rect
 from draw.parallelogramm import draw_parallelogramm
-from draw.rect import draw_rect
 from utils.pens import NullPen
 
 
@@ -75,12 +74,10 @@ class AmpersandGlyph(Glyph):
             (xu1, 0.5 * yu1 + 0.5 * yu2 - hy),
             (xj, yj),
             # (xj, yj),
-            (b.x2 - delta, b.y1 - dhy)
+            (b.x2 - delta, b.y1 - dhy),
         )
-        # pen.lineTo((xj + delta, yj))
         pen.lineTo((b.x2, b.y1 - dhy))
         pen.curveTo(
-            # (b.x2, b.y1 - dhy),
             (xj + delta, yj),
             (xu1 + dc.stroke_x, 0.5 * yu1 + 0.5 * yu2 - hy),
             (xu1 + dc.stroke_x, 0.5 * yu1 + 0.5 * yu2),
@@ -132,10 +129,5 @@ class AmpersandGlyph(Glyph):
         # Draw the height extension
         eh = self.end_height_ratio * b.height
         draw_rect(
-            pen,
-            xbm + lw / 2 - dc.stroke_x,
-            0.5 * b.y1 + 0.5 * yj,
-            xbm + lw / 2,
-            eh
-
+            pen, xbm + lw / 2 - dc.stroke_x, 0.5 * b.y1 + 0.5 * yj, xbm + lw / 2, eh
         )
