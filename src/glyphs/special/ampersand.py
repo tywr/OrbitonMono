@@ -13,13 +13,14 @@ from utils.pens import NullPen
 class AmpersandGlyph(Glyph):
     name = "ampersand"
     unicode = "0x26"
-    offset = 0
-    width_ratio = 1.28
+    offset = -30
+    width_ratio = 1.2
     upper_width = 0.8
     upper_height = 0.4
     lower_width = 1
     hook_ratio = 0.12
-    hook_below_baseline = 0.1
+    hook_below_baseline = 0
+    hook_outside_cell = 0.14
     end_height_ratio = 0.5
 
     def draw(self, pen, dc):
@@ -31,6 +32,7 @@ class AmpersandGlyph(Glyph):
             width_ratio=self.width_ratio,
         )
 
+        ox = self.hook_outside_cell * b.width
         h = self.upper_height * b.height
         w = self.upper_width * b.width
         xu1, xu2 = b.xmid - w / 2, b.xmid + w / 2
@@ -60,8 +62,8 @@ class AmpersandGlyph(Glyph):
             NullPen(),
             dc.stroke_x,
             dc.stroke_y,
-            b.x2,
-            b.y1 - dhy,
+            b.x2 + ox,
+            -dhy,
             xj,
             yj,
             direction="top-left",
@@ -74,9 +76,9 @@ class AmpersandGlyph(Glyph):
             (xu1, 0.5 * yu1 + 0.5 * yu2 - hy),
             (xj, yj),
             # (xj, yj),
-            (b.x2 - delta, b.y1 - dhy),
+            (b.x2 + ox - delta, -dhy),
         )
-        pen.lineTo((b.x2, b.y1 - dhy))
+        pen.lineTo((b.x2 + ox, -dhy))
         pen.curveTo(
             (xj + delta, yj),
             (xu1 + dc.stroke_x, 0.5 * yu1 + 0.5 * yu2 - hy),
