@@ -22,24 +22,55 @@ from visualize import recording_to_mpl_path
 
 def visualize_text(text, point_size=None, guides=False):
     all_glyphs = discover_glyphs()
+
+    # Map single characters to their glyph
     glyph_map = {}
     for g in all_glyphs:
         if g.unicode:
             char = chr(int(g.unicode, 16))
             glyph_map[char] = g
 
+    # Build ligature lookup: sorted longest-first so greedy matching works
+    from glyphs import LigatureGlyph
+    ligature_map = {}
+    for g in all_glyphs:
+        if not isinstance(g, LigatureGlyph):
+            continue
+        seq = ""
+        for comp_name in g.components:
+            for og in all_glyphs:
+                if og.name == comp_name and og.unicode:
+                    seq += chr(int(og.unicode, 16))
+                    break
+        if len(seq) == len(g.components):
+            ligature_map[seq] = g
+    ligatures = sorted(ligature_map.keys(), key=len, reverse=True)
+
     fig, ax = plt.subplots(1, 1, figsize=(max(6, len(text) * 1.5), 4), dpi=200)
 
     cursor_x = 0
-    for ch in text:
-        if ch == " ":
-            cursor_x += fc.window_width
-            continue
+    i = 0
+    while i < len(text):
+        # Try ligature matches (longest first)
+        glyph = None
+        consumed = 1
+        for seq in ligatures:
+            if text[i:i + len(seq)] == seq:
+                glyph = ligature_map[seq]
+                consumed = len(seq)
+                break
 
-        glyph = glyph_map.get(ch)
         if glyph is None:
-            cursor_x += fc.window_width
-            continue
+            ch = text[i]
+            if ch == " ":
+                cursor_x += fc.window_width
+                i += 1
+                continue
+            glyph = glyph_map.get(ch)
+            if glyph is None:
+                cursor_x += fc.window_width
+                i += 1
+                continue
 
         # Draw through pathops to get simplified/correct winding
         raw_path = pathops.Path()
@@ -65,7 +96,8 @@ def visualize_text(text, point_size=None, guides=False):
         patch = mpatches.PathPatch(path, facecolor="#222222", edgecolor="none")
         ax.add_patch(patch)
 
-        cursor_x += fc.window_width
+        cursor_x += fc.window_width * glyph.number_characters
+        i += consumed
 
     if guides:
         # Vertical cell separators

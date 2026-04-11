@@ -8,9 +8,25 @@ import pathops
 from fontTools.fontBuilder import FontBuilder
 from fontTools.pens.t2CharStringPen import T2CharStringPen
 
+from fontTools.ttLib.tables.otTables import (
+    GSUB,
+    DefaultLangSys,
+    Feature,
+    FeatureList,
+    FeatureRecord,
+    Ligature,
+    LigatureSubst,
+    Lookup,
+    LookupList,
+    Script,
+    ScriptList,
+    ScriptRecord,
+)
+from fontTools.ttLib import newTable
+
 from config import FontConfig as fc
 from config import DrawConfig
-from glyphs import Glyph
+from glyphs import Glyph, LigatureGlyph
 
 import glyphs
 
@@ -60,6 +76,75 @@ def record_glyph(glyph, **kwargs):
     return pen.getCharString()
 
 
+def build_gsub(glyph_names, ligature_glyphs):
+    """Build a GSUB table with ligature substitutions."""
+    gsub_table = newTable("GSUB")
+    gsub = GSUB()
+    gsub.Version = 0x00010000
+    gsub_table.table = gsub
+
+    # Build ligature subtable grouped by first component
+    lig_by_first = {}
+    for g in ligature_glyphs:
+        if g.name not in glyph_names:
+            continue
+        first = g.components[0]
+        rest = g.components[1:]
+        lig = Ligature()
+        lig.LigGlyph = g.name
+        lig.Component = rest
+        lig.CompCount = len(g.components)
+        lig_by_first.setdefault(first, []).append(lig)
+
+    subst = LigatureSubst()
+    subst.ligatures = lig_by_first
+
+    lookup = Lookup()
+    lookup.LookupType = 4  # Ligature substitution
+    lookup.LookupFlag = 0
+    lookup.SubTableCount = 1
+    lookup.SubTable = [subst]
+
+    gsub.LookupList = LookupList()
+    gsub.LookupList.LookupCount = 1
+    gsub.LookupList.Lookup = [lookup]
+
+    # Feature: 'liga' (standard ligatures)
+    feature = Feature()
+    feature.FeatureParams = None
+    feature.LookupListIndex = [0]
+    feature.LookupCount = 1
+
+    feat_record = FeatureRecord()
+    feat_record.FeatureTag = "liga"
+    feat_record.Feature = feature
+
+    gsub.FeatureList = FeatureList()
+    gsub.FeatureList.FeatureCount = 1
+    gsub.FeatureList.FeatureRecord = [feat_record]
+
+    # Script: DFLT with default lang sys
+    lang_sys = DefaultLangSys()
+    lang_sys.ReqFeatureIndex = 0xFFFF
+    lang_sys.FeatureIndex = [0]
+    lang_sys.FeatureCount = 1
+
+    script = Script()
+    script.DefaultLangSys = lang_sys
+    script.LangSysRecord = []
+    script.LangSysCount = 0
+
+    script_record = ScriptRecord()
+    script_record.ScriptTag = "DFLT"
+    script_record.Script = script
+
+    gsub.ScriptList = ScriptList()
+    gsub.ScriptList.ScriptCount = 1
+    gsub.ScriptList.ScriptRecord = [script_record]
+
+    return gsub_table
+
+
 def build_font(output_path=None, bold=False):
     style_name = "Bold" if bold else "Regular"
     if output_path is None:
@@ -70,9 +155,12 @@ def build_font(output_path=None, bold=False):
     all_glyphs = discover_glyphs()
 
     cmap = {0x20: "space"}
+    ligature_glyphs = []
     for g in all_glyphs:
         if g.unicode:
             cmap[int(g.unicode, 16)] = g.name
+        if isinstance(g, LigatureGlyph):
+            ligature_glyphs.append(g)
 
     # Build charstrings
     notdef_pen = T2CharStringPen(fc.window_width, None)
@@ -98,7 +186,14 @@ def build_font(output_path=None, bold=False):
         charStringsDict=charstrings,
         privateDict={},
     )
-    fb.setupHorizontalMetrics({name: (fc.window_width, 0) for name in glyph_names})
+    # Ligature glyphs get wider advance width based on number_characters
+    glyph_by_name = {g.name: g for g in all_glyphs}
+    metrics = {}
+    for name in glyph_names:
+        g = glyph_by_name.get(name)
+        n = g.number_characters if g else 1
+        metrics[name] = (fc.window_width * n, 0)
+    fb.setupHorizontalMetrics(metrics)
     fb.setupHorizontalHeader(ascent=fc.window_ascent, descent=-abs(fc.window_descent))
     fb.setupNameTable(
         {
@@ -129,9 +224,11 @@ def build_font(output_path=None, bold=False):
     fb.setupPost(isFixedPitch=1)
     fb.setupHead(unitsPerEm=fc.units_per_em, macStyle=mac_style)
 
-    # Dummy DSIG so macOS validators don't complain
-    from fontTools.ttLib import newTable
+    # GSUB table for ligatures
+    if ligature_glyphs:
+        fb.font["GSUB"] = build_gsub(glyph_names, ligature_glyphs)
 
+    # Dummy DSIG so macOS validators don't complain
     dsig = newTable("DSIG")
     dsig.ulVersion = 1
     dsig.usFlag = 0
@@ -144,14 +241,13 @@ def build_font(output_path=None, bold=False):
 
     # Build TTF version
     ttf_path = output_path.replace(".otf", ".ttf")
-    build_ttf(ttf_path, style_name, all_glyphs, cmap, dc)
+    build_ttf(ttf_path, style_name, all_glyphs, cmap, dc, ligature_glyphs)
 
 
-def build_ttf(output_path, style_name, all_glyphs, cmap, dc):
+def build_ttf(output_path, style_name, all_glyphs, cmap, dc, ligature_glyphs):
     """Build a TTF font with quadratic outlines from scratch."""
     from fontTools.pens.cu2quPen import Cu2QuPen
     from fontTools.pens.ttGlyphPen import TTGlyphPen
-    from fontTools.ttLib import newTable
 
     def record_ttf_glyph(glyph):
         path = simplify_glyph(glyph, dc=dc)
@@ -179,11 +275,14 @@ def build_ttf(output_path, style_name, all_glyphs, cmap, dc):
     fb.setupCharacterMap(cmap)
     fb.setupGlyf(glyph_table)
     # LSB must match glyf xMin for correct TTF rendering
+    glyph_by_name = {g.name: g for g in all_glyphs}
     metrics = {}
     for name in glyph_names:
-        g = glyph_table[name]
-        lsb = g.xMin if hasattr(g, "xMin") and g.numberOfContours > 0 else 0
-        metrics[name] = (fc.window_width, lsb)
+        ttf_g = glyph_table[name]
+        lsb = ttf_g.xMin if hasattr(ttf_g, "xMin") and ttf_g.numberOfContours > 0 else 0
+        src_g = glyph_by_name.get(name)
+        n = src_g.number_characters if src_g else 1
+        metrics[name] = (fc.window_width * n, lsb)
     fb.setupHorizontalMetrics(metrics)
     fb.setupHorizontalHeader(ascent=fc.window_ascent, descent=-abs(fc.window_descent))
     fb.setupNameTable(
@@ -213,6 +312,10 @@ def build_ttf(output_path, style_name, all_glyphs, cmap, dc):
     )
     fb.setupPost(isFixedPitch=1)
     fb.setupHead(unitsPerEm=fc.units_per_em, macStyle=mac_style)
+
+    # GSUB table for ligatures
+    if ligature_glyphs:
+        fb.font["GSUB"] = build_gsub(glyph_names, ligature_glyphs)
 
     dsig = newTable("DSIG")
     dsig.ulVersion = 1

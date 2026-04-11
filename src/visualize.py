@@ -136,9 +136,12 @@ def visualize(
         ):
             glyph_cls = attr
             break
-    draw_fn = glyph_cls().draw
+    glyph_inst = glyph_cls()
+    draw_fn = glyph_inst.draw
+    n_chars = glyph_inst.number_characters
+    total_width = fc.window_width * n_chars
 
-    fig, ax = plt.subplots(1, 1, figsize=(6, 8))
+    fig, ax = plt.subplots(1, 1, figsize=(3 + 3 * n_chars, 8))
 
     for i, stroke in enumerate(sorted(strokes, reverse=True)):
         rec = RecordingPen()
@@ -183,15 +186,17 @@ def visualize(
         (fc.ascent, "ascent", "#9b59b6"),
     ]:
         ax.axhline(y, color=color, linewidth=0.5, linestyle="--", alpha=0.6)
-        ax.text(fc.window_width + 10, y, label, fontsize=7, color=color, va="center")
+        ax.text(total_width + 10, y, label, fontsize=7, color=color, va="center")
 
     # cell walls
     ax.axvline(0, color="#555", linewidth=1.5, linestyle="-")
-    ax.axvline(fc.window_width, color="#555", linewidth=1.5, linestyle="-")
+    ax.axvline(total_width, color="#555", linewidth=1.5, linestyle="-")
+    for i in range(1, n_chars):
+        ax.axvline(i * fc.window_width, color="#555", linewidth=0.8, linestyle=":")
     ax.axhline(fc.window_descent, color="#555", linewidth=1.5, linestyle="-")
     ax.axhline(fc.window_ascent, color="#555", linewidth=1.5, linestyle="-")
 
-    ax.set_xlim(-50, fc.window_width + 80)
+    ax.set_xlim(-50, total_width + 80)
     ax.set_ylim(fc.window_descent - 50, fc.window_ascent + 50)
     ax.set_aspect("equal")
     ax.set_title(f"'{glyph}'", fontsize=16)
