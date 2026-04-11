@@ -9,7 +9,6 @@ class ZeroGlyph(NumberGlyph):
     unicode = "0x30"
     offset = 0
     slash = 0.2
-    width_ratio = 1.16
 
     def draw(self, pen, dc):
         b = dc.body_bounds(

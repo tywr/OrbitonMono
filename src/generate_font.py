@@ -299,11 +299,30 @@ def build_font(output_path=None, bold=False, italic=False):
     fb = FontBuilder(fc.units_per_em, isTTF=False)
     fb.setupGlyphOrder(glyph_names)
     fb.setupCharacterMap(cmap)
+    # Alignment zones for CFF hinting
+    # BlueValues: pairs of [flat_edge, overshoot_edge] for zones at or above baseline
+    # OtherBlues: pairs for zones below baseline (descender)
+    ov = fc.v_overshoot
+    blue_values = [
+        -ov, 0,                       # baseline (overshoot below)
+        fc.x_height, fc.x_height + ov, # x-height
+        fc.cap, fc.cap + ov,           # cap height
+        fc.ascent, fc.ascent + ov,     # ascender
+    ]
+    other_blues = [
+        fc.descent - ov, fc.descent,   # descender
+    ]
+
     fb.setupCFF(
         psName=f"{fc.family_name}-{style_name}",
         fontInfo={"FullName": f"{fc.family_name} {style_name}"},
         charStringsDict=charstrings,
-        privateDict={},
+        privateDict={
+            "BlueValues": blue_values,
+            "OtherBlues": other_blues,
+            "BlueShift": 7,
+            "BlueFuzz": 1,
+        },
     )
     # Ligature glyphs get wider advance width based on number_characters
     glyph_by_name = {g.name: g for g in active_glyphs}

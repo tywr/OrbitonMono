@@ -1,3 +1,6 @@
+import ufoLib2
+from booleanOperations.booleanGlyph import BooleanGlyph
+
 from glyphs.numbers import NumberGlyph
 from draw.superellipse_loop import draw_superellipse_loop
 from draw.superellipse_arch import draw_superellipse_arch
@@ -10,8 +13,8 @@ class SixGlyph(NumberGlyph):
     unicode = "0x36"
     offset = 0
     loop_ratio = 0.6
-    width_ratio = 1.12
-    top_ratio = 0.75
+    top_ratio = 0.4
+    top_cut = 0.8
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
@@ -27,6 +30,7 @@ class SixGlyph(NumberGlyph):
 
         ymid = b.y1 + self.loop_ratio * b.height
         ytop = b.y1 + self.top_ratio * b.height
+        ycut = b.y1 + self.top_cut * b.height
 
         # Bottom loop
         draw_superellipse_arch(
@@ -41,7 +45,7 @@ class SixGlyph(NumberGlyph):
             b.hy * self.loop_ratio,
             taper=dc.taper,
             side="left",
-            cut="bottom"
+            cut="bottom",
         )
         draw_superellipse_loop(
             pen,
@@ -62,27 +66,22 @@ class SixGlyph(NumberGlyph):
             b.x1 + dc.stroke_x,
             b.ymid,
         )
-        draw_corner(
-            pen,
+        loop_glyph = ufoLib2.objects.Glyph()
+        draw_superellipse_loop(
+            loop_glyph.getPen(),
             dc.stroke_x,
             dc.stroke_y,
             b.x1,
-            b.ymid,
-            b.xmid,
+            b.y1,
+            b.x2,
             b.y2,
             b.hx,
             b.hy,
-            orientation="top-right",
+            cut="bottom"
         )
-        draw_corner(
-            pen,
-            dc.stroke_x,
-            dc.stroke_y,
-            b.x2,
-            ytop,
-            b.xmid,
-            b.y2,
-            b.hx,
-            b.hy * 2 * (b.y2 - ytop) / b.height,
-            orientation="top-left",
-        )
+
+        cut_glyph = ufoLib2.objects.Glyph()
+        draw_rect(cut_glyph.getPen(), b.xmid, b.y1, b.x2, ycut)
+
+        result = BooleanGlyph(loop_glyph).difference(BooleanGlyph(cut_glyph))
+        result.draw(pen)

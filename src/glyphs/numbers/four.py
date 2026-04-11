@@ -6,11 +6,11 @@ from draw.parallelogramm import draw_parallelogramm
 class FourGlyph(NumberGlyph):
     name = "four"
     unicode = "0x34"
-    offset = 6
+    offset = -5
     horizontal_ratio = 0.65
     vertical_ratio = 0.3
     mid_bar_ratio = 0.5
-    width_ratio = 1.2
+    width_ratio = 1.16
 
     def draw(self, pen, dc):
         b = dc.body_bounds(

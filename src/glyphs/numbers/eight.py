@@ -8,7 +8,7 @@ class EightGlyph(NumberGlyph):
     offset = 0
     height_ratio = 0.54
     loop_width_ratio = 0.92
-    width_ratio = 1.16
+    width_ratio = 1.03
     taper = 0.65
 
     def draw(self, pen, dc):
