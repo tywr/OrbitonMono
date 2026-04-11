@@ -8,6 +8,7 @@ class UppercaseQGlyph(UppercaseGlyph):
     unicode = "0x51"
     offset = 0
     tail_offset = 0.1
+    tail_start_offset = 0.05
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
@@ -21,6 +22,7 @@ class UppercaseQGlyph(UppercaseGlyph):
         )
 
         oy = self.tail_offset * b.height
+        ox = self.tail_start_offset * b.width
 
         draw_superellipse_loop(
             pen,
@@ -35,5 +37,5 @@ class UppercaseQGlyph(UppercaseGlyph):
         )
 
         draw_parallelogramm(
-            pen, dc.stroke_x, dc.stroke_y, b.x2, -oy, b.xmid - dc.stroke_x / 2, b.ymid - oy, direction="top-left"
+            pen, dc.stroke_x, dc.stroke_y, b.x2, -oy, b.xmid - dc.stroke_x / 2 - ox, b.ymid - oy, direction="top-left"
         )

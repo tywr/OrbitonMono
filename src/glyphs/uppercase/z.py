@@ -7,9 +7,10 @@ class UppercaseZGlyph(UppercaseGlyph):
     name = "uppercase_z"
     unicode = "0x5A"
     offset = 0
+    wdith_ratio = 1.08
 
     def draw(self, pen, dc):
-        b = dc.body_bounds(offset=self.offset, height="cap")
+        b = dc.body_bounds(offset=self.offset, height="cap", width_ratio=self.width_ratio)
 
         # Top and bottom bars
         draw_rect(pen, b.x1, b.y2 - dc.stroke_y, b.x2, b.y2)

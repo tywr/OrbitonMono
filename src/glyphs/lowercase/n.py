@@ -7,7 +7,7 @@ class LowercaseNGlyph(Glyph):
     name = "lowercase_n"
     unicode = "0x6E"
     offset = 0
-    width_ratio = 1.02
+    width_ratio = 1.00
 
     def draw(self, pen, dc):
         b = dc.body_bounds(

@@ -8,7 +8,7 @@ class LowercaseMGlyph(Glyph):
     unicode = "0x6D"
     offset = 0
     width_ratio = 1.22
-    mid_len = 0.6
+    mid_len = 0.7
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
@@ -17,7 +17,7 @@ class LowercaseMGlyph(Glyph):
             overshoot_top=True,
             width_ratio=self.width_ratio,
         )
-        mid_y = b.y1 + (1 - self.mid_len) * b.height
+        mid_y = (1 - self.mid_len) * (b.height - b.y1)
         mid_offset = ((1 + dc.taper_m) * dc.stroke_x - dc.gap) / 2
         hx, hy = b.hx * (mid_offset + b.width / 2) / b.width, b.hy
 

@@ -5,8 +5,8 @@ from draw.rect import draw_rect
 class LowercaseLGlyph(Glyph):
     name = "lowercase_l"
     unicode = "0x6C"
-    offset = 16
-    width_ratio = 1.1
+    offset = 18
+    width_ratio = 1.08
     cap = 0.5
 
     def draw(self, pen, dc):

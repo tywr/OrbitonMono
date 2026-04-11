@@ -30,22 +30,23 @@ class FontConfig:
 @dataclass
 class DrawConfig(FontConfig):
     # Default parameters
-    stroke_x: int = 90
-    stroke_y: int = 82
+    stroke_x: int = 88
+    stroke_y: int = 80
     stroke_alt: int = 72
     width: int = 340
-    hx: int = 190
+    hx: int = 180
     hy: int = 200
     taper: float = 0.293
     gap: int = 5
     v_overshoot: int = 10
-    h_overshoot: int = 5
+    h_overshoot: int = 8
     number_hx: int = 140
     number_hy: int = 280
 
     # Fine-tuned taper for a & m
     taper_a: float = 0.104
-    taper_m: float = 0.162
+    taper_m: float = 0.25
+    taper_r: float = 0.160
 
     @classmethod
     def bold(cls):
@@ -86,16 +87,19 @@ class DrawConfig(FontConfig):
         x2 = self.window_width / 2 + width / 2 + self.stroke_x / 2 + offset
         y2 = getattr(self, height)
 
+        # Ratio to add extra vertical overshoot for capital letters
+        ry = (y2 - y1) / self.x_height
+
         # Add horizontal overshoots
         if overshoot_left:
-            x1 -= self.h_overshoot
+            x1 -= self.h_overshoot * width_ratio
         if overshoot_right:
-            x2 += self.h_overshoot
+            x2 += self.h_overshoot * width_ratio
 
         if overshoot_bottom:
-            y1 -= self.v_overshoot
+            y1 -= self.v_overshoot * ry
         if overshoot_top:
-            y2 += self.v_overshoot
+            y2 += self.v_overshoot * ry
 
         # Rescale the hx and hy for the new box
         if number:

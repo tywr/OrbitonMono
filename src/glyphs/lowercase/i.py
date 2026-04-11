@@ -5,16 +5,17 @@ from draw.rect import draw_rect
 class LowercaseIGlyph(Glyph):
     name = "lowercase_i"
     unicode = "0x69"
-    offset = 16
-    width_ratio = 1.1
+    offset = 18
+    width_ratio = 1.08
     cap = 0.45
     dot_width = 36
+    rl_ratio = 0.5
 
     def draw_base(self, pen, dc):
         """Draw the letter without the dot (for use with accents)."""
         b = dc.body_bounds(offset=self.offset, width_ratio=self.width_ratio)
-        right_len = 0.5 * b.width - dc.stroke_x / 2
-        left_len = 0.5 * b.width - dc.stroke_x / 2
+        right_len = self.rl_ratio * b.width - dc.stroke_x / 2
+        left_len = (1 - self.rl_ratio) * b.width - dc.stroke_x / 2
 
         # Stem
         draw_rect(

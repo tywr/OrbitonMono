@@ -10,7 +10,7 @@ class LowercaseAGlyph(Glyph):
     unicode = "0x61"
     offset = 0
     loop_ratio = 0.6
-    width_ratio = 0.99
+    width_ratio = 1
 
     def draw(self, pen, dc):
         b = dc.body_bounds(

@@ -7,7 +7,7 @@ class LowercaseHGlyph(Glyph):
     name = "lowercase_h"
     unicode = "0x68"
     offset = 0
-    width_ratio = 1.02
+    width_ratio = 1.00
 
     def draw(self, pen, dc):
         b = dc.body_bounds(

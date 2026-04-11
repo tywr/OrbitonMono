@@ -8,7 +8,7 @@ class LowercaseEGlyph(Glyph):
     name = "lowercase_e"
     unicode = "0x65"
     offset = 0
-    width_ratio = 0.98
+    width_ratio = 1
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
