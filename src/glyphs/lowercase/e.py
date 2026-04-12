@@ -13,7 +13,6 @@ class LowercaseEGlyph(Glyph):
     def draw(self, pen, dc):
         b = dc.body_bounds(
             offset=self.offset,
-            overshoot_bottom=True,
             overshoot_top=True,
             overshoot_left=True,
             overshoot_right=True,

@@ -1,6 +1,7 @@
 from glyphs import Glyph
 from draw.superellipse_arch import draw_superellipse_arch
 from draw.rect import draw_rect
+from draw.polygon import draw_polygon
 
 
 class LowercaseRGlyph(Glyph):
@@ -31,9 +32,18 @@ class LowercaseRGlyph(Glyph):
         )
 
         # Compute the intersection of the outer bowl with the stem
-        (_, y1), (_, y2) = arch_params["outer"].intersection_x(x=b.x1 + dc.stroke_x)
+        (_, y1), (_, y2) = arch_params["outer"].intersection_x(x=b.x1 + dc.stroke_x + dc.gap)
         y1, y2 = min(y1, y2), max(y1, y2)
 
+        # Fill the gap
+        draw_polygon(
+            pen,
+            points=[
+                (b.x1 + dc.stroke_x + dc.gap, y2),
+                (b.x1 + dc.stroke_x, y2),
+                (b.x1 + dc.stroke_x - dc.stroke_x * dc.taper / 2, b.ymid),
+            ],
+        )
+
         # Left stem
-        draw_rect(pen, b.x1, 0, b.x1 + dc.stroke_x, y2)
-        draw_rect(pen, b.x1, 0, b.x1 + dc.stroke_x - dc.gap, dc.x_height)
+        draw_rect(pen, b.x1, 0, b.x1 + dc.stroke_x, dc.x_height)

@@ -49,9 +49,9 @@ class DrawConfig(FontConfig):
 
     # Taper values
     taper: float = 0.3
-    taper_a: float = 0.3
+    taper_a: float = 0.15
     taper_m: float = 0.28
-    taper_r: float = 0.3
+    taper_r: float = 0.15
 
     @classmethod
     def bold(cls):

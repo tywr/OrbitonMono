@@ -3,6 +3,7 @@ from glyphs import Glyph
 from draw.superellipse_arch import draw_superellipse_arch
 from draw.corner import draw_corner
 from draw.rect import draw_rect
+from draw.polygon import draw_polygon
 
 
 class LowercaseAGlyph(Glyph):
@@ -82,20 +83,30 @@ class LowercaseAGlyph(Glyph):
         # Stem
         draw_rect(
             pen,
-            b.x2 - dc.stroke_x + dc.gap,
+            b.x2 - dc.stroke_x,
             0,
             b.x2,
             b.y1 + b.height / 2,
         )
 
         # Fill the gap
-        (_, y1), (_, y2) = arch_params["outer"].intersection_x(x=b.x2 - dc.stroke_x)
+        (_, y1), (_, y2) = arch_params["outer"].intersection_x(x=b.x2 - dc.stroke_x - dc.gap)
         y1, y2 = min(y1, y2), max(y1, y2)
 
-        draw_rect(
+        # Fill the gap
+        draw_polygon(
             pen,
-            b.x2 - dc.stroke_x,
-            y1,
-            b.x2,
-            b.y1 + b.height / 2,
+            points=[
+                (b.x2 - dc.stroke_x - dc.gap, y1),
+                (b.x2 - dc.stroke_x, y1),
+                (b.x2 - dc.stroke_x + dc.stroke_x * dc.taper / 2, b.ymid),
+            ],
         )
+
+        # draw_rect(
+        #     pen,
+        #     b.x2 - dc.stroke_x,
+        #     y1,
+        #     b.x2,
+        #     b.y1 + b.height / 2,
+        # )
