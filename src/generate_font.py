@@ -257,7 +257,12 @@ def build_font(output_path=None, bold=False, italic=False):
         os.makedirs("fonts/ttf/", exist_ok=True)
         output_path = f"fonts/otf/{fc.family_name}-{style_name}.otf"
 
-    dc = DrawConfig.bold() if bold else DrawConfig()
+    if bold:
+        dc = DrawConfig.bold()
+    elif italic:
+        dc = DrawConfig.italic()
+    else:
+        dc = DrawConfig()
 
     all_glyphs = discover_glyphs()
 

@@ -66,6 +66,20 @@ class DrawConfig(FontConfig):
             taper_m=cls.taper_m,
         )
 
+    @classmethod
+    def italic(cls):
+        ratio_y = 0.92
+        ratio_alt = 0.92
+        return cls(
+            stroke_x=int(cls.stroke_x),
+            stroke_y=int(cls.stroke_y * ratio_y),
+            stroke_alt=int(cls.stroke_alt * ratio_alt),
+            taper=cls.taper,
+            taper_a=cls.taper_a,
+            taper_m=cls.taper_m,
+            gap=0,
+        )
+
     def body_bounds(
         self,
         offset: int,
