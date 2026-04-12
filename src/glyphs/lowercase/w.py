@@ -8,10 +8,10 @@ class LowercaseWGlyph(Glyph):
     name = "lowercase_w"
     unicode = "0x77"
     offset = 0
-    outer_overlap = 0.11
-    inner_overlap = 0.1
+    outer_overlap = 0.177
+    inner_overlap = 0.179
     width_ratio = 1.25
-    inner_stroke_ratio = 0.8
+    inner_stroke_ratio = 0.85
     inner_height_ratio = 0.7
     inner_angle_ratio = 0.26
 

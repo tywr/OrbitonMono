@@ -23,7 +23,6 @@ class SixGlyph(NumberGlyph):
             overshoot_bottom=True,
             overshoot_left=True,
             overshoot_right=True,
-            overshoot_top=True,
             width_ratio=self.width_ratio,
             number=True,
         )

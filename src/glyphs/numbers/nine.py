@@ -22,7 +22,6 @@ class NineGlyph(NumberGlyph):
             overshoot_top=True,
             overshoot_left=True,
             overshoot_right=True,
-            overshoot_bottom=True,
             width_ratio=self.width_ratio,
             number=True,
         )

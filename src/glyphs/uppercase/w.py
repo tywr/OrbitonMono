@@ -8,15 +8,17 @@ class UppercaseWGlyph(Glyph):
     name = "uppercase_w"
     unicode = "0x57"
     offset = 0
-    outer_overlap = 0.02
-    inner_overlap = 0.1
+    outer_overlap = 0.142
+    inner_overlap = 0.15
     width_ratio = 1.25
-    inner_stroke_ratio = 0.8
-    inner_height_ratio = 0.7
+    inner_stroke_ratio = 0.85
+    inner_height_ratio = 0.55
     inner_angle_ratio = 0.26
 
     def draw(self, pen, dc):
-        b = dc.body_bounds(offset=self.offset, width_ratio=self.width_ratio, height="cap")
+        b = dc.body_bounds(
+            offset=self.offset, width_ratio=self.width_ratio, height="cap"
+        )
         ov = self.outer_overlap * dc.stroke_x
         ovi = self.inner_overlap * dc.stroke_x
 
@@ -68,15 +70,15 @@ class UppercaseWGlyph(Glyph):
             pen,
             b.xmid + self.inner_angle_ratio * b.width - delta2 / 2,
             b.y1,
-            b.xmid + self.inner_angle_ratio * b.width + delta / 2,
+            b.xmid + self.inner_angle_ratio * b.width + delta2 / 2,
             b.y1 + p + h,
-            draw_rect(
-                pen,
-                b.xmid - self.inner_angle_ratio * b.width - delta / 2,
-                b.y1,
-                b.xmid - self.inner_angle_ratio * b.width + delta2,
-                b.y1 + p + h,
-            ),
+        )
+        draw_rect(
+            pen,
+            b.xmid - self.inner_angle_ratio * b.width - delta2 / 2,
+            b.y1,
+            b.xmid - self.inner_angle_ratio * b.width + delta2 / 2,
+            b.y1 + p + h,
         )
 
         # Fill the inside gap
