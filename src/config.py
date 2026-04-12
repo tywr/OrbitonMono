@@ -42,7 +42,7 @@ class DrawConfig(FontConfig):
     hx: int = 160
     hy: int = 200
 
-    gap: int = 16
+    gap: int = 10
 
     number_hx: int = 160
     number_hy: int = 240
