@@ -39,7 +39,7 @@ class DrawConfig(FontConfig):
     stroke_alt: int = 72
     width: int = 340
 
-    hx: int = 160
+    hx: int = 172
     hy: int = 200
 
     gap: int = 10
