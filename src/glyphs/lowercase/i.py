@@ -5,11 +5,11 @@ from draw.rect import draw_rect
 class LowercaseIGlyph(Glyph):
     name = "lowercase_i"
     unicode = "0x69"
-    offset = 0
-    cap = 0.4
+    offset = 18
+    width_ratio = 1.08
+    cap = 0.45
     dot_width = 36
     rl_ratio = 0.5
-    width_ratio = 1
 
     def draw_base(self, pen, dc):
         """Draw the letter without the dot (for use with accents)."""

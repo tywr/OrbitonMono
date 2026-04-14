@@ -8,15 +8,17 @@ class LowercaseI2Glyph(Glyph):
     unicode = "0x69"
     font_feature = {"ss03": 1}
     default_italic = True
-    offset = 0
-    width_ratio = 1
-    cap = 0.4
+    offset = 18
+    width_ratio = 1.08
+    cap = 0.45
     dot_width = 36
     rl_ratio = 0.5
 
     def draw_base(self, pen, dc):
         """Draw the letter without the dot (for use with accents)."""
         b = dc.body_bounds(offset=self.offset, width_ratio=self.width_ratio)
+        right_len = self.rl_ratio * b.width - dc.stroke_x / 2
+        left_len = (1 - self.rl_ratio) * b.width - dc.stroke_x / 2
         ym4 = b.y1 + b.height / 4
 
         # Stem
