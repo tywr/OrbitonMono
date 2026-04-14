@@ -18,16 +18,18 @@ class UppercaseYGlyph(UppercaseGlyph):
         b = dc.body_bounds(
             offset=self.offset, width_ratio=self.width_ratio, height="cap"
         )
-        ov = self.overlap * dc.stroke_x
+        sx, sy = dc.stroke_x * self.stroke_x_ratio, dc.stroke_y * self.stroke_y_ratio
+
+        ov = self.overlap * sx
         yj = b.x1 + self.junction_ratio * b.height
 
         theta, delta = draw_parallelogramm(
-            pen, dc.stroke_x, dc.stroke_y, b.xmid - ov, yj, b.x2, b.y2
+            pen, sx, sy, b.xmid - ov, yj, b.x2, b.y2
         )
         draw_parallelogramm(
             pen,
-            dc.stroke_x,
-            dc.stroke_y,
+            sx,
+            sy,
             b.xmid + ov,
             yj,
             b.x1,
@@ -38,7 +40,7 @@ class UppercaseYGlyph(UppercaseGlyph):
         # Draw main step
         h = dc.gap / (2 * tan(0.5 * pi - theta))
         p = ov * tan(theta)
-        draw_rect(pen, b.xmid - dc.stroke_x / 2, b.y1, b.xmid + dc.stroke_x / 2, yj + p + h)
+        draw_rect(pen, b.xmid - sx / 2, b.y1, b.xmid + sx / 2, yj + p + h)
 
         # Draw junction to fill the gaps
         draw_polygon(

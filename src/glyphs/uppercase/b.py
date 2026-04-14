@@ -15,8 +15,10 @@ class UppercaseBGlyph(UppercaseGlyph):
             offset=self.offset,
             height="cap",
             overshoot_right=True,
+            uppercase=True,
             width_ratio=self.width_ratio,
         )
+        sx, sy = dc.stroke_x * self.stroke_x_ratio, dc.stroke_y * self.stroke_y_ratio
         hx, hy = dc.hx, dc.hy * 0.5 * dc.cap / dc.x_height
 
         lower_x1 = b.x1
@@ -28,15 +30,15 @@ class UppercaseBGlyph(UppercaseGlyph):
         upper_x2 = lower_x2 - delta / 2
 
         # Left stem
-        draw_rect(pen, b.x1, 0, b.x1 + dc.stroke_x, dc.cap)
+        draw_rect(pen, b.x1, 0, b.x1 + sx, dc.cap)
 
         # Upper loop (narrower, displaced left)
         arch1 = draw_superellipse_arch(
             pen,
-            dc.stroke_x,
-            dc.stroke_y,
+            sx,
+            sy,
             upper_x1,
-            b.ymid - dc.stroke_y / 2,
+            b.ymid - sy / 2,
             upper_x2,
             b.y2,
             hx,
@@ -48,12 +50,12 @@ class UppercaseBGlyph(UppercaseGlyph):
         # Lower loop (full width)
         arch2 = draw_superellipse_arch(
             pen,
-            dc.stroke_x,
-            dc.stroke_y,
+            sx,
+            sy,
             lower_x1,
             0,
             lower_x2,
-            b.ymid + dc.stroke_y / 2,
+            b.ymid + sy / 2,
             hx,
             hy,
             taper=0.75,
@@ -71,12 +73,12 @@ class UppercaseBGlyph(UppercaseGlyph):
         )[0]
 
         # Connecting bars
-        draw_rect(pen, b.x1, b.y2 - dc.stroke_y, upper_x2 - upper_width / 2, b.y2)
-        draw_rect(pen, b.x1, 0, b.x2 - lower_width / 2, dc.stroke_y)
+        draw_rect(pen, b.x1, b.y2 - sy, upper_x2 - upper_width / 2, b.y2)
+        draw_rect(pen, b.x1, 0, b.x2 - lower_width / 2, sy)
         draw_rect(
             pen,
             b.x1,
-            b.ymid - dc.stroke_y / 2,
+            b.ymid - sy / 2,
             intersection_x,
-            b.ymid + dc.stroke_y / 2,
+            b.ymid + sy / 2,
         )

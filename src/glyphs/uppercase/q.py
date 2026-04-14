@@ -19,15 +19,17 @@ class UppercaseQGlyph(UppercaseGlyph):
             overshoot_left=True,
             overshoot_right=True,
             width_ratio=self.width_ratio,
+            uppercase=True,
         )
 
+        sx, sy = dc.stroke_x * self.stroke_x_ratio, dc.stroke_y * self.stroke_y_ratio
         oy = self.tail_offset * b.height
         ox = self.tail_start_offset * b.width
 
         draw_superellipse_loop(
             pen,
-            dc.stroke_x,
-            dc.stroke_y,
+            sx,
+            sy,
             b.x1,
             b.y1,
             b.x2,
@@ -37,5 +39,5 @@ class UppercaseQGlyph(UppercaseGlyph):
         )
 
         draw_parallelogramm(
-            pen, dc.stroke_x, dc.stroke_y, b.x2, -oy, b.xmid - dc.stroke_x / 2 - ox, b.ymid - oy, direction="top-left"
+            pen, sx, sy, b.x2, -oy, b.xmid - sx / 2 - ox, b.ymid - oy, direction="top-left"
         )

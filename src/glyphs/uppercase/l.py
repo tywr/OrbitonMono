@@ -11,8 +11,9 @@ class UppercaseLGlyph(UppercaseGlyph):
         b = dc.body_bounds(
             offset=self.offset, height="cap", width_ratio=self.width_ratio
         )
+        sx, sy = dc.stroke_x * self.stroke_x_ratio, dc.stroke_y * self.stroke_y_ratio
 
         # Vertical stem
-        draw_rect(pen, b.x1, b.y1, b.x1 + dc.stroke_x, b.y2)
+        draw_rect(pen, b.x1, b.y1, b.x1 + sx, b.y2)
         # Bottom bar
-        draw_rect(pen, b.x1, b.y1, b.x2, b.y1 + dc.stroke_y)
+        draw_rect(pen, b.x1, b.y1, b.x2, b.y1 + sy)

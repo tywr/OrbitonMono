@@ -42,6 +42,9 @@ class DrawConfig(FontConfig):
     hx: int = 172
     hy: int = 200
 
+    cap_hx: int = 182
+    cap_hy: int = 208
+
     gap: int = 10
 
     number_hx: int = 160
@@ -90,6 +93,7 @@ class DrawConfig(FontConfig):
         overshoot_top=False,
         overshoot_bottom=False,
         number=False,
+        uppercase=False,
     ):
         """
         Abstraction for storing common metrics relative to the body
@@ -121,6 +125,9 @@ class DrawConfig(FontConfig):
         if number:
             hx = self.number_hx
             hy = self.number_hy
+        elif uppercase:
+            hx = self.cap_hx
+            hy = self.cap_hy
         else:
             hx = self.hx
             hy = self.hy

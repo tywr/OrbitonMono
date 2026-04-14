@@ -16,28 +16,30 @@ class UppercaseSGlyph(UppercaseGlyph):
             overshoot_top=True,
             height="cap",
             width_ratio=self.width_ratio,
+            uppercase=True,
         )
+        sx, sy = dc.stroke_x * self.stroke_x_ratio, dc.stroke_y * self.stroke_y_ratio
         hx, hy = b.hx, b.hy * self.loop_ratio
 
         # Height of each half-loop from its respective baseline
         lh = b.height * self.loop_ratio
-        ym1 = b.y1 + lh + dc.stroke_y / 2
-        ym2 = b.y2 - lh - dc.stroke_y / 2
+        ym1 = b.y1 + lh + sy / 2
+        ym2 = b.y2 - lh - sy / 2
 
         # Bottom half-loop (cut at top)
         draw_superellipse_loop(
-            pen, dc.stroke_x, dc.stroke_y, b.x1, b.y1, b.x2, ym1, hx, hy, cut="top"
+            pen, sx, sy, b.x1, b.y1, b.x2, ym1, hx, hy, cut="top"
         )
         # Top half-loop (cut at bottom)
         draw_superellipse_loop(
-            pen, dc.stroke_x, dc.stroke_y, b.x1, ym2, b.x2, b.y2, hx, hy, cut="bottom"
+            pen, sx, sy, b.x1, ym2, b.x2, b.y2, hx, hy, cut="bottom"
         )
 
         # Middle left
         draw_corner(
             pen,
-            dc.stroke_x,
-            dc.stroke_y,
+            sx,
+            sy,
             b.x1,
             ym2 + (b.y2 - ym2) / 2,
             b.xmid,
@@ -49,8 +51,8 @@ class UppercaseSGlyph(UppercaseGlyph):
         # Middle right
         draw_corner(
             pen,
-            dc.stroke_x,
-            dc.stroke_y,
+            sx,
+            sy,
             b.x2,
             b.y1 + (ym1 - b.y1) / 2,
             b.xmid,

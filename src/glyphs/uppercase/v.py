@@ -15,12 +15,13 @@ class UppercaseVGlyph(UppercaseGlyph):
         b = dc.body_bounds(
             offset=self.offset, width_ratio=self.width_ratio, height="cap"
         )
-        ov = self.overlap * dc.stroke_x
+        sx, sy = dc.stroke_x * self.stroke_x_ratio, dc.stroke_y * self.stroke_y_ratio
+        ov = self.overlap * sx
 
         theta, delta = draw_parallelogramm(
             pen,
-            dc.stroke_x,
-            dc.stroke_y,
+            sx,
+            sy,
             b.xmid - ov,
             0,
             b.x2,
@@ -28,8 +29,8 @@ class UppercaseVGlyph(UppercaseGlyph):
         )
         draw_parallelogramm(
             pen,
-            dc.stroke_x,
-            dc.stroke_y,
+            sx,
+            sy,
             b.xmid + ov,
             0,
             b.x1,

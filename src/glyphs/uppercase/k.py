@@ -16,28 +16,29 @@ class LowercaseKGlyph(UppercaseGlyph):
         b = dc.body_bounds(
             offset=self.offset, width_ratio=self.width_ratio, height="cap"
         )
+        sx, sy = dc.stroke_x * self.stroke_x_ratio, dc.stroke_y * self.stroke_y_ratio
         x_branch = b.x1 + (1 - self.branch_ratio) * b.width
 
         # Left ascender stem
-        draw_rect(pen, b.x1, 0, b.x1 + dc.stroke_x, dc.cap)
+        draw_rect(pen, b.x1, 0, b.x1 + sx, dc.cap)
 
         # Upper branch
         draw_parallelogramm(
             pen,
-            dc.stroke_x,
-            dc.stroke_y,
+            sx,
+            sy,
             x_branch,
-            b.ymid + dc.stroke_y / 2,
+            b.ymid + sy / 2,
             b.x2,
             b.y1,
             direction="bottom-right",
         )
         theta, delta = draw_parallelogramm(
             pen,
-            dc.stroke_x,
-            dc.stroke_y,
+            sx,
+            sy,
             x_branch,
-            b.ymid - dc.stroke_y / 2,
+            b.ymid - sy / 2,
             b.x2,
             b.y2,
         )
@@ -46,7 +47,7 @@ class LowercaseKGlyph(UppercaseGlyph):
         draw_rect(
             pen,
             b.x1,
-            b.ymid - dc.stroke_y / 2,
+            b.ymid - sy / 2,
             x_branch + delta / tan(theta),
-            b.ymid + dc.stroke_y / 2,
+            b.ymid + sy / 2,
         )

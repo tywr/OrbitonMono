@@ -18,20 +18,21 @@ class UppercaseMGlyph(UppercaseGlyph):
         b = dc.body_bounds(
             offset=self.offset, height="cap", width_ratio=self.width_ratio
         )
+        sx, sy = dc.stroke_x * self.stroke_x_ratio, dc.stroke_y * self.stroke_y_ratio
         st = self.stroke_thinning
         ov = self.overlap * dc.stroke_x
         ovm = self.overlap_middle * dc.stroke_x
         ymid = (1 - self.depth) * b.height
 
         # Vertical stems
-        draw_rect(pen, b.x1, b.y1, b.x1 + dc.stroke_x, b.y2)
-        draw_rect(pen, b.x2 - dc.stroke_x, b.y1, b.x2, b.y2)
+        draw_rect(pen, b.x1, b.y1, b.x1 + sx, b.y2)
+        draw_rect(pen, b.x2 - sx, b.y1, b.x2, b.y2)
 
         # Branches
         draw_parallelogramm(
             pen,
-            st * dc.stroke_x,
-            st * dc.stroke_y,
+            st * sx,
+            st * sy,
             b.xmid - ovm / 2,
             ymid,
             b.x2 - ov,
@@ -39,8 +40,8 @@ class UppercaseMGlyph(UppercaseGlyph):
         )
         theta, delta = draw_parallelogramm(
             pen,
-            st * dc.stroke_x,
-            st * dc.stroke_y,
+            st * sx,
+            st * sy,
             b.xmid + ovm / 2,
             ymid,
             b.x1 + ov,

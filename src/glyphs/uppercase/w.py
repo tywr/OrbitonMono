@@ -1,10 +1,10 @@
 from math import tan, pi
-from glyphs import Glyph
+from glyphs.uppercase import UppercaseGlyph
 from draw.parallelogramm import draw_parallelogramm
 from draw.rect import draw_rect
 
 
-class UppercaseWGlyph(Glyph):
+class UppercaseWGlyph(UppercaseGlyph):
     name = "uppercase_w"
     unicode = "0x57"
     offset = 0
@@ -19,14 +19,15 @@ class UppercaseWGlyph(Glyph):
         b = dc.body_bounds(
             offset=self.offset, width_ratio=self.width_ratio, height="cap"
         )
-        ov = self.outer_overlap * dc.stroke_x
-        ovi = self.inner_overlap * dc.stroke_x
+        sx, sy = dc.stroke_x * self.stroke_x_ratio, dc.stroke_y * self.stroke_y_ratio
+        ov = self.outer_overlap * sx
+        ovi = self.inner_overlap * sx
 
         inner_height = self.inner_height_ratio * b.height
         theta, delta = draw_parallelogramm(
             pen,
-            dc.stroke_x,
-            dc.stroke_y,
+            sx,
+            sy,
             b.xmid + self.inner_angle_ratio * b.width,
             0,
             b.x2,
@@ -34,8 +35,8 @@ class UppercaseWGlyph(Glyph):
         )
         draw_parallelogramm(
             pen,
-            dc.stroke_x,
-            dc.stroke_y,
+            sx,
+            sy,
             b.xmid - self.inner_angle_ratio * b.width,
             0,
             b.x1,
@@ -44,8 +45,8 @@ class UppercaseWGlyph(Glyph):
         )
         theta2, delta2 = draw_parallelogramm(
             pen,
-            self.inner_stroke_ratio * dc.stroke_x,
-            self.inner_stroke_ratio * dc.stroke_y,
+            self.inner_stroke_ratio * sx,
+            self.inner_stroke_ratio * sy,
             b.xmid + self.inner_angle_ratio * b.width + ov,
             0,
             b.xmid - ovi,
@@ -54,8 +55,8 @@ class UppercaseWGlyph(Glyph):
         )
         draw_parallelogramm(
             pen,
-            self.inner_stroke_ratio * dc.stroke_x,
-            self.inner_stroke_ratio * dc.stroke_y,
+            self.inner_stroke_ratio * sx,
+            self.inner_stroke_ratio * sy,
             b.xmid - self.inner_angle_ratio * b.width - ov,
             0,
             b.xmid + ovi,

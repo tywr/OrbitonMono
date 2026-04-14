@@ -6,6 +6,8 @@ class UppercaseOGlyph(UppercaseGlyph):
     name = "uppercase_o"
     unicode = "0x4F"
     offset = 0
+    stroke_x_ratio = 1.05
+    stroke_y_ratio = 1.05
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
@@ -16,11 +18,12 @@ class UppercaseOGlyph(UppercaseGlyph):
             overshoot_left=True,
             overshoot_right=True,
             width_ratio=self.width_ratio,
+            uppercase=True,
         )
         draw_superellipse_loop(
             pen,
-            dc.stroke_x,
-            dc.stroke_y,
+            dc.stroke_x * self.stroke_x_ratio,
+            dc.stroke_y * self.stroke_y_ratio,
             b.x1,
             b.y1,
             b.x2,

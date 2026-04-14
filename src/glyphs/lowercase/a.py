@@ -102,11 +102,3 @@ class LowercaseAGlyph(Glyph):
                 (b.x2 - dc.stroke_x + dc.stroke_x * dc.taper / 2, b.ymid),
             ],
         )
-
-        # draw_rect(
-        #     pen,
-        #     b.x2 - dc.stroke_x,
-        #     y1,
-        #     b.x2,
-        #     b.y1 + b.height / 2,
-        # )

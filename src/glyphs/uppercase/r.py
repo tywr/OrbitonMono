@@ -16,18 +16,20 @@ class UppercaseRGlyph(UppercaseGlyph):
             height="cap",
             overshoot_right=True,
             width_ratio=self.width_ratio,
+            uppercase=True
         )
+        sx, sy = dc.stroke_x * self.stroke_x_ratio, dc.stroke_y * self.stroke_y_ratio
         hx, hy = b.hx, b.hy * self.loop_ratio
         ymid = b.y1 + (1 - self.loop_ratio) * b.height
 
         # Left stem
-        draw_rect(pen, b.x1, 0, b.x1 + dc.stroke_x, dc.cap)
+        draw_rect(pen, b.x1, 0, b.x1 + sx, dc.cap)
 
         # Upper loop (narrower, displaced left)
         draw_superellipse_loop(
             pen,
-            dc.stroke_x,
-            dc.stroke_y,
+            sx,
+            sy,
             b.x1,
             ymid,
             b.x2,
@@ -38,23 +40,23 @@ class UppercaseRGlyph(UppercaseGlyph):
         )
 
         # Connecting bars
-        draw_rect(pen, b.x1, b.y2 - dc.stroke_y, b.x2 - b.width / 2, b.y2)
+        draw_rect(pen, b.x1, b.y2 - sy, b.x2 - b.width / 2, b.y2)
         draw_rect(
             pen,
             b.x1,
             ymid,
             b.x2 - b.width / 2,
-            ymid + dc.stroke_y,
+            ymid + sy,
         )
 
         # Right stem
         draw_parallelogramm(
             pen,
-            dc.stroke_x,
-            dc.stroke_y,
+            sx,
+            sy,
             b.x2,
             0,
             b.xmid,
-            ymid + dc.stroke_y / 2,
+            ymid + sy / 2,
             direction="top-left",
         )

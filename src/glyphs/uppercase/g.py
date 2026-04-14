@@ -20,15 +20,17 @@ class UppercaseGGlyph(UppercaseGlyph):
             overshoot_left=True,
             overshoot_right=True,
             width_ratio=self.width_ratio,
+            uppercase=True,
         )
+        sx, sy = dc.stroke_x * self.stroke_x_ratio, dc.stroke_y * self.stroke_y_ratio
         opening = self.opening * dc.cap / dc.x_height
         hx, hy = dc.hx * self.width_ratio, dc.hy * dc.cap / dc.x_height
 
         loop_glyph = ufoLib2.objects.Glyph()
         draw_superellipse_loop(
             loop_glyph.getPen(),
-            dc.stroke_x,
-            dc.stroke_y,
+            sx,
+            sy,
             b.x1,
             b.y1,
             b.x2,
@@ -43,7 +45,7 @@ class UppercaseGGlyph(UppercaseGlyph):
             b.xmid,
             b.ymid,
             b.xmid + dc.window_width,
-            b.ymid + opening - dc.stroke_y / 2,
+            b.ymid + opening - sy / 2,
         )
 
         result = BooleanGlyph(loop_glyph).difference(BooleanGlyph(cut_glyph))
@@ -52,7 +54,7 @@ class UppercaseGGlyph(UppercaseGlyph):
         draw_rect(
             pen,
             b.xmid,
-            b.ymid - dc.stroke_y,
-            b.x2 - dc.stroke_x / 2,
+            b.ymid - sy,
+            b.x2 - sx / 2,
             b.ymid,
         )

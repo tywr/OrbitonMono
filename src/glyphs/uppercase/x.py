@@ -14,9 +14,11 @@ class UppercaseXGlyph(UppercaseGlyph):
         b = dc.body_bounds(
             offset=self.offset, width_ratio=self.width_ratio, height="cap"
         )
-        draw_parallelogramm(pen, dc.stroke_x, dc.stroke_y, b.x1, b.y1, b.x2, b.y2)
+        sx, sy = dc.stroke_x * self.stroke_x_ratio, dc.stroke_y * self.stroke_y_ratio
+
+        draw_parallelogramm(pen, sx, sy, b.x1, b.y1, b.x2, b.y2)
         theta, delta = draw_parallelogramm(
-            pen, dc.stroke_x, dc.stroke_y, b.x2, b.y1, b.x1, b.y2, direction="top-left"
+            pen, sx, sy, b.x2, b.y1, b.x1, b.y2, direction="top-left"
         )
 
         # Fill the gaps
