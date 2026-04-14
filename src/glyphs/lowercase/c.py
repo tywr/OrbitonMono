@@ -10,6 +10,8 @@ class LowercaseCGlyph(Glyph):
     unicode = "0x63"
     offset = 0
     opening = 280
+    stroke_x_ratio = 1.055
+    stroke_y_ratio = 0.96
 
     def draw(self, pen, dc):
 
@@ -20,12 +22,13 @@ class LowercaseCGlyph(Glyph):
             overshoot_left=True,
             overshoot_right=True,
         )
+        sx, sy = self.stroke_x_ratio * dc.stroke_x, self.stroke_y_ratio * dc.stroke_y
 
         loop_glyph = ufoLib2.objects.Glyph()
         draw_superellipse_loop(
             loop_glyph.getPen(),
-            dc.stroke_x,
-            dc.stroke_y,
+            sx,
+            sy,
             b.x1,
             b.y1,
             b.x2,
@@ -38,9 +41,9 @@ class LowercaseCGlyph(Glyph):
         draw_rect(
             cut_glyph.getPen(),
             b.xmid,
-            b.ymid - self.opening / 2 + dc.stroke_y / 2,
+            b.ymid - self.opening / 2 + sy / 2,
             b.xmid + b.width,
-            b.ymid + self.opening / 2 - dc.stroke_y / 2,
+            b.ymid + self.opening / 2 - sy / 2,
         )
 
         result = BooleanGlyph(loop_glyph).difference(BooleanGlyph(cut_glyph))

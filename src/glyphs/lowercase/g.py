@@ -9,7 +9,9 @@ class LowercaseGGlyph(Glyph):
     name = "lowercase_g"
     unicode = "0x67"
     offset = 0
-    tail_offset = 0  # Y-axis offset of the tail above the descender line
+    tail_offset = 0
+    bowl_stroke_x_ratio = 1.04
+    bowl_stroke_y_ratio = 0.96
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
@@ -18,12 +20,16 @@ class LowercaseGGlyph(Glyph):
             overshoot_top=True,
             overshoot_left=True,
         )
+        bsx, bsy = (
+            self.bowl_stroke_x_ratio * dc.stroke_x,
+            self.bowl_stroke_y_ratio * dc.stroke_y,
+        )
 
         # Bowl (open on the right, mirrored from b)
         arch_params = draw_superellipse_arch(
             pen,
-            dc.stroke_x,
-            dc.stroke_y,
+            bsx,
+            bsy,
             b.x1,
             b.y1,
             b.x2,

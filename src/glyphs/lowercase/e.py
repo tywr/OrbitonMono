@@ -9,6 +9,8 @@ class LowercaseEGlyph(Glyph):
     unicode = "0x65"
     offset = 0
     width_ratio = 1
+    stroke_x_ratio = 1.04
+    stroke_y_ratio = 0.96
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
@@ -18,12 +20,13 @@ class LowercaseEGlyph(Glyph):
             overshoot_right=True,
             width_ratio=self.width_ratio,
         )
+        sx, sy = self.stroke_x_ratio * dc.stroke_x, self.stroke_y_ratio * dc.stroke_y
 
         # Half-top of a superellipse
         draw_superellipse_loop(
             pen,
-            dc.stroke_x,
-            dc.stroke_y,
+            sx,
+            sy,
             b.x1,
             b.y1,
             b.x2,
@@ -36,7 +39,7 @@ class LowercaseEGlyph(Glyph):
         # Corner from mid-left to bottom
         draw_corner(
             pen,
-            dc.stroke_x,
+            sx,
             dc.stroke_y,
             b.x1,
             b.ymid + 2 * dc.v_overshoot,

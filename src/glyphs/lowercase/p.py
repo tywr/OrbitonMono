@@ -8,6 +8,8 @@ class LowercasePGlyph(Glyph):
     name = "lowercase_p"
     unicode = "0x70"
     offset = 0
+    bowl_stroke_x_ratio = 1.04
+    bowl_stroke_y_ratio = 0.96
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
@@ -16,13 +18,18 @@ class LowercasePGlyph(Glyph):
             overshoot_top=True,
             overshoot_right=True,
         )
+        bsx, bsy = (
+            self.bowl_stroke_x_ratio * dc.stroke_x,
+            self.bowl_stroke_y_ratio * dc.stroke_y,
+        )
+        dx = bsx - dc.stroke_x
 
         # Bowl (open on the left, same as b)
         arch_params = draw_superellipse_arch(
             pen,
-            dc.stroke_x,
-            dc.stroke_y,
-            b.x1,
+            bsx,
+            bsy,
+            b.x1 - dx,
             b.y1,
             b.x2,
             b.y2,

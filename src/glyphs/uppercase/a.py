@@ -8,9 +8,10 @@ class UppercaseAGlyph(UppercaseGlyph):
     name = "uppercase_a"
     unicode = "0x41"
     offset = 0
-    width_ratio = 1.25
     bar_height = 320
     overlap = 0.05
+    stroke_x_ratio = 1.02
+    width_ratio = 1.3
 
     def draw(self, pen, dc):
         b = dc.body_bounds(

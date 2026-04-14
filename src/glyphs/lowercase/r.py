@@ -10,6 +10,7 @@ class LowercaseRGlyph(Glyph):
     offset = 20
     loop_ratio = 0.8
     width_ratio = 1.02
+    top_stroke_y = 0.96
 
     def draw(self, pen, dc):
         b = dc.body_bounds(offset=self.offset, overshoot_top=True, overshoot_right=True, width_ratio=self.width_ratio)
@@ -19,7 +20,7 @@ class LowercaseRGlyph(Glyph):
         arch_params = draw_superellipse_arch(
             pen,
             dc.stroke_x,
-            dc.stroke_y,
+            self.top_stroke_y * dc.stroke_y,
             b.x1,
             b.y2 - b.height * self.loop_ratio,
             b.x2,

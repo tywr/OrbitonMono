@@ -10,6 +10,8 @@ class UppercaseGGlyph(UppercaseGlyph):
     unicode = "0x47"
     offset = 0
     opening = 140
+    stroke_x_ratio = UppercaseGlyph.stroke_x_ratio * 1.04
+    stroke_y_ratio = UppercaseGlyph.stroke_y_ratio * 0.95
 
     def draw(self, pen, dc):
         b = dc.body_bounds(

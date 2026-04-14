@@ -9,6 +9,7 @@ class LowercaseHGlyph(Glyph):
     unicode = "0x68"
     offset = 0
     width_ratio = 1.00
+    top_stroke_y = 0.96
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
@@ -21,7 +22,7 @@ class LowercaseHGlyph(Glyph):
         arch_params = draw_superellipse_arch(
             pen,
             dc.stroke_x,
-            dc.stroke_y,
+            self.top_stroke_y * dc.stroke_y,
             b.x1,
             b.y2 - b.height,
             b.x2,

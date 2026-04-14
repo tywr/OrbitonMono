@@ -8,6 +8,8 @@ class LowercaseDGlyph(Glyph):
     name = "lowercase_d"
     unicode = "0x64"
     offset = 0
+    bowl_stroke_x_ratio = 1.04
+    bowl_stroke_y_ratio = 0.96
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
@@ -16,13 +18,18 @@ class LowercaseDGlyph(Glyph):
             overshoot_top=True,
             overshoot_left=True,
         )
+        bsx, bsy = (
+            self.bowl_stroke_x_ratio * dc.stroke_x,
+            self.bowl_stroke_y_ratio * dc.stroke_y,
+        )
+        dx = bsx - dc.stroke_x
         arch_params = draw_superellipse_arch(
             pen,
-            dc.stroke_x,
-            dc.stroke_y,
+            bsx,
+            bsy,
             b.x1,
             b.y1,
-            b.x2,
+            b.x2 + dx,
             b.y2,
             b.hx,
             b.hy,

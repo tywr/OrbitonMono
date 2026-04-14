@@ -9,6 +9,7 @@ class LowercaseMGlyph(Glyph):
     offset = 0
     width_ratio = 1.22
     mid_len = 0.7
+    top_stroke_y = 0.96
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
@@ -25,7 +26,7 @@ class LowercaseMGlyph(Glyph):
         arch_params = draw_superellipse_arch(
             pen,
             dc.stroke_x,
-            dc.stroke_y,
+            self.top_stroke_y * dc.stroke_y,
             b.x1,
             b.y1,
             b.xmid + mid_offset,
@@ -41,7 +42,7 @@ class LowercaseMGlyph(Glyph):
         draw_superellipse_arch(
             pen,
             dc.stroke_x,
-            dc.stroke_y,
+            self.top_stroke_y * dc.stroke_y,
             b.xmid - mid_offset,
             b.y1,
             b.x2,

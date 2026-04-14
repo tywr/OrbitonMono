@@ -13,7 +13,10 @@ class UppercaseNGlyph(UppercaseGlyph):
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
-            offset=self.offset, height="cap", width_ratio=self.width_ratio, uppercase=True
+            offset=self.offset,
+            height="cap",
+            width_ratio=self.width_ratio,
+            uppercase=True,
         )
         sx, sy = dc.stroke_x * self.stroke_x_ratio, dc.stroke_y * self.stroke_y_ratio
 
