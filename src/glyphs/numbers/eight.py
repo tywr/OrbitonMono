@@ -11,6 +11,9 @@ class EightGlyph(NumberGlyph):
     loop_width_ratio = 0.92
     width_ratio = 1.1
     taper = 0.65
+    stroke_x_ratio = NumberGlyph.stroke_x_ratio * 1.03
+    stroke_y_ratio = NumberGlyph.stroke_y_ratio * 0.97
+    extra_overshoot = 0.006
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
@@ -27,6 +30,7 @@ class EightGlyph(NumberGlyph):
         ymid = b.y1 + b.height * self.height_ratio
         wtop = self.loop_width_ratio * b.width
         dtop = (b.width - wtop) / 2
+        ov = self.extra_overshoot * b.height
 
         # Top loop
         top_params = draw_superellipse_arch(
@@ -36,7 +40,7 @@ class EightGlyph(NumberGlyph):
             b.x1 + dtop,
             ymid - sy / 2,
             b.x2 - dtop,
-            b.y2,
+            b.y2 + ov,
             b.hx,
             b.hy * (1 - self.height_ratio),
             taper=self.taper,
@@ -49,7 +53,7 @@ class EightGlyph(NumberGlyph):
             sx,
             sy,
             b.x1,
-            b.y1,
+            b.y1 - ov,
             b.x2,
             ymid + sy / 2,
             b.hx,
