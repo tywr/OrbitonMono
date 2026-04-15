@@ -1,6 +1,7 @@
 from glyphs import Glyph
 from draw.superellipse_loop import draw_superellipse_loop
 from draw.corner import draw_corner
+from draw.smooth_corner import draw_smooth_corner
 from draw.rect import draw_rect
 
 
@@ -9,7 +10,7 @@ class LowercaseEGlyph(Glyph):
     unicode = "0x65"
     offset = 0
     width_ratio = 1
-    stroke_x_ratio = 1.04
+    stroke_x_ratio = 1.00
     stroke_y_ratio = 0.96
 
     def draw(self, pen, dc):
@@ -36,27 +37,30 @@ class LowercaseEGlyph(Glyph):
         )
 
         # Corner from mid-left to bottom
-        draw_corner(
+        draw_smooth_corner(
             pen,
             sx,
             dc.stroke_y,
             b.x1,
-            b.ymid,
+            b.ymid + 2 * dc.v_overshoot,
             b.xmid,
             0,
             dc.hx,
             dc.hy,
             orientation="bottom-right",
         )
+
         # Extension
         draw_rect(pen, b.xmid, 0, b.x2 - dc.stroke_x / 2, dc.stroke_y)
 
         # Mid-bar
         draw_rect(
             pen,
-            b.x1 + dc.stroke_x / 2,
+            b.x1 + 0.75 * dc.stroke_x,
             b.ymid,
             b.x2 - dc.stroke_x / 2,
             b.ymid + dc.stroke_alt / 2,
         )
-        draw_rect(pen, b.x1 + dc.stroke_x / 2, b.ymid - dc.stroke_alt / 2, b.x2, b.ymid)
+        draw_rect(
+            pen, b.x1 + 0.75 * dc.stroke_x, b.ymid - dc.stroke_alt / 2, b.x2, b.ymid
+        )

@@ -1,6 +1,7 @@
 from config import FontConfig as fc
 from glyphs import Glyph
 from draw.superellipse_arch import draw_superellipse_arch
+from draw.smooth_corner import draw_smooth_corner
 from draw.corner import draw_corner
 from draw.rect import draw_rect
 from draw.polygon import draw_polygon
@@ -64,7 +65,7 @@ class LowercaseAGlyph(Glyph):
             b.y1 + b.height * self.loop_ratio,
         )
         # Curve to the cap
-        draw_corner(
+        draw_smooth_corner(
             pen,
             dc.stroke_x,
             dc.stroke_y,

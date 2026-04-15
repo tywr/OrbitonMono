@@ -1,5 +1,5 @@
 from glyphs import Glyph
-from draw.corner import draw_corner
+from draw.smooth_corner import draw_smooth_corner
 from draw.rect import draw_rect
 
 
@@ -35,7 +35,7 @@ class LowercaseTGlyph(Glyph):
             dc.x_height,
         )
         # Corner curving down-right (shorter/flatter than f)
-        draw_corner(
+        draw_smooth_corner(
             pen,
             dc.stroke_x,
             dc.stroke_y,

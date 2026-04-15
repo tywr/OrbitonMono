@@ -1,7 +1,6 @@
-from math import tan
 from glyphs import Glyph
 from draw.rect import draw_rect
-from draw.corner import draw_corner
+from draw.smooth_corner import draw_smooth_corner
 from draw.superellipse_arch import draw_superellipse_arch
 from draw.polygon import draw_polygon
 
@@ -12,7 +11,9 @@ class LowercaseY2Glyph(Glyph):
     font_feature = {"ss04": 1}
     default_italic = True
     offset = 0
-    tail_offset = 0  # Y-axis offset of the tail above the descender line
+    tail_offset = 0
+    taper = 0.28
+    hx_ratio = 1.15
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
@@ -31,9 +32,9 @@ class LowercaseY2Glyph(Glyph):
             b.y1,
             b.x2,
             b.y2,
-            b.hx,
+            self.hx_ratio * b.hx,
             b.hy,
-            taper=dc.taper,
+            taper=self.taper,
             side="right",
             cut="top",
         )
@@ -58,7 +59,7 @@ class LowercaseY2Glyph(Glyph):
         )
 
         # Corner curving down-left into the descender
-        draw_corner(
+        draw_smooth_corner(
             pen,
             dc.stroke_x,
             dc.stroke_y,
