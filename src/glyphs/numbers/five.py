@@ -27,6 +27,7 @@ class FiveGlyph(NumberGlyph):
             width_ratio=self.width_ratio,
             number=True,
         )
+        sx, sy = dc.stroke_x * self.stroke_x_ratio, dc.stroke_y * self.stroke_y_ratio
         yj = b.y1 + b.height * self.junction_ratio
         oj = self.tilt * b.width
 
@@ -35,8 +36,8 @@ class FiveGlyph(NumberGlyph):
         # Bottom loop
         params = draw_superellipse_loop(
             base_glyph.getPen(),
-            dc.stroke_x,
-            dc.stroke_y,
+            sx,
+            sy,
             b.x1,
             b.y1,
             b.x2,
@@ -47,8 +48,8 @@ class FiveGlyph(NumberGlyph):
         )
         params = draw_superellipse_arch(
             base_glyph.getPen(),
-            dc.stroke_x,
-            dc.stroke_y,
+            sx,
+            sy,
             b.x1,
             b.y1,
             b.x2,
@@ -79,8 +80,8 @@ class FiveGlyph(NumberGlyph):
 
         theta, delta = draw_parallelogramm(
             NullPen(),
-            dc.stroke_x,
-            dc.stroke_y,
+            sx,
+            sy,
             xj,
             yj,
             xj + oj,
@@ -88,13 +89,13 @@ class FiveGlyph(NumberGlyph):
         )
         draw_parallelogramm(
             pen,
-            dc.stroke_x,
-            dc.stroke_y,
+            sx,
+            sy,
             xj - delta,
             yj,
             xj + oj - delta,
             b.y2
         )
         draw_rect(
-            pen, xj + oj - 2 * delta, b.y2 - dc.stroke_y, b.x2 - dc.h_overshoot, b.y2
+            pen, xj + oj - 2 * delta, b.y2 - sy, b.x2 - dc.h_overshoot, b.y2
         )

@@ -9,6 +9,8 @@ class ZeroGlyph(NumberGlyph):
     unicode = "0x30"
     offset = 0
     slash = 0.2
+    stroke_x_ratio = NumberGlyph.stroke_x_ratio * 1.02
+    stroke_y_ratio = NumberGlyph.stroke_y_ratio * 0.98
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
@@ -24,8 +26,8 @@ class ZeroGlyph(NumberGlyph):
 
         draw_superellipse_loop(
             pen,
-            dc.stroke_x,
-            dc.stroke_y,
+            dc.stroke_x * self.stroke_x_ratio,
+            dc.stroke_y * self.stroke_y_ratio,
             b.x1,
             b.y1,
             b.x2,

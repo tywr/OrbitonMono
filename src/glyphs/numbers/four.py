@@ -16,17 +16,18 @@ class FourGlyph(NumberGlyph):
         b = dc.body_bounds(
             offset=self.offset, height="cap", width_ratio=self.width_ratio
         )
+        sx, sy = dc.stroke_x * self.stroke_x_ratio, dc.stroke_y * self.stroke_y_ratio
 
         xmid = b.x1 + self.horizontal_ratio * b.width
         ymid = b.y1 + self.vertical_ratio * b.height
         ybar = b.y1 + self.mid_bar_ratio * b.height
 
         theta, delta = draw_parallelogramm(
-            pen, dc.stroke_x, dc.stroke_y, b.x1, ymid, xmid, b.y2
+            pen, sx, sy, b.x1, ymid, xmid, b.y2
         )
 
         # Horizontal line
-        draw_rect(pen, b.x1, ymid - dc.stroke_y, b.x2, ymid)
+        draw_rect(pen, b.x1, ymid - sy, b.x2, ymid)
 
         # Vertical line
-        draw_rect(pen, xmid - dc.stroke_x / 2, b.y1, xmid + dc.stroke_x / 2, ybar)
+        draw_rect(pen, xmid - sx / 2, b.y1, xmid + sx / 2, ybar)

@@ -9,7 +9,7 @@ class EightGlyph(NumberGlyph):
     offset = 0
     height_ratio = 0.54
     loop_width_ratio = 0.92
-    width_ratio = 1.03
+    width_ratio = 1.1
     taper = 0.65
 
     def draw(self, pen, dc):
@@ -31,10 +31,10 @@ class EightGlyph(NumberGlyph):
         # Top loop
         top_params = draw_superellipse_arch(
             pen,
-            dc.stroke_x,
-            dc.stroke_y,
+            sx,
+            sy,
             b.x1 + dtop,
-            ymid - dc.stroke_y / 2,
+            ymid - sy / 2,
             b.x2 - dtop,
             b.y2,
             b.hx,
@@ -46,8 +46,8 @@ class EightGlyph(NumberGlyph):
         # Bottom loop
         bottom_params = draw_superellipse_arch(
             pen,
-            dc.stroke_x,
-            dc.stroke_y,
+            sx,
+            sy,
             b.x1,
             b.y1,
             b.x2,
@@ -63,7 +63,6 @@ class EightGlyph(NumberGlyph):
         (xj1, _), (xj2, _) = top_params["outer"].intersection_superellipse(
             bottom_params["outer"].translate(dy=dc.gap)
         )
-        print(xj1, xj2)
         draw_rect(
             pen,
             xj1,

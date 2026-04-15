@@ -25,6 +25,7 @@ class SixGlyph(NumberGlyph):
             width_ratio=self.width_ratio,
             number=True,
         )
+        sx, sy = dc.stroke_x * self.stroke_x_ratio, dc.stroke_y * self.stroke_y_ratio
 
         ymid = b.y1 + self.loop_ratio * b.height
         ytop = b.y1 + self.top_ratio * b.height
@@ -33,8 +34,8 @@ class SixGlyph(NumberGlyph):
         # Bottom loop
         params = draw_superellipse_arch(
             pen,
-            dc.stroke_x,
-            dc.stroke_y,
+            sx,
+            sy,
             b.x1,
             b.y1,
             b.x2,
@@ -47,22 +48,22 @@ class SixGlyph(NumberGlyph):
         )
 
         # Compute the intersection and fill the gap
-        (_, y1), (_, y2) = params["outer"].intersection_x(x=b.x1 + dc.stroke_x + dc.gap)
+        (_, y1), (_, y2) = params["outer"].intersection_x(x=b.x1 + sx + dc.gap)
         yj = max(y1, y2)
 
         draw_polygon(
             pen,
             points=[
-                (b.x1 + dc.stroke_x + dc.gap, yj),
-                (b.x1 + dc.stroke_x, yj),
-                (b.x1 + dc.stroke_x / 2, (b.y1 + ymid) / 2),
+                (b.x1 + sx + dc.gap, yj),
+                (b.x1 + sx, yj),
+                (b.x1 + sx / 2, (b.y1 + ymid) / 2),
             ],
         )
 
         draw_superellipse_loop(
             pen,
-            dc.stroke_x,
-            dc.stroke_y,
+            sx,
+            sy,
             b.x1,
             b.y1,
             b.x2,
@@ -75,13 +76,13 @@ class SixGlyph(NumberGlyph):
             pen,
             b.x1,
             b.y1 + (ymid - b.y1) / 2,
-            b.x1 + dc.stroke_x,
+            b.x1 + sx,
             b.ymid,
         )
         draw_smooth_corner(
             pen,
-            dc.stroke_x,
-            dc.stroke_y,
+            sx,
+            sy,
             b.x1,
             b.ymid,
             b.xmid,
@@ -93,7 +94,7 @@ class SixGlyph(NumberGlyph):
         draw_rect(
             pen,
             b.xmid,
-            b.y2 - dc.stroke_y,
-            b.x2 - 0.6 * dc.stroke_x,
+            b.y2 - sy,
+            b.x2 - 0.6 * sx,
             b.y2,
         )
