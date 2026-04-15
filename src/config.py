@@ -105,7 +105,6 @@ class DrawConfig(FontConfig):
         x2 = self.window_width / 2 + width / 2 + self.stroke_x / 2 + offset
         y2 = getattr(self, height)
 
-        # Add horizontal overshoots
         if overshoot_left:
             x1 -= self.h_overshoot
         if overshoot_right:
