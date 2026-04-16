@@ -17,6 +17,7 @@ class FiveGlyph(NumberGlyph):
     junction_ratio = 0.42
     tilt = 0.25
     width_ratio = 1.04
+    hx_ratio = 0.78
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
@@ -43,7 +44,7 @@ class FiveGlyph(NumberGlyph):
             b.y1,
             b.x2,
             b.y1 + b.height * self.loop_ratio,
-            b.hx,
+            b.hx * self.hx_ratio,
             b.hy * self.loop_ratio,
             cut="top",
         )
@@ -55,7 +56,7 @@ class FiveGlyph(NumberGlyph):
             b.y1,
             b.x2,
             b.y1 + b.height * self.loop_ratio,
-            b.hx,
+            b.hx * self.hx_ratio,
             b.hy * self.loop_ratio,
             taper=dc.taper,
             side="left",
@@ -88,15 +89,5 @@ class FiveGlyph(NumberGlyph):
             xj + oj,
             b.y2,
         )
-        draw_parallelogramm(
-            pen,
-            sx,
-            sy,
-            xj - delta,
-            yj,
-            xj + oj - delta,
-            b.y2
-        )
-        draw_rect(
-            pen, xj + oj - 2 * delta, b.y2 - sy, b.x2 - dc.h_overshoot, b.y2
-        )
+        draw_parallelogramm(pen, sx, sy, xj - delta, yj, xj + oj - delta, b.y2)
+        draw_rect(pen, xj + oj - 2 * delta, b.y2 - sy, b.x2 - dc.h_overshoot, b.y2)

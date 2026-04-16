@@ -14,6 +14,7 @@ class EightGlyph(NumberGlyph):
     stroke_x_ratio = NumberGlyph.stroke_x_ratio * 1.03
     stroke_y_ratio = NumberGlyph.stroke_y_ratio * 0.97
     extra_overshoot = 0.006
+    hx_ratio = 0.78
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
@@ -41,7 +42,7 @@ class EightGlyph(NumberGlyph):
             ymid - sy / 2,
             b.x2 - dtop,
             b.y2 + ov,
-            b.hx,
+            self.hx_ratio * b.hx,
             b.hy * (1 - self.height_ratio),
             taper=self.taper,
             side="bottom",
@@ -56,7 +57,7 @@ class EightGlyph(NumberGlyph):
             b.y1 - ov,
             b.x2,
             ymid + sy / 2,
-            b.hx,
+            b.hx * self.hx_ratio,
             b.hy * self.height_ratio,
             taper=self.taper,
             side="top",

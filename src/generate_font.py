@@ -244,7 +244,7 @@ def build_gsub(glyph_names, ligature_glyphs, alternate_glyphs, cmap):
 
 def build_font(output_path=None, bold=False, italic=False):
     if bold and italic:
-        style_name = "BoldItalic"
+        style_name = "Bold Italic"
     elif bold:
         style_name = "Bold"
     elif italic:
@@ -252,10 +252,12 @@ def build_font(output_path=None, bold=False, italic=False):
     else:
         style_name = "Regular"
 
+    ps_style_name = style_name.replace(" ", "")
+
     if output_path is None:
         os.makedirs("fonts/otf/", exist_ok=True)
         os.makedirs("fonts/ttf/", exist_ok=True)
-        output_path = f"fonts/otf/{fc.family_name}-{style_name}.otf"
+        output_path = f"fonts/otf/{fc.family_name}-{ps_style_name}.otf"
 
     if bold:
         dc = DrawConfig.bold()
@@ -310,7 +312,7 @@ def build_font(output_path=None, bold=False, italic=False):
     # Alignment zones for CFF hinting
     # BlueValues: pairs of [flat_edge, overshoot_edge] for zones at or above baseline
     # OtherBlues: pairs for zones below baseline (descender)
-    ov = fc.v_overshoot
+    ov = dc.v_overshoot
     blue_values = [
         -ov, 0,                       # baseline (overshoot below)
         fc.x_height, fc.x_height + ov, # x-height
@@ -322,7 +324,7 @@ def build_font(output_path=None, bold=False, italic=False):
     ]
 
     fb.setupCFF(
-        psName=f"{fc.family_name}-{style_name}",
+        psName=f"{fc.family_name}-{ps_style_name}",
         fontInfo={"FullName": f"{fc.family_name} {style_name}"},
         charStringsDict=charstrings,
         privateDict={
@@ -345,10 +347,10 @@ def build_font(output_path=None, bold=False, italic=False):
         {
             "familyName": fc.family_name,
             "styleName": style_name,
-            "uniqueFontIdentifier": f"{fc.family_name}-{style_name}",
+            "uniqueFontIdentifier": f"{fc.family_name}-{ps_style_name}",
             "fullName": f"{fc.family_name} {style_name}",
             "version": "Version 1.000",
-            "psName": f"{fc.family_name}-{style_name}",
+            "psName": f"{fc.family_name}-{ps_style_name}",
         }
     )
 
@@ -374,6 +376,7 @@ def build_font(output_path=None, bold=False, italic=False):
         sCapHeight=fc.cap,
         fsType=0,
         fsSelection=fs_selection,
+        usWeightClass=700 if bold else 400,
     )
     ital_angle = -fc.italic_angle if italic else 0
     fb.setupPost(isFixedPitch=1, italicAngle=ital_angle)
@@ -403,6 +406,8 @@ def build_ttf(output_path, style_name, all_glyphs, cmap, dc, ligature_glyphs, al
     """Build a TTF font with quadratic outlines from scratch."""
     from fontTools.pens.cu2quPen import Cu2QuPen
     from fontTools.pens.ttGlyphPen import TTGlyphPen
+
+    ps_style_name = style_name.replace(" ", "")
 
     def record_ttf_glyph(glyph):
         path = simplify_glyph(glyph, dc=dc)
@@ -446,10 +451,10 @@ def build_ttf(output_path, style_name, all_glyphs, cmap, dc, ligature_glyphs, al
         {
             "familyName": fc.family_name,
             "styleName": style_name,
-            "uniqueFontIdentifier": f"{fc.family_name}-{style_name}",
+            "uniqueFontIdentifier": f"{fc.family_name}-{ps_style_name}",
             "fullName": f"{fc.family_name} {style_name}",
             "version": "Version 1.000",
-            "psName": f"{fc.family_name}-{style_name}",
+            "psName": f"{fc.family_name}-{ps_style_name}",
         }
     )
 
@@ -475,6 +480,7 @@ def build_ttf(output_path, style_name, all_glyphs, cmap, dc, ligature_glyphs, al
         sCapHeight=fc.cap,
         fsType=0,
         fsSelection=fs_selection,
+        usWeightClass=700 if bold else 400,
     )
     ital_angle = -fc.italic_angle if italic else 0
     fb.setupPost(isFixedPitch=1, italicAngle=ital_angle)

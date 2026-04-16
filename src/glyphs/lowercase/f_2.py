@@ -8,7 +8,7 @@ class LowercaseF2Glyph(Glyph):
     unicode = "0x66"
     font_feature = {"ss02": 1}
     default_italic = True
-    offset = -26
+    offset = -22
     rl_ratio = 0.55
     width_ratio = 1.25
 

@@ -9,7 +9,6 @@ class LowercaseA3Glyph(Glyph):
     name = "lowercase_a_3"
     unicode = "0x61"
     font_feature = {"ss01": 2}
-    default_italic = True
     offset = 0
     loop_ratio = 0.6
     width_ratio = 1

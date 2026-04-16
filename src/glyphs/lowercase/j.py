@@ -1,16 +1,17 @@
 from glyphs import Glyph
 from draw.corner import draw_corner
+from draw.square_corner import draw_square_corner
 from draw.rect import draw_rect
 
 
 class LowercaseJGlyph(Glyph):
     name = "lowercase_j"
     unicode = "0x6A"
-    offset = -20
+    offset = -28
     dot_width = 36
     tail_offset = 0
     width_ratio = 0.75
-    updown_ratio = 0.9
+    updown_ratio = 1
 
     def draw_base(self, pen, dc):
         """Draw the letter without the dot (for use with accents)."""
@@ -26,7 +27,7 @@ class LowercaseJGlyph(Glyph):
             dc.x_height,
         )
         # Corner curving down-left into the descender
-        draw_corner(
+        draw_square_corner(
             pen,
             dc.stroke_x,
             dc.stroke_y,
@@ -34,8 +35,8 @@ class LowercaseJGlyph(Glyph):
             0,
             b.xmid,
             dc.descent + self.tail_offset,
-            dc.hx * 0.5,
-            dc.hy,
+            # dc.hx * 0.5,
+            # dc.hy,
             orientation="bottom-left",
         )
         # Extension after the corner to the left

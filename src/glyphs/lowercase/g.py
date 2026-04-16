@@ -1,7 +1,7 @@
 from glyphs import Glyph
 from draw.superellipse_arch import draw_superellipse_arch
 from draw.rect import draw_rect
-from draw.smooth_corner import draw_smooth_corner
+from draw.square_corner import draw_square_corner
 from draw.polygon import draw_polygon
 
 
@@ -50,7 +50,7 @@ class LowercaseGGlyph(Glyph):
         # draw_rect(pen, b.x2 - dc.stroke_x, y1, b.x2, y2)
 
         # Corner curving down-left into the descender
-        draw_smooth_corner(
+        draw_square_corner(
             pen,
             dc.stroke_x,
             dc.stroke_y,
@@ -58,8 +58,6 @@ class LowercaseGGlyph(Glyph):
             0,
             b.xmid,
             dc.descent + self.tail_offset,
-            dc.hx * 0.5,
-            dc.hy,
             orientation="bottom-left",
         )
         # Extension after the corner to the left

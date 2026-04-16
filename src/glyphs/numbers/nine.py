@@ -13,6 +13,7 @@ class NineGlyph(NumberGlyph):
     vertical_ratio = 0.6
     bottom_cut = 0.2
     taper = 0.2
+    hx_ratio = 0.78
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
@@ -36,7 +37,7 @@ class NineGlyph(NumberGlyph):
             ymid,
             b.x2,
             b.y2,
-            b.hx,
+            b.hx * self.hx_ratio,
             b.hy * self.vertical_ratio,
             taper=self.taper,
             side="right",
@@ -64,7 +65,7 @@ class NineGlyph(NumberGlyph):
             ymid,
             b.x2,
             b.y2,
-            b.hx,
+            b.hx * self.hx_ratio,
             b.hy * self.vertical_ratio,
             cut="bottom",
         )
@@ -78,7 +79,7 @@ class NineGlyph(NumberGlyph):
             b.ymid,
             b.xmid,
             b.y1,
-            b.hx,
+            b.hx * self.hx_ratio,
             b.hy,
             orientation="bottom-left",
         )

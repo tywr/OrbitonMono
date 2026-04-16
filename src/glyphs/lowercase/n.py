@@ -11,7 +11,7 @@ class LowercaseNGlyph(Glyph):
     width_ratio = 1.00
     top_stroke_y = 0.96
     hx_ratio = 1.15
-    taper = 0.28
+    taper = 0.3
 
     def draw(self, pen, dc):
         b = dc.body_bounds(

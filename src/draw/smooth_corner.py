@@ -24,7 +24,7 @@ import math
 # By symmetry, the endpoint satisfies Ex = Ey = Mx + My.
 
 
-def _integrate_half(s_max, n=10000):
+def _integrate_half(s_max, n=1000):
     """Numerically integrate the first half of the Euler spiral."""
     dt = s_max / n
     x = y = 0.0

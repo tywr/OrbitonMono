@@ -5,9 +5,9 @@ from draw.rect import draw_rect
 class LowercaseIGlyph(Glyph):
     name = "lowercase_i"
     unicode = "0x69"
-    offset = 4
-    width_ratio = 1.08
-    cap = 0.45
+    offset = 34
+    width_ratio = 1.12
+    cap = 0.5
     dot_width = 36
     rl_ratio = 0.5
 

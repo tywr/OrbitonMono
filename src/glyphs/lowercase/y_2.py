@@ -1,6 +1,6 @@
 from glyphs import Glyph
 from draw.rect import draw_rect
-from draw.smooth_corner import draw_smooth_corner
+from draw.square_corner import draw_square_corner
 from draw.superellipse_arch import draw_superellipse_arch
 from draw.polygon import draw_polygon
 
@@ -45,7 +45,9 @@ class LowercaseY2Glyph(Glyph):
         draw_rect(pen, b.x1, b.ymid, b.x1 + dc.stroke_x, dc.x_height)
 
         # Compute the intersection and fill the gap
-        (_, y1), (_, y2) = arch_params["outer"].intersection_x(x=b.x2 - dc.stroke_x - dc.gap)
+        (_, y1), (_, y2) = arch_params["outer"].intersection_x(
+            x=b.x2 - dc.stroke_x - dc.gap
+        )
         y1, y2 = min(y1, y2), max(y1, y2)
 
         # Fill the gap
@@ -59,7 +61,7 @@ class LowercaseY2Glyph(Glyph):
         )
 
         # Corner curving down-left into the descender
-        draw_smooth_corner(
+        draw_square_corner(
             pen,
             dc.stroke_x,
             dc.stroke_y,
@@ -67,8 +69,6 @@ class LowercaseY2Glyph(Glyph):
             0,
             b.x2 - b.width / 2,
             dc.descent + self.tail_offset,
-            b.hx * 0.5,
-            b.hy,
             orientation="bottom-left",
         )
         # Horizontal tail along the descender

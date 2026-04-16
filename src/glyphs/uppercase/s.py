@@ -14,14 +14,13 @@ class UppercaseSGlyph(UppercaseGlyph):
     hx_ratio = 0.95
     hy_ratio = 1
     extra_overshoot = 0.006
+    width_ratio = 1.12
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
             offset=self.offset,
             overshoot_bottom=True,
             overshoot_top=True,
-            overshoot_right=True,
-            overshoot_left=True,
             height="cap",
             width_ratio=self.width_ratio,
             uppercase=True,

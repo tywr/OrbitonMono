@@ -9,10 +9,11 @@ class LowercaseSGlyph(Glyph):
     offset = 0
     loop_ratio = 0.5  # Controls the height of each half-loop
     width_ratio = 1
-    stroke_x_ratio = 1.04
+    stroke_x_ratio = 1.00
     stroke_y_ratio = 0.96
-    hx_ratio = 0.65
+    hx_ratio = 0.8
     hy_ratio = 0.75
+    width_ratio = 1.02
 
     def draw(self, pen, dc):
         b = dc.body_bounds(

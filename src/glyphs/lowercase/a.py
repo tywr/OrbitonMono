@@ -81,9 +81,9 @@ class LowercaseAGlyph(Glyph):
         draw_rect(
             pen,
             b.x1 + dc.stroke_x / 2,
-            fc.x_height - dc.stroke_y,
+            b.y2 - dc.stroke_y,
             b.xmid,
-            fc.x_height,
+            b.y2,
         )
 
         # Stem

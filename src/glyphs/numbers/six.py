@@ -14,6 +14,7 @@ class SixGlyph(NumberGlyph):
     top_ratio = 0.4
     top_cut = 0.8
     taper = 0.2
+    hx_ratio = 0.78
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
@@ -40,7 +41,7 @@ class SixGlyph(NumberGlyph):
             b.y1,
             b.x2,
             ymid,
-            b.hx,
+            b.hx * self.hx_ratio,
             b.hy * self.loop_ratio,
             taper=self.taper,
             side="left",
@@ -68,7 +69,7 @@ class SixGlyph(NumberGlyph):
             b.y1,
             b.x2,
             ymid,
-            b.hx,
+            b.hx * self.hx_ratio,
             b.hy * self.loop_ratio,
             cut="top",
         )
@@ -87,7 +88,7 @@ class SixGlyph(NumberGlyph):
             b.ymid,
             b.xmid,
             b.y2,
-            b.hx,
+            b.hx * self.hx_ratio,
             b.hy,
             orientation="top-right",
         )

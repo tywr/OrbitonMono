@@ -11,7 +11,7 @@ class FontConfig:
     window_descent: int = -300
     window_width: int = 580
 
-    ascent: int = 775
+    ascent: int = 750
     descent: int = -200
     cap: int = 725
     x_height: int = 520
@@ -30,27 +30,33 @@ class FontConfig:
 
 @dataclass
 class DrawConfig(FontConfig):
+    # Can be overwritten for bold / thinner fonts
+    x_height: int = FontConfig.x_height
+    cap: int = FontConfig.cap
+    ascent: int = FontConfig.ascent
+    descent: int = FontConfig.descent
+
     # Default parameters
-    stroke_x: int = 84
-    stroke_y: int = 72
+    stroke_x: int = 82
+    stroke_y: int = 74
     stroke_alt: int = 66
-    v_overshoot: int = 10
-    h_overshoot: int = 10
 
-    width: int = 378
+    v_overshoot: int = 12
+    h_overshoot: int = 24
 
-    hx: int = 154
+    width: int = 330
+
+    hx: int = 158
     hy: int = 164
 
-    cap_hx: int = 182
-    cap_hy: int = 208
+    cap_hx: int = 164
+    cap_hy: int = 180
 
     gap: int = 10
 
-    number_hx: int = 160
-    number_hy: int = 240
+    number_hx: int = 180
+    number_hy: int = 180
 
-    # Taper values
     taper: float = 0.4
     taper_a: float = 0.15
     taper_r: float = 0.15
@@ -58,16 +64,21 @@ class DrawConfig(FontConfig):
     @classmethod
     def bold(cls):
         """Return a DrawConfig with heavier stroke weights for a bold variant."""
-        ratio = 1.24
-        ovx = cls.h_overshoot + (ratio - 1) * DrawConfig.stroke_x
-        ovy = cls.v_overshoot + (ratio - 1) * DrawConfig.stroke_y
+        ratio = 1.55
+        hy_ratio = 1.3
+        extra_height = int((ratio - 1) * cls.stroke_y / 2)
         return cls(
             stroke_x=int(cls.stroke_x * ratio),
             stroke_y=int(cls.stroke_y * ratio),
             stroke_alt=int(cls.stroke_alt * ratio),
-            v_overshoot=int(cls.v_overshoot + ovy),
-            h_overshoot=int(cls.h_overshoot + ovx),
+            x_height=cls.x_height + extra_height,
+            cap=cls.cap + extra_height,
+            ascent=cls.ascent + extra_height,
+            descent=cls.descent - extra_height,
             taper=cls.taper,
+            hy=hy_ratio * cls.hy,
+            number_hy=hy_ratio * cls.number_hy,
+            cap_hy=hy_ratio * cls.cap_hy,
         )
 
     @classmethod
@@ -109,15 +120,19 @@ class DrawConfig(FontConfig):
         x2 = self.window_width / 2 + width / 2 + self.stroke_x / 2 + offset
         y2 = getattr(self, height)
 
+        v_ov = self.v_overshoot
+        if uppercase:
+            v_ov *= self.cap / self.x_height
+
         if overshoot_left:
             x1 -= self.h_overshoot
         if overshoot_right:
             x2 += self.h_overshoot
 
         if overshoot_bottom:
-            y1 -= self.v_overshoot
+            y1 -= v_ov
         if overshoot_top:
-            y2 += self.v_overshoot
+            y2 += v_ov
 
         # Rescale the hx and hy for the new box
         if number:

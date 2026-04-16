@@ -1,5 +1,5 @@
 from glyphs import Glyph
-from draw.smooth_corner import draw_smooth_corner
+from draw.square_corner import draw_square_corner
 from draw.rect import draw_rect
 
 
@@ -35,7 +35,7 @@ class LowercaseTGlyph(Glyph):
             dc.x_height,
         )
         # Corner curving down-right (shorter/flatter than f)
-        draw_smooth_corner(
+        draw_square_corner(
             pen,
             dc.stroke_x,
             dc.stroke_y,
@@ -43,8 +43,6 @@ class LowercaseTGlyph(Glyph):
             b.ymid,
             b.xmid + b.width / 2,
             0,
-            b.width / 2 + dc.stroke_x / 2,
-            b.height / 2,
             orientation="bottom-right",
         )
         # Footer extension from corner to right edge
