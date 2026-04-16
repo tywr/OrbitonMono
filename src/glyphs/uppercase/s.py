@@ -13,6 +13,7 @@ class UppercaseSGlyph(UppercaseGlyph):
     stroke_y_ratio = UppercaseGlyph.stroke_y_ratio * 0.95
     hx_ratio = 0.95
     hy_ratio = 1
+    extra_overshoot = 0.006
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
@@ -32,6 +33,7 @@ class UppercaseSGlyph(UppercaseGlyph):
             b.hy * (1 - self.lower_loop_ratio) * self.hy_ratio,
         )
         ymid = b.y1 + self.lower_loop_ratio * b.height
+        ov = self.extra_overshoot * b.height
 
         # Height of each half-loop from its respective baseline
         lh = b.height * self.lower_loop_ratio
@@ -41,11 +43,11 @@ class UppercaseSGlyph(UppercaseGlyph):
 
         # Bottom half-loop (cut at top)
         draw_superellipse_loop(
-            pen, sx, sy, b.x1, b.y1, b.x2, b.y1 + lh + sy / 2, lhx, lhy, cut="top"
+            pen, sx, sy, b.x1, b.y1 - ov, b.x2, b.y1 + lh + sy / 2, lhx, lhy, cut="top"
         )
         # Top half-loop (cut at bottom)
         draw_superellipse_loop(
-            pen, sx, sy, ux1, b.y2 - uh - sy / 2, ux2, b.y2, uhx, uhy, cut="bottom"
+            pen, sx, sy, ux1, b.y2 - uh - sy / 2, ux2, b.y2 + ov, uhx, uhy, cut="bottom"
         )
 
         # Middle left
@@ -54,7 +56,7 @@ class UppercaseSGlyph(UppercaseGlyph):
             sx,
             sy,
             ux1,
-            (b.y2 + ymid - sy / 2) / 2,
+            (b.y2 + ov + ymid - sy / 2) / 2,
             b.xmid,
             ymid - sy / 2,
             uhx,
@@ -67,7 +69,7 @@ class UppercaseSGlyph(UppercaseGlyph):
             sx,
             sy,
             b.x2,
-            (ymid + sy / 2 + b.y1) / 2,
+            (ymid + sy / 2 + b.y1 - ov) / 2,
             b.xmid,
             ymid + sy / 2,
             lhx,

@@ -121,10 +121,10 @@ def compute_optical_center(recording):
 
 
 def visualize(
-    family, glyph, show_controls=False, show_optical_center=False, strokes=None
+    family, glyph, show_controls=False, show_optical_center=False, configs=None
 ):
-    if strokes is None:
-        strokes = [fc.default_stroke]
+    if configs is None:
+        configs = [DrawConfig()]
 
     mod = importlib.import_module(f"glyphs.{family}.{glyph}")
     glyph_cls = None
@@ -143,9 +143,9 @@ def visualize(
 
     fig, ax = plt.subplots(1, 1, figsize=(3 + 3 * n_chars, 8))
 
-    for i, stroke in enumerate(sorted(strokes, reverse=True)):
+    for i, dc in enumerate(configs):
         rec = RecordingPen()
-        draw_fn(rec, dc=DrawConfig(stroke_x=stroke, stroke_y=stroke - 10))
+        draw_fn(rec, dc=dc)
         path = recording_to_mpl_path(rec)
         color = COLORS[i % len(COLORS)]
         patch = mpatches.PathPatch(path, facecolor=color, edgecolor="none", alpha=0.7)
@@ -156,7 +156,7 @@ def visualize(
 
     if show_optical_center:
         rec = RecordingPen()
-        draw_fn(rec, stroke=strokes[0])
+        draw_fn(rec, dc=configs[0])
         center = compute_optical_center(rec)
         if center:
             ax.plot(
@@ -215,15 +215,26 @@ if __name__ == "__main__":
     parser.add_argument(
         "-s",
         type=str,
-        default=f"{fc.default_stroke}",
-        help="Stroke width(s), comma-separated (e.g. 100,60,80)",
+        default="regular",
+        help="Style: 'bold', 'italic', or comma-separated stroke widths (e.g. 100,60,80)",
     )
     args = parser.parse_args()
-    strokes = [int(s) for s in args.s.split(",")]
+    style = args.s.strip().lower()
+    if style == "regular":
+        configs = [DrawConfig()]
+    elif style == "bold":
+        configs = [DrawConfig.bold()]
+    elif style == "italic":
+        configs = [DrawConfig.italic()]
+    else:
+        configs = [
+            DrawConfig(stroke_x=int(s), stroke_y=int(s) - 10)
+            for s in args.s.split(",")
+        ]
     visualize(
         args.family,
         args.glyph,
         show_controls=args.c,
         show_optical_center=args.o,
-        strokes=strokes,
+        configs=configs,
     )

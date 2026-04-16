@@ -27,20 +27,20 @@ class FontConfig:
     default_stroke = 90
     italic_angle: float = 9.4
 
-    v_overshoot: int = 10
-    h_overshoot: int = 10
-
 
 @dataclass
 class DrawConfig(FontConfig):
     # Default parameters
-    stroke_x: int = 86
-    stroke_y: int = 78
+    stroke_x: int = 84
+    stroke_y: int = 72
     stroke_alt: int = 66
-    width: int = 348
+    v_overshoot: int = 10
+    h_overshoot: int = 10
 
-    hx: int = 172
-    hy: int = 200
+    width: int = 378
+
+    hx: int = 154
+    hy: int = 164
 
     cap_hx: int = 182
     cap_hy: int = 208
@@ -59,10 +59,14 @@ class DrawConfig(FontConfig):
     def bold(cls):
         """Return a DrawConfig with heavier stroke weights for a bold variant."""
         ratio = 1.24
+        ovx = cls.h_overshoot + (ratio - 1) * DrawConfig.stroke_x
+        ovy = cls.v_overshoot + (ratio - 1) * DrawConfig.stroke_y
         return cls(
             stroke_x=int(cls.stroke_x * ratio),
             stroke_y=int(cls.stroke_y * ratio),
             stroke_alt=int(cls.stroke_alt * ratio),
+            v_overshoot=int(cls.v_overshoot + ovy),
+            h_overshoot=int(cls.h_overshoot + ovx),
             taper=cls.taper,
         )
 
