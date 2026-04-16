@@ -13,7 +13,7 @@ class SixGlyph(NumberGlyph):
     loop_ratio = 0.6
     top_ratio = 0.4
     top_cut = 0.8
-    taper = 0.2
+    taper = 0.3
     hx_ratio = 0.78
 
     def draw(self, pen, dc):

@@ -13,8 +13,8 @@ class FiveGlyph(NumberGlyph):
     name = "five"
     unicode = "0x35"
     offset = 0
-    loop_ratio = 0.64
-    junction_ratio = 0.42
+    loop_ratio = 0.66
+    junction_ratio = 0.45
     tilt = 0.25
     width_ratio = 1.04
     hx_ratio = 0.78

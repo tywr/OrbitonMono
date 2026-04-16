@@ -80,7 +80,7 @@ class LowercaseAGlyph(Glyph):
         # Cap
         draw_rect(
             pen,
-            b.x1 + dc.stroke_x / 2,
+            b.x1 + 0.66 * dc.stroke_x,
             b.y2 - dc.stroke_y,
             b.xmid,
             b.y2,

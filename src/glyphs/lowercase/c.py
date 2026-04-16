@@ -10,7 +10,7 @@ class LowercaseCGlyph(Glyph):
     unicode = "0x63"
     offset = 0
     opening = 280
-    stroke_x_ratio = 1.055
+    stroke_x_ratio = 1.16
     stroke_y_ratio = 0.96
 
     def draw(self, pen, dc):

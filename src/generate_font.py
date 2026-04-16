@@ -242,11 +242,18 @@ def build_gsub(glyph_names, ligature_glyphs, alternate_glyphs, cmap):
     return gsub_table
 
 
-def build_font(output_path=None, bold=False, italic=False):
+def build_font(output_path=None, bold=False, italic=False, light=False):
+    if bold and light:
+        raise ValueError("bold and light are mutually exclusive")
+
     if bold and italic:
         style_name = "Bold Italic"
     elif bold:
         style_name = "Bold"
+    elif light and italic:
+        style_name = "Light Italic"
+    elif light:
+        style_name = "Light"
     elif italic:
         style_name = "Italic"
     else:
@@ -261,6 +268,8 @@ def build_font(output_path=None, bold=False, italic=False):
 
     if bold:
         dc = DrawConfig.bold()
+    elif light:
+        dc = DrawConfig.light()
     elif italic:
         dc = DrawConfig.italic()
     else:
@@ -366,6 +375,13 @@ def build_font(output_path=None, bold=False, italic=False):
     if not bold and not italic:
         fs_selection |= 0x0040  # REGULAR
 
+    if bold:
+        weight_class = 700
+    elif light:
+        weight_class = 300
+    else:
+        weight_class = 400
+
     fb.setupOS2(
         sTypoAscender=fc.ascent,
         sTypoDescender=fc.descent,
@@ -376,7 +392,7 @@ def build_font(output_path=None, bold=False, italic=False):
         sCapHeight=fc.cap,
         fsType=0,
         fsSelection=fs_selection,
-        usWeightClass=700 if bold else 400,
+        usWeightClass=weight_class,
     )
     ital_angle = -fc.italic_angle if italic else 0
     fb.setupPost(isFixedPitch=1, italicAngle=ital_angle)
@@ -459,6 +475,7 @@ def build_ttf(output_path, style_name, all_glyphs, cmap, dc, ligature_glyphs, al
     )
 
     bold = "Bold" in style_name
+    light = "Light" in style_name
     fs_selection = 0x0000
     mac_style = 0x0000
     if bold:
@@ -470,6 +487,13 @@ def build_ttf(output_path, style_name, all_glyphs, cmap, dc, ligature_glyphs, al
     if not bold and not italic:
         fs_selection |= 0x0040
 
+    if bold:
+        weight_class = 700
+    elif light:
+        weight_class = 300
+    else:
+        weight_class = 400
+
     fb.setupOS2(
         sTypoAscender=fc.ascent,
         sTypoDescender=fc.descent,
@@ -480,7 +504,7 @@ def build_ttf(output_path, style_name, all_glyphs, cmap, dc, ligature_glyphs, al
         sCapHeight=fc.cap,
         fsType=0,
         fsSelection=fs_selection,
-        usWeightClass=700 if bold else 400,
+        usWeightClass=weight_class,
     )
     ital_angle = -fc.italic_angle if italic else 0
     fb.setupPost(isFixedPitch=1, italicAngle=ital_angle)
@@ -506,3 +530,5 @@ if __name__ == "__main__":
     build_font(bold=True)
     build_font(italic=True)
     build_font(bold=True, italic=True)
+    build_font(light=True)
+    build_font(light=True, italic=True)

@@ -19,6 +19,7 @@ class UppercaseWGlyph(UppercaseGlyph):
         b = dc.body_bounds(
             offset=self.offset, width_ratio=self.width_ratio, height="cap"
         )
+        isr = self.inner_stroke_ratio * min(1, (84 / dc.stroke_x) ** 0.25)
         sx, sy = dc.stroke_x * self.stroke_x_ratio, dc.stroke_y * self.stroke_y_ratio
         ov = self.outer_overlap * sx
         ovi = self.inner_overlap * sx
@@ -45,8 +46,8 @@ class UppercaseWGlyph(UppercaseGlyph):
         )
         theta2, delta2 = draw_parallelogramm(
             pen,
-            self.inner_stroke_ratio * sx,
-            self.inner_stroke_ratio * sy,
+            isr * sx,
+            isr * sy,
             b.xmid + self.inner_angle_ratio * b.width + ov,
             0,
             b.xmid - ovi,
@@ -55,8 +56,8 @@ class UppercaseWGlyph(UppercaseGlyph):
         )
         draw_parallelogramm(
             pen,
-            self.inner_stroke_ratio * sx,
-            self.inner_stroke_ratio * sy,
+            isr * sx,
+            isr * sy,
             b.xmid - self.inner_angle_ratio * b.width - ov,
             0,
             b.xmid + ovi,

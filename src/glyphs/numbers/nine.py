@@ -12,7 +12,7 @@ class NineGlyph(NumberGlyph):
     offset = 0
     vertical_ratio = 0.6
     bottom_cut = 0.2
-    taper = 0.2
+    taper = 0.3
     hx_ratio = 0.78
 
     def draw(self, pen, dc):

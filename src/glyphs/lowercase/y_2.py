@@ -67,7 +67,7 @@ class LowercaseY2Glyph(Glyph):
             dc.stroke_y,
             b.x2,
             0,
-            b.x2 - b.width / 2,
+            b.x2 - 0.8 * b.width,
             dc.descent + self.tail_offset,
             orientation="bottom-left",
         )

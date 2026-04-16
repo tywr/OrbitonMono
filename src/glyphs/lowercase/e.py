@@ -51,7 +51,7 @@ class LowercaseEGlyph(Glyph):
         )
 
         # Extension
-        draw_rect(pen, b.xmid, 0, b.x2 - dc.stroke_x / 2, dc.stroke_y)
+        draw_rect(pen, b.xmid, 0, b.x2 - 0.33 * dc.stroke_x, dc.stroke_y)
 
         # Mid-bar
         draw_rect(

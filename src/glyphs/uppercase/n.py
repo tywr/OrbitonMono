@@ -25,13 +25,17 @@ class UppercaseNGlyph(UppercaseGlyph):
         draw_rect(pen, b.x2 - sx, b.y1, b.x2, b.y2)
 
         # Diagonal
-        draw_parallelogramm_vertical(
+        theta, delta = draw_parallelogramm_vertical(
             pen,
             sx * self.middle_stroke_ratio,
             sy * self.middle_stroke_ratio,
-            b.x2 - sx,
+            b.x2 - sx - dc.gap,
             b.y1,
-            b.x1 + sx,
+            b.x1 + sx + dc.gap,
             b.y2,
             direction="top-left",
         )
+
+        # Gaps
+        draw_rect(pen, b.x1 + sx, b.y2 - delta, b.x1 + sx + dc.gap, b.y2)
+        draw_rect(pen, b.x2 - sx - dc.gap, b.y1, b.x2 - sx, b.y1 + delta)

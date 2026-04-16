@@ -19,6 +19,7 @@ class LowercaseWGlyph(Glyph):
         b = dc.body_bounds(offset=self.offset, width_ratio=self.width_ratio)
         ov = self.outer_overlap * dc.stroke_x
         ovi = self.inner_overlap * dc.stroke_x
+        isr = self.inner_stroke_ratio * min(1, (84 / dc.stroke_x) ** 0.25)
 
         inner_height = self.inner_height_ratio * b.height
         theta, delta = draw_parallelogramm(
@@ -42,8 +43,8 @@ class LowercaseWGlyph(Glyph):
         )
         theta2, delta2 = draw_parallelogramm(
             pen,
-            self.inner_stroke_ratio * dc.stroke_x,
-            self.inner_stroke_ratio * dc.stroke_y,
+            isr * dc.stroke_x,
+            isr * dc.stroke_y,
             b.xmid + self.inner_angle_ratio * b.width + ov,
             0,
             b.xmid - ovi,
@@ -52,8 +53,8 @@ class LowercaseWGlyph(Glyph):
         )
         draw_parallelogramm(
             pen,
-            self.inner_stroke_ratio * dc.stroke_x,
-            self.inner_stroke_ratio * dc.stroke_y,
+            isr * dc.stroke_x,
+            isr * dc.stroke_y,
             b.xmid - self.inner_angle_ratio * b.width - ov,
             0,
             b.xmid + ovi,

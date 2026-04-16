@@ -63,7 +63,7 @@ class LowercaseGGlyph(Glyph):
         # Extension after the corner to the left
         draw_rect(
             pen,
-            b.x1 + dc.stroke_x / 2,
+            b.x1 + 0.8 * dc.stroke_x,
             dc.descent + self.tail_offset,
             b.xmid,
             dc.descent + self.tail_offset + dc.stroke_y,
