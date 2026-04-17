@@ -1,18 +1,19 @@
 #!/usr/bin/env python3
-"""Visualize a single glyph. Usage: python visualize_one.py <letter>"""
+"""Visualize a single glyph (by slug name) or a text string."""
 
 import sys
-import inspect
-import importlib
+import argparse
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from matplotlib.path import Path
+import pathops
 from fontTools.pens.recordingPen import RecordingPen
 
 sys.path.insert(0, "src")
 from config import FontConfig as fc
 from config import DrawConfig
-from glyphs import Glyph
+from glyphs import LigatureGlyph
+from generate_font import discover_glyphs
 
 
 def recording_to_mpl_path(recording):
@@ -48,7 +49,6 @@ def plot_control_points(ax, recording):
             ax.plot(*cp1, "x", color="#e74c3c", markersize=6, zorder=5)
             ax.plot(*cp2, "x", color="#e74c3c", markersize=6, zorder=5)
             ax.plot(*pt, "o", color="#2ecc71", markersize=5, zorder=5)
-            # Lines from on-curve to off-curve handles
             ax.plot(
                 [cp1[0], cp2[0]],
                 [cp1[1], cp2[1]],
@@ -120,23 +120,18 @@ def compute_optical_center(recording):
     return cx_sum / total_area, cy_sum / total_area
 
 
-def visualize(
-    family, glyph, show_controls=False, show_optical_center=False, configs=None
-):
+def find_glyph(slug_name, all_glyphs):
+    for g in all_glyphs:
+        if g.name == slug_name:
+            return g
+    raise SystemExit(f"No glyph found with name '{slug_name}'")
+
+
+def visualize_glyph(slug_name, show_controls=False, show_optical_center=False, configs=None):
     if configs is None:
         configs = [DrawConfig()]
 
-    mod = importlib.import_module(f"glyphs.{family}.{glyph}")
-    glyph_cls = None
-    for attr in vars(mod).values():
-        if (
-            isinstance(attr, type)
-            and issubclass(attr, Glyph)
-            and not inspect.isabstract(attr)
-        ):
-            glyph_cls = attr
-            break
-    glyph_inst = glyph_cls()
+    glyph_inst = find_glyph(slug_name, discover_glyphs())
     draw_fn = glyph_inst.draw
     n_chars = glyph_inst.number_characters
     total_width = fc.window_width * n_chars
@@ -177,7 +172,6 @@ def visualize(
                 fontweight="bold",
             )
 
-    # draw guides
     for y, label, color in [
         (0, "baseline", "#e74c3c"),
         (fc.x_height, "x-height", "#3498db"),
@@ -188,7 +182,6 @@ def visualize(
         ax.axhline(y, color=color, linewidth=0.5, linestyle="--", alpha=0.6)
         ax.text(total_width + 10, y, label, fontsize=7, color=color, va="center")
 
-    # cell walls
     ax.axvline(0, color="#555", linewidth=1.5, linestyle="-")
     ax.axvline(total_width, color="#555", linewidth=1.5, linestyle="-")
     for i in range(1, n_chars):
@@ -199,42 +192,173 @@ def visualize(
     ax.set_xlim(-50, total_width + 80)
     ax.set_ylim(fc.window_descent - 50, fc.window_ascent + 50)
     ax.set_aspect("equal")
-    ax.set_title(f"'{glyph}'", fontsize=16)
+    ax.set_title(f"'{slug_name}'", fontsize=16)
     plt.tight_layout()
     plt.show()
 
 
-if __name__ == "__main__":
-    import argparse
+def visualize_text(text, point_size=None, guides=False):
+    all_glyphs = discover_glyphs()
 
-    parser = argparse.ArgumentParser(description="Visualize a single glyph")
-    parser.add_argument("family", help="Glyph family (e.g. base, letters)")
-    parser.add_argument("glyph", help="Glyph name (e.g. d, superellipse_arch)")
-    parser.add_argument("-c", action="store_true", help="Show bezier control points")
+    glyph_map = {}
+    for g in all_glyphs:
+        if g.unicode and not g.font_feature:
+            char = chr(int(g.unicode, 16))
+            glyph_map[char] = g
+
+    ligature_map = {}
+    for g in all_glyphs:
+        if not isinstance(g, LigatureGlyph):
+            continue
+        seq = ""
+        for comp_name in g.components:
+            for og in all_glyphs:
+                if og.name == comp_name and og.unicode:
+                    seq += chr(int(og.unicode, 16))
+                    break
+        if len(seq) == len(g.components):
+            ligature_map[seq] = g
+    ligatures = sorted(ligature_map.keys(), key=len, reverse=True)
+
+    fig, ax = plt.subplots(1, 1, figsize=(max(6, len(text) * 1.5), 4), dpi=200)
+
+    cursor_x = 0
+    i = 0
+    while i < len(text):
+        glyph = None
+        consumed = 1
+        for seq in ligatures:
+            if text[i:i + len(seq)] == seq:
+                glyph = ligature_map[seq]
+                consumed = len(seq)
+                break
+
+        if glyph is None:
+            ch = text[i]
+            if ch == " ":
+                cursor_x += fc.window_width
+                i += 1
+                continue
+            glyph = glyph_map.get(ch)
+            if glyph is None:
+                cursor_x += fc.window_width
+                i += 1
+                continue
+
+        raw_path = pathops.Path()
+        glyph.draw(pathops.PathPen(raw_path), dc=DrawConfig())
+        simplified = pathops.simplify(
+            raw_path, clockwise=False, keep_starting_points=True
+        )
+
+        rec = RecordingPen()
+        simplified.draw(rec)
+
+        offset_ops = []
+        for op, args in rec.value:
+            if op == "closePath" or op == "endPath":
+                offset_ops.append((op, args))
+            else:
+                offset_ops.append((op, tuple((x + cursor_x, y) for x, y in args)))
+        rec.value = offset_ops
+
+        path = recording_to_mpl_path(rec)
+        patch = mpatches.PathPatch(path, facecolor="#222222", edgecolor="none")
+        ax.add_patch(patch)
+
+        cursor_x += fc.window_width * glyph.number_characters
+        i += consumed
+
+    if guides:
+        for i in range(len(text) + 1):
+            x = i * fc.window_width
+            ax.axvline(x, color="#aaa", linewidth=0.5, linestyle=":")
+
+        for y, label, color in [
+            (0, "baseline", "#e74c3c"),
+            (fc.x_height, "x-height", "#3498db"),
+            (fc.ascent, "ascent", "#9b59b6"),
+            (fc.descent, "descent", "#e67e22"),
+        ]:
+            ax.axhline(y, color=color, linewidth=0.5, linestyle="--", alpha=0.6)
+            ax.text(cursor_x + 10, y, label, fontsize=7, color=color, va="center")
+
+    ax.set_xlim(-50, cursor_x + 80)
+    ax.set_ylim(fc.window_descent - 50, fc.window_ascent + 50)
+    ax.set_aspect("equal")
+    if point_size is not None:
+        ax.set_title(f"{point_size}pt", fontsize=14)
+    else:
+        ax.set_title(text, fontsize=14)
+    ax.set_axis_off()
+
+    if point_size is not None:
+        ipu = point_size / (72 * fc.units_per_em)
+
+        def _apply_fixed_scale(event=None):
+            fig_w, fig_h = fig.get_size_inches()
+            ax_pos = ax.get_position()
+            ax_w = fig_w * ax_pos.width
+            ax_h = fig_h * ax_pos.height
+            units_w = ax_w / ipu
+            units_h = ax_h / ipu
+            cx = cursor_x / 2
+            cy = (fc.ascent + fc.descent) / 2
+            ax.set_xlim(cx - units_w / 2, cx + units_w / 2)
+            ax.set_ylim(cy - units_h / 2, cy + units_h / 2)
+            fig.canvas.draw_idle()
+
+        fig.canvas.mpl_connect("resize_event", _apply_fixed_scale)
+        plt.tight_layout()
+        _apply_fixed_scale()
+    else:
+        plt.tight_layout()
+
+    plt.show()
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="Visualize a Kassiopea glyph (by slug name) or a text string"
+    )
+    parser.add_argument(
+        "slug",
+        nargs="?",
+        help="Glyph slug name (e.g. lowercase_o). Ignored when -t is used.",
+    )
+    parser.add_argument("-t", "--text", type=str, default=None, help="Render a text string")
+    parser.add_argument("-c", action="store_true", help="Show bezier control points (construction)")
     parser.add_argument("-o", action="store_true", help="Show optical center")
     parser.add_argument(
         "-s",
         type=str,
         default="regular",
-        help="Style: 'bold', 'italic', or comma-separated stroke widths (e.g. 100,60,80)",
+        help="Style: 'regular', 'bold', 'italic', or comma-separated stroke widths",
     )
+    parser.add_argument("--pt", type=float, default=None, help="Point size (text mode)")
+    parser.add_argument("--guides", action="store_true", help="Show helper lines (text mode)")
     args = parser.parse_args()
-    style = args.s.strip().lower()
-    if style == "regular":
-        configs = [DrawConfig()]
-    elif style == "bold":
-        configs = [DrawConfig.bold()]
-    elif style == "italic":
-        configs = [DrawConfig.italic()]
+
+    if args.text is not None:
+        visualize_text(args.text, point_size=args.pt, guides=args.guides)
     else:
-        configs = [
-            DrawConfig(stroke_x=int(s), stroke_y=int(s) - 10)
-            for s in args.s.split(",")
-        ]
-    visualize(
-        args.family,
-        args.glyph,
-        show_controls=args.c,
-        show_optical_center=args.o,
-        configs=configs,
-    )
+        if not args.slug:
+            parser.error("Provide a glyph slug name (e.g. lowercase_o) or use -t TEXT")
+        style = args.s.strip().lower()
+        if style == "regular":
+            configs = [DrawConfig()]
+        elif style == "bold":
+            configs = [DrawConfig.weight(w=700)]
+        elif style == "italic":
+            configs = [DrawConfig.italic()]
+        else:
+            configs = [
+                DrawConfig(stroke_x=int(s), stroke_y=int(s) - 10)
+                for s in args.s.split(",")
+            ]
+        visualize_glyph(
+            args.slug,
+            show_controls=args.c,
+            show_optical_center=args.o,
+            configs=configs,
+        )
