@@ -16,6 +16,7 @@ def draw_s_curve(
     dx: float,
     dy: float,
     middle_y_ratio=0.52,
+    thinning=1.6,
 ) -> None:
     rtop = 2 * (1 - middle_y_ratio)
     rbot = 2 * middle_y_ratio
@@ -39,6 +40,12 @@ def draw_s_curve(
     pen.lineTo((xi2, yi2))
     pen.lineTo((xe2, ye2))
 
+    dx_upper = (x1 + sx) - xi2 + sin(theta) * ihx
+    dy_upper = y2 - ihy * rtop - yi2 - cos(theta) * ihx * rtop
+    dx_lower = xe2 - sin(theta) * hx / 2 - x1
+    dy_lower_required = dy_upper * dx_lower / dx_upper
+    atop = (dy_lower_required - ye2 - cos(theta) * hx * rtop / 2 + y2) / (hy * rtop)
+
     # Upper part, from parallelogramm, to top-left
     pen.moveTo((xi2, yi2))
     pen.curveTo(
@@ -48,13 +55,19 @@ def draw_s_curve(
     )
     pen.lineTo((x1, y2))
     pen.curveTo(
-        (x1, y2 - ihy * rtop - sy / 2),
-        (xe2 - sin(theta) * hx, ye2 + cos(theta) * hx * rtop),
+        (x1, y2 - hy * rtop * atop),
+        (xe2 - sin(theta) * hx / 2, ye2 + cos(theta) * hx * rtop / 2),
         (xe2, ye2),
     )
     pen.closePath()
 
-    # # Lower part, from parallelogramm to bottom right
+    # Lower part, from parallelogramm to bottom right
+    dx_upper = (x2 - sx) - xi1 - sin(theta) * ihx
+    dy_upper = y1 + ihy * rbot - yi1 + cos(theta) * ihx * rbot
+    dx_lower = xe1 + sin(theta) * hx / 2 - x2
+    dy_lower_required = dy_upper * dx_lower / dx_upper
+    abot = (ye1 - cos(theta) * hx * rbot / 2 - y1 - dy_lower_required) / (hy * rbot)
+
     pen.moveTo((xi1, yi1))
     pen.curveTo(
         (xi1 + sin(theta) * ihx, yi1 - cos(theta) * ihx * rbot),
@@ -63,7 +76,7 @@ def draw_s_curve(
     )
     pen.lineTo((x2, y1))
     pen.curveTo(
-        (x2, y1 + ihy * rbot + sy / 2),
-        (xe1 + sin(theta) * hx, ye1 - cos(theta) * hx * rbot),
+        (x2, y1 + hy * rbot * abot),
+        (xe1 + sin(theta) * hx / 2, ye1 - cos(theta) * hx * rbot / 2),
         (xe1, ye1),
     )

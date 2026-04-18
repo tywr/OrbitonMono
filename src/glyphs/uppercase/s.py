@@ -16,13 +16,17 @@ class UppercaseSGlyph(UppercaseGlyph):
     left_tail_offset = 0.02
     right_tail_offset = 0.015
     hx_ratio = 0.75
-    hy_ratio = 0.65
+    hy_ratio = 0.6
     top_height_ratio = 0.28
     bottom_height_ratio = 0.29
     top_cut = 0.72
     bot_cut = 0.28
     top_thinning = 0.92
     bot_thinning = 0.92
+    middle_y_ratio = 0.55
+    curve_dx = 155
+    curve_dy = 155
+    middle_hy_ratio = 1.15
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
@@ -87,8 +91,8 @@ class UppercaseSGlyph(UppercaseGlyph):
             xr,
             yl,
             hx,
-            hy,
-            middle_y_ratio=0.55,
-            dx=165,
-            dy=155,
+            hy * self.middle_hy_ratio,
+            middle_y_ratio=self.middle_y_ratio,
+            dx=self.curve_dx,
+            dy=self.curve_dy,
         )
