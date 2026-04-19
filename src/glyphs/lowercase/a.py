@@ -22,8 +22,8 @@ class LowercaseAGlyph(Glyph):
     cap_right_hx_ratio = 1
     cap_right_hy_ratio = 0.8
     overshoot_reducing = 0.5
-    cap_height = 0.12
     cap_offset = 0.08
+    cap_dip = 0.007
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
@@ -38,7 +38,7 @@ class LowercaseAGlyph(Glyph):
         hx, hy = b.hx, b.hy * self.loop_ratio
         yc = b.y1 + self.cap_ratio * b.height
         crhx, crhy = self.cap_right_hx_ratio * b.hx, self.cap_right_hy_ratio * b.hy
-        yt = b.y2 - self.cap_height * b.height - sy / 2
+        yt = dc.x_height - dc.stroke_y - self.cap_dip * b.height
         xt = b.x1 + self.cap_offset * b.width
 
         # Lower half half of the bowl
@@ -91,7 +91,7 @@ class LowercaseAGlyph(Glyph):
         draw_corner(
             pen,
             sx,
-            sy,
+            dc.stroke_y,
             b.x2,
             yc,
             b.xmid,
@@ -102,7 +102,7 @@ class LowercaseAGlyph(Glyph):
             orientation="top-left",
         )
         theta, delta = draw_smooth_parallelogramm_vertical(
-            pen, sy, b.xmid, b.y2, xt, yt, direction="bottom-left"
+            pen, dc.stroke_y, b.xmid, b.y2, xt, yt, direction="bottom-left"
         )
 
         # Fill the gap

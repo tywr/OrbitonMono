@@ -10,19 +10,15 @@ class LowercaseSGlyph(Glyph):
     offset = 0
     width_ratio = 1
     stroke_x_ratio = 1.00
-    stroke_y_ratio = 0.96
     left_tail_offset = 0.02
     right_tail_offset = 0.015
     hx_ratio = 0.75
     hy_ratio = 0.8
     top_height_ratio = 0.28
     bottom_height_ratio = 0.29
-    tail_height = 0.12
+    tail_dip = 0.007
     tail_offset = 0.08
-    # top_cut = 0.72
-    # bot_cut = 0.28
-    # top_thinning = 0.92
-    # bot_thinning = 0.92
+    hy_curve_ratio = 1.2
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
@@ -31,14 +27,15 @@ class LowercaseSGlyph(Glyph):
             overshoot_top=True,
             width_ratio=self.width_ratio,
         )
-        sx, sy = self.stroke_x_ratio * dc.stroke_x, self.stroke_y_ratio * dc.stroke_y
+        sx, sy = self.stroke_x_ratio * dc.stroke_x, dc.stroke_y
         hx, hy = b.hx * self.hx_ratio, b.hy * self.hy_ratio
         xl = b.x1 + self.left_tail_offset * b.width
         xr = b.x2 - self.right_tail_offset * b.width
+
         xt_top = b.x2 - self.tail_offset * b.width
-        yt_top = b.y2 - self.tail_height * b.height - sy / 2
+        yt_top = dc.x_height - self.tail_dip * b.height - sy
         xt_bot = b.x1 + self.tail_offset * b.width
-        yt_bot = b.y1 + self.tail_height * b.height + sy / 2
+        yt_bot = sy
 
         ltop = self.top_height_ratio * b.height
         lbot = self.bottom_height_ratio * b.height
@@ -71,8 +68,8 @@ class LowercaseSGlyph(Glyph):
             xr,
             yl,
             hx,
-            hy,
-            middle_y_ratio=0.53,
-            dx=150,
+            hy * self.hy_curve_ratio,
+            middle_y_ratio=0.52,
+            dx=112,
             dy=112,
         )

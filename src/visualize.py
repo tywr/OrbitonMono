@@ -197,7 +197,9 @@ def visualize_glyph(slug_name, show_controls=False, show_optical_center=False, c
     plt.show()
 
 
-def visualize_text(text, point_size=None, guides=False):
+def visualize_text(text, point_size=None, guides=False, dc=None):
+    if dc is None:
+        dc = DrawConfig()
     all_glyphs = discover_glyphs()
 
     glyph_map = {}
@@ -246,7 +248,7 @@ def visualize_text(text, point_size=None, guides=False):
                 continue
 
         raw_path = pathops.Path()
-        glyph.draw(pathops.PathPen(raw_path), dc=DrawConfig())
+        glyph.draw(pathops.PathPen(raw_path), dc=dc)
         simplified = pathops.simplify(
             raw_path, clockwise=False, keep_starting_points=True
         )
@@ -339,23 +341,29 @@ if __name__ == "__main__":
     parser.add_argument("--guides", action="store_true", help="Show helper lines (text mode)")
     args = parser.parse_args()
 
+    style = args.s.strip().lower()
+    if style == "regular":
+        configs = [DrawConfig()]
+    elif style == "bold":
+        configs = [DrawConfig.weight(w=700)]
+    elif style == "italic":
+        configs = [DrawConfig.italic()]
+    else:
+        configs = [
+            DrawConfig(stroke_x=int(s), stroke_y=int(s) - 10)
+            for s in args.s.split(",")
+        ]
+
     if args.text is not None:
-        visualize_text(args.text, point_size=args.pt, guides=args.guides)
+        visualize_text(
+            args.text,
+            point_size=args.pt,
+            guides=args.guides,
+            dc=configs[0],
+        )
     else:
         if not args.slug:
             parser.error("Provide a glyph slug name (e.g. lowercase_o) or use -t TEXT")
-        style = args.s.strip().lower()
-        if style == "regular":
-            configs = [DrawConfig()]
-        elif style == "bold":
-            configs = [DrawConfig.weight(w=700)]
-        elif style == "italic":
-            configs = [DrawConfig.italic()]
-        else:
-            configs = [
-                DrawConfig(stroke_x=int(s), stroke_y=int(s) - 10)
-                for s in args.s.split(",")
-            ]
         visualize_glyph(
             args.slug,
             show_controls=args.c,
