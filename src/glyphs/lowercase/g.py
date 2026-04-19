@@ -2,7 +2,9 @@ from glyphs import Glyph
 from draw.superellipse_arch import draw_superellipse_arch
 from draw.rect import draw_rect
 from draw.square_corner import draw_square_corner
+from draw.corner import draw_corner
 from draw.polygon import draw_polygon
+from draw.parallelogramm import draw_smooth_parallelogramm_vertical
 
 
 class LowercaseGGlyph(Glyph):
@@ -12,6 +14,8 @@ class LowercaseGGlyph(Glyph):
     tail_offset = 0
     bowl_stroke_x_ratio = 1.04
     bowl_stroke_y_ratio = 0.96
+    tail_dip = 0.05
+    tail_offset = 0.08
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
@@ -50,7 +54,7 @@ class LowercaseGGlyph(Glyph):
         # draw_rect(pen, b.x2 - dc.stroke_x, y1, b.x2, y2)
 
         # Corner curving down-left into the descender
-        draw_square_corner(
+        draw_corner(
             pen,
             dc.stroke_x,
             dc.stroke_y,
@@ -58,16 +62,21 @@ class LowercaseGGlyph(Glyph):
             0,
             b.xmid,
             dc.descent + self.tail_offset,
+            b.hx,
+            b.hy,
             orientation="bottom-left",
         )
-        # Extension after the corner to the left
-        draw_rect(
+
+        draw_smooth_parallelogramm_vertical(
             pen,
-            b.x1 + 0.8 * dc.stroke_x,
-            dc.descent + self.tail_offset,
+            dc.stroke_y,
             b.xmid,
-            dc.descent + self.tail_offset + dc.stroke_y,
+            dc.descent,
+            b.x1 + self.tail_offset * b.width,
+            dc.descent + self.tail_dip * b.height + dc.stroke_y,
+            direction="top-left"
         )
+
         draw_polygon(
             pen,
             points=[
