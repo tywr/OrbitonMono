@@ -1,7 +1,6 @@
 from glyphs import Glyph
 from draw.superellipse_arch import draw_superellipse_arch
 from draw.rect import draw_rect
-from draw.square_corner import draw_square_corner
 from draw.corner import draw_corner
 from draw.polygon import draw_polygon
 from draw.parallelogramm import draw_parallelogramm_vertical
@@ -10,11 +9,12 @@ from draw.parallelogramm import draw_parallelogramm_vertical
 class LowercaseGGlyph(Glyph):
     name = "lowercase_g"
     unicode = "0x67"
-    offset = -8
+    offset = -5
     tail_offset = 0
     bowl_stroke_x_ratio = 1.04
     bowl_stroke_y_ratio = 0.96
     tail_offset = 0.15
+    ending_thickness = 0.8
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
@@ -42,15 +42,24 @@ class LowercaseGGlyph(Glyph):
             taper=dc.taper,
             side="right",
         )
-        # Right stem with gap at baseline and dent inset
-        draw_rect(pen, b.x2 - dc.stroke_x, 0, b.x2, dc.x_height)
 
         # Compute the intersection and fill the gap
         (_, y1), (_, y2) = arch_params["outer"].intersection_x(
             x=b.x2 - dc.stroke_x - dc.gap
         )
         y1, y2 = min(y1, y2), max(y1, y2)
-        # draw_rect(pen, b.x2 - dc.stroke_x, y1, b.x2, y2)
+
+        # Right stem with gap at baseline and dent inset
+        draw_rect(pen, b.x2 - dc.stroke_x, 0, b.x2, y2)
+        draw_polygon(
+            pen,
+            points=[
+                (b.x2 - dc.stroke_x, y2),
+                (b.x2, y2),
+                (b.x2, dc.x_height),
+                (b.x2 - self.ending_thickness * dc.stroke_x, dc.x_height),
+            ],
+        )
 
         # Corner curving down-left into the descender
         draw_corner(

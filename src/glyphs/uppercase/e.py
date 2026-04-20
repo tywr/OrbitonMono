@@ -5,7 +5,7 @@ from draw.rect import draw_rect
 class UppercaseEGlyph(UppercaseGlyph):
     name = "uppercase_e"
     unicode = "0x45"
-    offset = 0
+    offset = 3
     upper_bar_ratio = 0.95
     mid_bar_ratio = 0.9
     mid_ratio = 0.52

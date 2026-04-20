@@ -9,7 +9,7 @@ from draw.polygon import draw_polygon
 class LowercaseAGlyph(Glyph):
     name = "lowercase_a"
     unicode = "0x61"
-    offset = -8
+    offset = -11
     loop_ratio = 0.6
     width_ratio = 1
     stroke_x_ratio = 1.04

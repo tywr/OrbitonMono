@@ -11,8 +11,8 @@ class LowercaseMGlyph(Glyph):
     width_ratio = 1.18
     mid_len = 0.7
     top_stroke_y = 0.96
-    hx_ratio = 0.75
-    taper = 0.22
+    hx_ratio = 0.82
+    taper = 0.26
     ending_thickness = 0.75
 
     def draw(self, pen, dc):
