@@ -124,8 +124,8 @@ class DrawConfig(FontConfig):
 
         v_ov = self.v_overshoot
         h_ov = self.h_overshoot
-        if uppercase:
-            v_ov *= 0.6 * self.cap / self.x_height
+        # if uppercase:
+        #     v_ov *= 0.6 * self.cap / self.x_height
 
         if overshoot_left:
             x1 -= h_ov / 2

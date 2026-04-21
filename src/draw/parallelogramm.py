@@ -39,14 +39,33 @@ def _solve_parallelogram_stroke(
 
 
 def draw_parallelogramm(
-    pen, stroke_x, stroke_y, x1, y1, x2, y2, direction="top-right", no_draw=False
+    pen,
+    stroke_x,
+    stroke_y,
+    x1,
+    y1,
+    x2,
+    y2,
+    direction="top-right",
+    no_draw=False,
+    delta=None,
 ):
-    # w = max(x2, x1) - min(x2, x1)
-    # h = max(y2, y1) - min(y2, y1)
-    s, delta, theta = _solve_parallelogram_stroke(stroke_x, stroke_y, x1, y1, x2, y2)
-    # s = sqrt((stroke_x * cos(theta)) ** 2 + (stroke_y * sin(theta)) ** 2)
-    # delta = (s * (h * sqrt(w**2 + h**2 - s**2) - s * w)) / (h**2 - s**2)
-    # theta = atan2(h, w - delta)
+    if delta is None:
+        # w = max(x2, x1) - min(x2, x1)
+        # h = max(y2, y1) - min(y2, y1)
+        s, delta, theta = _solve_parallelogram_stroke(
+            stroke_x, stroke_y, x1, y1, x2, y2
+        )
+        # s = sqrt((stroke_x * cos(theta)) ** 2 + (stroke_y * sin(theta)) ** 2)
+        # delta = (s * (h * sqrt(w**2 + h**2 - s**2) - s * w)) / (h**2 - s**2)
+        # theta = atan2(h, w - delta)
+    else:
+        # Forced delta — derive theta from the slanted-edge geometry:
+        # the slanted edge has horizontal run w and vertical run h - delta,
+        # so theta (angle from vertical) = atan2(w, h - delta).
+        w = max(x2, x1) - min(x2, x1)
+        h = max(y2, y1) - min(y2, y1)
+        theta = atan2(w, h - delta)
     if no_draw:
         return theta, delta
     if direction == "top-right":

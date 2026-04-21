@@ -5,8 +5,9 @@ from draw.rect import draw_rect
 from draw.superellipse_arch import draw_superellipse_arch
 
 
-class UppercaseGGlyph(UppercaseGlyph):
-    name = "uppercase_g"
+class UppercaseG2Glyph(UppercaseGlyph):
+    name = "uppercase_g_2"
+    font_feature = {"ss08": 1}
     unicode = "0x47"
     offset = 0
     opening = 140
