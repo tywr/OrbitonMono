@@ -9,13 +9,13 @@ class UppercaseCGlyph(UppercaseGlyph):
     name = "uppercase_c"
     unicode = "0x43"
     offset = 0
-    stroke_x_ratio = UppercaseGlyph.stroke_x_ratio * 1.15
+    stroke_x_ratio = UppercaseGlyph.stroke_x_ratio * 1.12
     stroke_y_ratio = UppercaseGlyph.stroke_y_ratio * 0.95
     opening1 = 0.3
     opening2 = 0.7
     hy_ratio = 1
     hx_ratio = 1
-    width_ratio = 1.12
+    width_ratio = 1.08
     thinning = 0.95
 
     def draw(self, pen, dc):

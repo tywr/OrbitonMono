@@ -16,7 +16,7 @@ class UppercaseGGlyph(UppercaseGlyph):
     opening2 = 0.7
     hy_ratio = 1
     hx_ratio = 1
-    width_ratio = 1.12
+    width_ratio = 1.08
     thinning = 0.95
 
     def draw(self, pen, dc):
