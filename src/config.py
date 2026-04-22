@@ -19,7 +19,7 @@ class FontConfig:
     accent: int = 710
     accent_cap: int = 890
 
-    math: int = 345
+    math: int = 300
 
     parenthesis: int = 345
     parenthesis_length: int = 920
@@ -37,9 +37,9 @@ class DrawConfig(FontConfig):
     descent: int = FontConfig.descent
 
     # Default parameters
-    stroke_x: int = 82
-    stroke_y: int = 74
-    stroke_alt: int = 66
+    stroke_x: int = 90
+    stroke_y: int = 68
+    stroke_alt: int = 62
 
     v_overshoot: int = 12
     h_overshoot: int = 11
@@ -61,8 +61,11 @@ class DrawConfig(FontConfig):
         """Return a DrawConfig with heavier stroke weights for a bold variant."""
         from math import log, exp
 
-        br = 1.58
-        ratio = exp((w - 400) * log(br) / 300)
+        brx = 1.5
+        ratio_x = exp((w - 400) * log(brx) / 300)
+
+        bry = 1.58
+        ratio_y = exp((w - 400) * log(bry) / 300)
 
         bhy = 1.3
         hy_ratio = exp((w - 400) * log(bhy) / 300)
@@ -70,11 +73,11 @@ class DrawConfig(FontConfig):
         # Function mapping 100 → 0.5 and 700 → 0.2
         taper = min(0.5, 0.5 - 0.0007 * (w - 400))
 
-        extra_height = int((ratio - 1) * cls.stroke_y / 2)
+        extra_height = int((ratio_y - 1) * cls.stroke_y / 2)
         return cls(
-            stroke_x=int(cls.stroke_x * ratio),
-            stroke_y=int(cls.stroke_y * ratio),
-            stroke_alt=int(cls.stroke_alt * ratio),
+            stroke_x=int(cls.stroke_x * ratio_x),
+            stroke_y=int(cls.stroke_y * ratio_y),
+            stroke_alt=int(cls.stroke_alt * ratio_y),
             x_height=cls.x_height + extra_height,
             cap=cls.cap + extra_height,
             ascent=cls.ascent + extra_height,

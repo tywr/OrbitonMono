@@ -1,6 +1,5 @@
 from glyphs.numbers import NumberGlyph
 from draw.superellipse_loop import draw_superellipse_loop
-from draw.polygon import draw_polygon
 from draw.parallelogramm import draw_parallelogramm_vertical
 
 
@@ -11,6 +10,7 @@ class ZeroGlyph(NumberGlyph):
     slash = 0.2
     stroke_x_ratio = NumberGlyph.stroke_x_ratio * 1.03
     stroke_y_ratio = NumberGlyph.stroke_y_ratio * 0.97
+    width_ratio = 1.07
 
     def draw(self, pen, dc):
         b = dc.body_bounds(

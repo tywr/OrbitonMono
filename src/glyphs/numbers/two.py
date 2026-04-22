@@ -34,7 +34,7 @@ class TwoGlyph(NumberGlyph):
         params = draw_superellipse_loop(
             pen,
             sx,
-            sx,
+            sy,
             b.x1,
             b.ymid,
             b.x2,
@@ -48,7 +48,7 @@ class TwoGlyph(NumberGlyph):
 
         theta, delta = draw_parallelogramm(
             NullPen(),
-            sy,
+            sx,
             sy,
             b.x1,
             b.y1 + sy + dc.gap,
