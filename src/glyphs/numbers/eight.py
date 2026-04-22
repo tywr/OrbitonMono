@@ -11,7 +11,6 @@ class EightGlyph(NumberGlyph):
     loop_width_ratio = 0.92
     taper = 0.75
     extra_overshoot = 0.000
-    hx_ratio = 0.78
     width_ratio = 1.06
 
     def draw(self, pen, dc):
@@ -40,7 +39,7 @@ class EightGlyph(NumberGlyph):
             ymid - sy / 2,
             b.x2 - dtop,
             b.y2 + ov,
-            self.hx_ratio * b.hx,
+            b.hx,
             b.hy * (1 - self.height_ratio),
             taper=self.taper,
             side="bottom",
@@ -55,7 +54,7 @@ class EightGlyph(NumberGlyph):
             b.y1 - ov,
             b.x2,
             ymid + sy / 2,
-            b.hx * self.hx_ratio,
+            b.hx,
             b.hy * self.height_ratio,
             taper=self.taper,
             side="top",

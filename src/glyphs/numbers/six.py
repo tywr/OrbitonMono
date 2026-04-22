@@ -14,7 +14,6 @@ class SixGlyph(NumberGlyph):
     loop_ratio = 0.6
     top_ratio = 0.4
     taper = 0.4
-    hx_ratio = 0.78
     cap_x = 0.9
     joint_x = 1.4
 
@@ -43,7 +42,7 @@ class SixGlyph(NumberGlyph):
             b.y1,
             b.x2,
             ymid,
-            b.hx * self.hx_ratio,
+            b.hx,
             b.hy * self.loop_ratio,
             taper=self.taper,
             side="left",
@@ -87,7 +86,7 @@ class SixGlyph(NumberGlyph):
         pen.lineTo((xcm, ycm))
         pen.curveTo(
             (xcp, ycp),
-            (b.x1, (b.y1 + ymid) / 2 + b.hx * self.hx_ratio),
+            (b.x1, (b.y1 + ymid) / 2 + b.hx),
             (b.x1, (b.y1 + ymid) / 2),
         )
         pen.lineTo((b.x1 + sx / 2, (b.y1 + ymid) / 2))
@@ -101,7 +100,7 @@ class SixGlyph(NumberGlyph):
             b.y1,
             b.x2,
             ymid,
-            b.hx * self.hx_ratio,
+            b.hx,
             b.hy * self.loop_ratio,
             cut="top",
         )

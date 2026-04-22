@@ -10,7 +10,6 @@ class TwoGlyph(NumberGlyph):
     name = "two"
     unicode = "0x32"
     offset = 0
-    hx_ratio = 0.78
     xj_ratio = 0.82
     yj_ratio = 0.55
     radius = 0.2
@@ -29,7 +28,7 @@ class TwoGlyph(NumberGlyph):
         xj = b.x1 + self.xj_ratio * b.width + sx / 2
         yj = b.y1 + self.yj_ratio * b.height
         yt = (b.ymid + b.y2) / 2
-        eh, ih = self.external_radius * b.height, self.internal_radius * b.height
+        ih = self.internal_radius * b.height
 
         # Top arch
         params = draw_superellipse_loop(
@@ -40,7 +39,7 @@ class TwoGlyph(NumberGlyph):
             b.ymid,
             b.x2,
             b.y2,
-            b.hx * self.hx_ratio,
+            b.hx,
             b.hy / 2,
             cut="bottom",
         )

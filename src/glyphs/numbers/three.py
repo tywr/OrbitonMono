@@ -14,7 +14,6 @@ class ThreeGlyph(NumberGlyph):
     mid_ratio = 0.53
     taper = 0.75
     len_mid = 0.7
-    hx_ratio = 0.78
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
@@ -43,7 +42,7 @@ class ThreeGlyph(NumberGlyph):
             ymid - sy / 2,
             xr,
             b.y2,
-            b.hx * self.hx_ratio,
+            b.hx,
             b.hy * ry * 2 * (1 - self.mid_ratio),
             taper=self.taper,
             side="bottom",
@@ -58,7 +57,7 @@ class ThreeGlyph(NumberGlyph):
             b.y1,
             b.x2,
             ymid + sy / 2,
-            b.hx * self.hx_ratio,
+            b.hx,
             b.hy * ry * 2 * self.mid_ratio,
             taper=self.taper,
             side="top",

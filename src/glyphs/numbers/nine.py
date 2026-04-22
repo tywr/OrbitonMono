@@ -14,7 +14,6 @@ class NineGlyph(NumberGlyph):
     vertical_ratio = 0.6
     bottom_cut = 0.2
     taper = 0.4
-    hx_ratio = 0.78
     foot_x = 0.05
     joint_x = 1.4
 
@@ -43,7 +42,7 @@ class NineGlyph(NumberGlyph):
             ymid,
             b.x2,
             b.y2,
-            b.hx * self.hx_ratio,
+            b.hx,
             b.hy * self.vertical_ratio,
             taper=self.taper,
             side="right",
@@ -82,10 +81,9 @@ class NineGlyph(NumberGlyph):
         pen.lineTo((xcm, ycm))
         pen.curveTo(
             (xcp, ycp),
-            (b.x2, (b.y2 + ymid) / 2 - b.hx * self.hx_ratio),
+            (b.x2, (b.y2 + ymid) / 2 - b.hx),
             (b.x2, (b.y2 + ymid) / 2),
         )
-
 
         draw_superellipse_loop(
             pen,
@@ -95,7 +93,7 @@ class NineGlyph(NumberGlyph):
             ymid,
             b.x2,
             b.y2,
-            b.hx * self.hx_ratio,
+            b.hx,
             b.hy * self.vertical_ratio,
             cut="bottom",
         )

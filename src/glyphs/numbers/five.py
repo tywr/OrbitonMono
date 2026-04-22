@@ -16,7 +16,6 @@ class FiveGlyph(NumberGlyph):
     loop_ratio = 0.66
     junction_ratio = 0.45
     tilt = 0.25
-    hx_ratio = 0.78
     taper = 0.75
 
     def draw(self, pen, dc):
@@ -43,7 +42,7 @@ class FiveGlyph(NumberGlyph):
             b.y1,
             b.x2,
             b.y1 + b.height * self.loop_ratio,
-            b.hx * self.hx_ratio,
+            b.hx,
             b.hy * self.loop_ratio,
             cut="top",
         )
@@ -55,7 +54,7 @@ class FiveGlyph(NumberGlyph):
             b.y1,
             b.x2,
             b.y1 + b.height * self.loop_ratio,
-            b.hx * self.hx_ratio,
+            b.hx,
             b.hy * self.loop_ratio,
             taper=self.taper,
             side="left",
