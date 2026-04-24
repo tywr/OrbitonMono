@@ -2,7 +2,7 @@ from glyphs.accents import Accent
 
 
 class Tilde(Accent):
-    name = "tilde"
+    name = "accent_tilde"
     unicode = None
     rescale = 0.7
 
