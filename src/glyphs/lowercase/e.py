@@ -12,7 +12,7 @@ class LowercaseEGlyph(Glyph):
     width_ratio = 1
     stroke_x_ratio = 1.00
     stroke_y_ratio = 0.96
-    mid_height = 0.52
+    mid_height = 0.5
     thinning = 0.5
     stroke_x_ratio = 1.04
     stroke_y_ratio = 0.96
