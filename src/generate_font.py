@@ -9,6 +9,7 @@ import pkgutil
 import pathops
 from fontTools.fontBuilder import FontBuilder
 from fontTools.pens.t2CharStringPen import T2CharStringPen
+from ttfautohint import ttfautohint
 
 from fontTools.ttLib.tables.otTables import (
     GSUB,
@@ -629,6 +630,7 @@ def build_ttf(output_path, weight, italic, all_glyphs, cmap, dc, ligature_glyphs
     fb.font["DSIG"] = dsig
 
     fb.font.save(output_path)
+    ttfautohint(in_file=output_path, out_file=output_path)
     print(f"Font saved to {output_path}")
 
 

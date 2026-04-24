@@ -21,9 +21,9 @@ class FontConfig:
 
     math: int = 300
 
-    parenthesis: int = 345
-    parenthesis_length: int = 920
-    
+    parenthesis: int = 300
+    parenthesis_length: int = 1000
+
     min_margin: int = 15
 
     default_stroke = 90
@@ -40,8 +40,8 @@ class DrawConfig(FontConfig):
 
     # Default parameters
     stroke_x: int = 90
-    stroke_y: int = 68
-    stroke_alt: int = 62
+    stroke_y: int = 70
+    stroke_alt: int = 60
 
     v_overshoot: int = 12
     h_overshoot: int = 11

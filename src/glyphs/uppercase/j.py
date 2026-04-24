@@ -45,19 +45,6 @@ class UppercaseJGlyph(UppercaseGlyph):
             b.y1,
             xt,
             yt,
-            direction="top-left"
+            direction="top-left",
+            delta=sy
         )
-
-        # Down loop
-        # draw_superellipse_loop(
-        #     pen,
-        #     sx,
-        #     sy,
-        #     b.x1,
-        #     b.y1,
-        #     b.x2,
-        #     b.y1 + self.loop_ratio * b.height,
-        #     hx,
-        #     hy,
-        #     cut="top",
-        # )

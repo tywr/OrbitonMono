@@ -30,9 +30,9 @@ class UppercaseSGlyph(UppercaseGlyph):
         ymid = b.y1 + self.mid_height * b.height
 
         xt_top = b.x2 - self.right_tail_offset * b.width
-        yt_top = dc.cap - sy
+        yt_top = dc.cap - sy - dc.v_overshoot
         xt_bot = b.x1 + self.left_tail_offset * b.width
-        yt_bot = sy
+        yt_bot = sy + dc.v_overshoot
 
         draw_smooth_parallelogramm_vertical(
             pen, sy, b.xmid, b.y2, xt_top, yt_top, direction="bottom-right"
