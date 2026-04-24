@@ -10,7 +10,7 @@ class LowercaseUGlyph(Glyph):
     offset = 0
     width_ratio = 1.00
     bottom_stroke_y = 0.96
-    hx_ratio = 1.25
+    hx_ratio = 1.15
     taper = 0.8
     ending_thickness = 0.8
 

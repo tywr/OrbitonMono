@@ -1,18 +1,21 @@
 from glyphs import Glyph
 from draw.superellipse_arch import draw_superellipse_arch
 from draw.rect import draw_rect
+from draw.corner import draw_corner
 from draw.polygon import draw_polygon
+from draw.parallelogramm import draw_parallelogramm_vertical
 
 
-class LowercaseDGlyph(Glyph):
-    name = "lowercase_d"
-    unicode = "0x64"
+class LowercaseG2Glyph(Glyph):
+    name = "lowercase_g_2"
+    font_feature = {"ss08": 1}
+    unicode = "0x67"
     offset = -10
-    bowl_stroke_x_ratio = 1.1
-    bowl_stroke_y_ratio = 1.01
+    tail_offset = 0
+    bowl_stroke_x_ratio = 1.04
+    bowl_stroke_y_ratio = 0.96
+    tail_offset = 0.15
     ending_thickness = 0.8
-    hx_ratio = 1.03
-    hy_ratio = 1
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
@@ -21,22 +24,22 @@ class LowercaseDGlyph(Glyph):
             overshoot_top=True,
             overshoot_left=True,
         )
-        hx, hy = self.hx_ratio * b.hx, self.hy_ratio * b.hy
         bsx, bsy = (
             self.bowl_stroke_x_ratio * dc.stroke_x,
             self.bowl_stroke_y_ratio * dc.stroke_y,
         )
-        dx = bsx - dc.stroke_x
+
+        # Bowl (open on the right, mirrored from b)
         arch_params = draw_superellipse_arch(
             pen,
             bsx,
             bsy,
             b.x1,
             b.y1,
-            b.x2 + dx,
+            b.x2,
             b.y2,
-            hx,
-            hy,
+            b.hx,
+            b.hy,
             taper=dc.taper,
             side="right",
         )
@@ -47,15 +50,42 @@ class LowercaseDGlyph(Glyph):
         )
         y1, y2 = min(y1, y2), max(y1, y2)
 
-        draw_rect(pen, b.x2 - dc.stroke_x, y1, b.x2, dc.ascent)
+        # Right stem with gap at baseline and dent inset
+        draw_rect(pen, b.x2 - dc.stroke_x, 0, b.x2, y2)
         draw_polygon(
             pen,
             points=[
-                (b.x2 - self.ending_thickness * dc.stroke_x, 0),
-                (b.x2, 0),
-                (b.x2, y1),
-                (b.x2 - dc.stroke_x, y1),
+                (b.x2 - dc.stroke_x, y2),
+                (b.x2, y2),
+                (b.x2, dc.x_height),
+                (b.x2 - self.ending_thickness * dc.stroke_x, dc.x_height),
             ],
+        )
+
+        # Corner curving down-left into the descender
+        draw_corner(
+            pen,
+            dc.stroke_x,
+            dc.stroke_y,
+            b.x2,
+            0,
+            b.xmid,
+            dc.descent - dc.v_overshoot,
+            b.hx,
+            b.hy,
+            orientation="bottom-left",
+        )
+
+        draw_parallelogramm_vertical(
+            pen,
+            dc.stroke_x,
+            dc.stroke_y,
+            b.xmid,
+            dc.descent - dc.v_overshoot,
+            b.x1 + self.tail_offset * b.width,
+            dc.descent + dc.stroke_y + dc.v_overshoot,
+            direction="top-left",
+            delta=dc.stroke_y,
         )
 
         draw_polygon(

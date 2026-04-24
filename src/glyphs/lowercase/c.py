@@ -1,18 +1,24 @@
 from glyphs import Glyph
 from draw.superellipse_loop import draw_superellipse_loop
-from draw.parallelogramm import draw_parallelogramm_vertical
+from draw.rect import draw_rect
+from draw.corner import draw_corner
+import ufoLib2
+from booleanOperations.booleanGlyph import BooleanGlyph
 
 
 class LowercaseCGlyph(Glyph):
     name = "lowercase_c"
     unicode = "0x63"
-    offset = 24
-    stroke_x_ratio = 1.06
-    stroke_y_ratio = 1.00
+    offset = 5
+    stroke_x_ratio = 1.05
+    stroke_y_ratio = 1.1
+    opening1 = 0.28
+    opening2 = 0.72
     hy_ratio = 1
     hx_ratio = 1
     width_ratio = 1
-    len_tails = 0.35
+    thinning = 0.82
+    top_offset = 0.02
 
     def draw(self, pen, dc):
 
@@ -26,10 +32,44 @@ class LowercaseCGlyph(Glyph):
         )
         sx, sy = self.stroke_x_ratio * dc.stroke_x, self.stroke_y_ratio * dc.stroke_y
         hx, hy = self.hx_ratio * b.hx, self.hy_ratio * b.hy
-        xt = b.xmid + self.len_tails * b.width
-        yt_top = dc.x_height - sy - dc.v_overshoot
-        yt_bot = sy + dc.v_overshoot
+        yc1 = b.y1 + b.height * self.opening1
+        yc2 = b.y1 + b.height * self.opening2
+        xt = b.x2 - self.top_offset * b.width
 
         draw_superellipse_loop(pen, sx, sy, b.x1, b.y1, b.x2, b.y2, hx, hy, cut="right")
-        draw_parallelogramm_vertical(pen, sx, sy, b.xmid, b.y2, xt, yt_top, delta=sy, direction="bottom-right")
-        draw_parallelogramm_vertical(pen, sx, sy, b.xmid, b.y1, xt, yt_bot, delta=sy, direction="top-right")
+
+        glyph = ufoLib2.objects.Glyph()
+        draw_corner(
+            glyph.getPen(),
+            sx * self.thinning,
+            sy,
+            xt,
+            b.ymid,
+            b.xmid,
+            b.y2,
+            hx,
+            hy,
+            orientation="top-left",
+        )
+        draw_corner(
+            glyph.getPen(),
+            sx * self.thinning,
+            sy,
+            b.x2,
+            b.ymid,
+            b.xmid,
+            b.y1,
+            hx,
+            hy,
+            orientation="bottom-left",
+        )
+        cut_glyph = ufoLib2.objects.Glyph()
+        draw_rect(
+            cut_glyph.getPen(),
+            b.xmid,
+            yc1,
+            b.x2 + 10,
+            yc2,
+        )
+        res = BooleanGlyph(glyph).difference(BooleanGlyph(cut_glyph))
+        res.draw(pen)

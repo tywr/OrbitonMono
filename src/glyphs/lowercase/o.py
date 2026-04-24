@@ -6,8 +6,8 @@ class LowercaseOGlyph(Glyph):
     name = "lowercase_o"
     unicode = "0x6F"
     offset = 0
-    stroke_x_ratio = 1.04
-    stroke_y_ratio = 0.96
+    stroke_x_ratio = 1.01
+    stroke_y_ratio = 1.10
 
     def draw(
         self,

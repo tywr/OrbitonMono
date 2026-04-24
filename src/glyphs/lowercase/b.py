@@ -9,9 +9,11 @@ class LowercaseBGlyph(Glyph):
     name = "lowercase_b"
     unicode = "0x62"
     offset = 10
-    bowl_stroke_x_ratio = 1.04
-    bowl_stroke_y_ratio = 0.96
+    bowl_stroke_x_ratio = 1.1
+    bowl_stroke_y_ratio = 1.01
     ending_thickness = 0.8
+    hx_ratio = 1.03
+    hy_ratio = 1
 
     def draw(
         self,
@@ -28,6 +30,7 @@ class LowercaseBGlyph(Glyph):
             self.bowl_stroke_x_ratio * dc.stroke_x,
             self.bowl_stroke_y_ratio * dc.stroke_y,
         )
+        hx, hy = self.hx_ratio * b.hx, self.hy_ratio * b.hy
         dx = bsx - dc.stroke_x
         arch_params = draw_superellipse_arch(
             pen,
@@ -37,8 +40,8 @@ class LowercaseBGlyph(Glyph):
             b.y1,
             b.x2,
             b.y2,
-            b.hx,
-            b.hy,
+            hx,
+            hy,
             taper=dc.taper,
             side="left",
         )

@@ -1,31 +1,30 @@
 from glyphs import Glyph
-from draw.r_arch import draw_r_arch
 from draw.superellipse_arch import draw_superellipse_arch
 from draw.rect import draw_rect
 from draw.polygon import draw_polygon
-from draw.parallelogramm import draw_smooth_parallelogramm_vertical
 
 
 class LowercaseRGlyph(Glyph):
     name = "lowercase_r"
     unicode = "0x72"
     offset = 10
-    loop_ratio = 0.9
-    hx_ratio = 1
+    loop_ratio = 0.92
+    hx_ratio = 1.2
     hy_ratio = 1
-    taper = 0.4
+    taper = 0.5
     ending_thickness = 0.8
     width_ratio = 1
+    tail_offset = 0.03
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
             offset=self.offset,
             overshoot_top=True,
-            overshoot_right=True,
             width_ratio=self.width_ratio,
         )
         hx, hy = dc.hx * self.hx_ratio, dc.hy * self.hy_ratio
         ys = b.y2 - self.loop_ratio * b.height
+        xt = b.x2 - self.tail_offset * b.width
 
         arch_params = draw_superellipse_arch(
             pen,
@@ -33,7 +32,7 @@ class LowercaseRGlyph(Glyph):
             dc.stroke_y,
             b.x1,
             ys,
-            b.x2,
+            xt,
             b.y2,
             hx,
             hy,
@@ -69,7 +68,3 @@ class LowercaseRGlyph(Glyph):
                 (b.x1 + dc.stroke_x - dc.stroke_x * dc.taper * self.taper / 2, b.ymid),
             ],
         )
-
-        # draw_smooth_parallelogramm_vertical(
-        #     pen, dc.stroke_y, (b.x1 + xl) / 2, b.y2, b.x2, yt, direction="bottom-right"
-        # )

@@ -1,9 +1,11 @@
+import ufoLib2
+from booleanOperations.booleanGlyph import BooleanGlyph
 from glyphs import Glyph
 from draw.superellipse_arch import draw_superellipse_arch
 from draw.rect import draw_rect
 from draw.corner import draw_corner
 from draw.polygon import draw_polygon
-from draw.parallelogramm import draw_parallelogramm_vertical
+from draw.superellipse_loop import draw_superellipse_loop
 
 
 class LowercaseGGlyph(Glyph):
@@ -11,10 +13,14 @@ class LowercaseGGlyph(Glyph):
     unicode = "0x67"
     offset = -10
     tail_offset = 0
-    bowl_stroke_x_ratio = 1.04
-    bowl_stroke_y_ratio = 0.96
+    bowl_stroke_x_ratio = 1.1
+    bowl_stroke_y_ratio = 1.01
+    tail_stroke_x_ratio = 0.89
+    tail_stroke_y_ratio = 1.01
     tail_offset = 0.15
     ending_thickness = 0.8
+    cut_ratio = 0.25
+    tail_offset = 0.02
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
@@ -27,6 +33,11 @@ class LowercaseGGlyph(Glyph):
             self.bowl_stroke_x_ratio * dc.stroke_x,
             self.bowl_stroke_y_ratio * dc.stroke_y,
         )
+        tsx, tsy = (
+            self.tail_stroke_x_ratio * dc.stroke_x,
+            self.tail_stroke_y_ratio * dc.stroke_y,
+        )
+        xt = b.x1 + self.tail_offset * b.width
 
         # Bowl (open on the right, mirrored from b)
         arch_params = draw_superellipse_arch(
@@ -65,7 +76,7 @@ class LowercaseGGlyph(Glyph):
         draw_corner(
             pen,
             dc.stroke_x,
-            dc.stroke_y,
+            tsy,
             b.x2,
             0,
             b.xmid,
@@ -75,17 +86,20 @@ class LowercaseGGlyph(Glyph):
             orientation="bottom-left",
         )
 
-        draw_parallelogramm_vertical(
-            pen,
-            dc.stroke_x,
-            dc.stroke_y,
-            b.xmid,
-            dc.descent - dc.v_overshoot,
-            b.x1 + self.tail_offset * b.width,
-            dc.descent + dc.stroke_y + dc.v_overshoot, 
-            direction="top-left",
-            delta=dc.stroke_y
+        glyph = ufoLib2.objects.Glyph()
+        draw_corner(
+            glyph.getPen(), tsx, tsy, xt, 0, b.xmid, dc.descent - dc.v_overshoot, b.hx, b.hy
         )
+        cut_glyph = ufoLib2.objects.Glyph()
+        draw_rect(
+            cut_glyph.getPen(),
+            b.x1 - 10,
+            dc.descent - dc.v_overshoot + b.height * self.cut_ratio,
+            b.xmid,
+            b.ymid,
+        )
+        res = BooleanGlyph(glyph).difference(BooleanGlyph(cut_glyph))
+        res.draw(pen)
 
         draw_polygon(
             pen,
