@@ -11,7 +11,7 @@ class UppercaseKGlyph(UppercaseGlyph):
     branch_ratio = 0.68
     width_ratio = 1.08
     mid_ratio = 0.53
-    upper_branch_offset = 0.055
+    upper_branch_offset = 0.01
 
     def draw(self, pen, dc):
         b = dc.body_bounds(

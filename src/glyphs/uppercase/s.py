@@ -33,6 +33,7 @@ class UppercaseSGlyph(UppercaseGlyph):
             overshoot_left=True,
             height="cap",
             width_ratio=self.width_ratio,
+            uppercase=True,
         )
         sx, sy = self.stroke_x_ratio * dc.stroke_x, dc.stroke_y * self.stroke_y_ratio
         sa = dc.stroke_alt
