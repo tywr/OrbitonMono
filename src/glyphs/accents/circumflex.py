@@ -5,7 +5,7 @@ from draw.parallelogramm import draw_parallelogramm
 class Circumflex(Accent):
     name = "circumflex"
     unicode = "0x5E"
-    height = 0.4
+    height = 0.35
     width = 1.2
     overlap = 0.5
 

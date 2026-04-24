@@ -16,7 +16,7 @@ class FontConfig:
     cap: int = 710
     x_height: int = 520
 
-    accent: int = 710
+    accent: int = 675
     accent_cap: int = 890
 
     math: int = 300
@@ -37,6 +37,8 @@ class DrawConfig(FontConfig):
     cap: int = FontConfig.cap
     ascent: int = FontConfig.ascent
     descent: int = FontConfig.descent
+    accent: int = FontConfig.accent
+    accent_cap: int = FontConfig.accent_cap
 
     # Default parameters
     stroke_x: int = 90
@@ -81,6 +83,8 @@ class DrawConfig(FontConfig):
             stroke_y=int(cls.stroke_y * ratio_y),
             stroke_alt=int(cls.stroke_alt * ratio_y),
             x_height=cls.x_height + extra_height,
+            accent=cls.cap + extra_height,
+            accent_cap=cls.accent_cap + extra_height,
             cap=cls.cap + extra_height,
             ascent=cls.ascent + extra_height,
             descent=cls.descent - extra_height,

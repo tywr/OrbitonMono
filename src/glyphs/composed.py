@@ -24,4 +24,4 @@ class ComposedGlyph(Glyph, ABC):
 
         b = dc.body_bounds(offset=self.offset)
         accent_y = self.accent_y if self.accent_y is not None else dc.accent
-        self.accent_class().draw_at(pen, dc, x=b.xmid + self.accent_x_offset, y=accent_y)
+        self.accent_class().draw_at(pen, dc, x=b.xmid + self.base_glyph_class.accent_x_offset, y=accent_y)

@@ -3,6 +3,8 @@ from config import FontConfig as fc
 
 
 class Glyph(ABC):
+    accent_x_offset: int = 0
+
     @property
     @abstractmethod
     def name(self) -> str: ...

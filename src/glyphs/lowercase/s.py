@@ -8,9 +8,9 @@ from draw.rect import draw_rect
 class LowercaseSGlyph(Glyph):
     name = "lowercase_s"
     unicode = "0x73"
-    offset = 0
+    offset = -12
     width_ratio = 1
-    stroke_x_ratio = 1.10
+    stroke_x_ratio = 1.00
     stroke_y_ratio = 1.01
     right_tail_offset = 0.105
     left_tail_offset = 0.0525

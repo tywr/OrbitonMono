@@ -11,6 +11,7 @@ class LowercaseAGlyph(Glyph):
     name = "lowercase_a"
     unicode = "0x61"
     offset = -8
+    accent_x_offset = 16
     mid_height = 0.52
     width_ratio = 1
     taper = 0.15
