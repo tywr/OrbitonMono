@@ -24,7 +24,7 @@ def _draw_circle(pen, cx, cy, r, clockwise=False):
 class Ring(Accent):
     name = "ring"
     unicode = "0x2DA"
-    width = 0.7
+    width = 0.6
     stroke_ratio = 0.8
 
     def draw_at(self, pen, dc, x, y):

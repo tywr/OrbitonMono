@@ -5,16 +5,17 @@ from draw.parallelogramm import draw_parallelogramm
 class Caron(Accent):
     name = "caron"
     unicode = "0x2C7"
-    height = 0.4
-    width = 1.2
-    overlap = 0.5
+    height = 0.35
+    width = 1.3
+    stroke_ratio = 1.2
 
     def draw_at(self, pen, dc, x, y):
         h = self.height * dc.x_height
         w = self.width * dc.width
         x1, x2, xmid = x - w / 2, x + w / 2, x
         y1, y2 = y - h / 2, y + h / 2
-        ov = dc.stroke_x * self.overlap
+        d = self.stroke_ratio * dc.stroke_x
+        ov = 0.5 * d
 
         draw_parallelogramm(
             pen,
@@ -25,6 +26,7 @@ class Caron(Accent):
             x1,
             y2,
             direction="top-left",
+            delta=d,
         )
         draw_parallelogramm(
             pen,
@@ -35,4 +37,5 @@ class Caron(Accent):
             x2,
             y2,
             direction="top-right",
+            delta=d,
         )
