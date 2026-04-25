@@ -1,14 +1,13 @@
-from glyphs import Glyph
 from draw.rect import draw_rect
+from glyphs.lowercase.dotted import DottedLowercaseGlyph
 
 
-class LowercaseIGlyph(Glyph):
+class LowercaseIGlyph(DottedLowercaseGlyph):
     name = "lowercase_i"
     unicode = "0x69"
     offset = 16
     width_ratio = 1.1
     cap = 0.5
-    dot_height = 0.25
     rl_ratio = 0.5
 
     def draw_base(self, pen, dc):
@@ -36,18 +35,4 @@ class LowercaseIGlyph(Glyph):
             dc.x_height - dc.stroke_y,
             b.xmid,
             dc.x_height,
-        )
-
-    def draw(self, pen, dc):
-        self.draw_base(pen, dc)
-        b = dc.body_bounds(offset=self.offset, width_ratio=self.width_ratio)
-
-        # Accent dot
-        dh = self.dot_height * b.height
-        draw_rect(
-            pen,
-            b.xmid - dc.stroke_x / 2,
-            dc.accent - dh / 2,
-            b.xmid + dc.stroke_x / 2,
-            dc.accent + dh / 2,
         )

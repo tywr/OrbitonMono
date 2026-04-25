@@ -1,29 +1,29 @@
 from glyphs import Glyph
-from draw.corner import draw_corner
 from draw.square_corner import draw_square_corner
 from draw.rect import draw_rect
+from glyphs.lowercase.dotted import DottedLowercaseGlyph
 
 
-class LowercaseJGlyph(Glyph):
+class LowercaseJGlyph(DottedLowercaseGlyph):
     name = "lowercase_j"
     unicode = "0x6A"
-    offset = -24
+    offset = 88
     tail_offset = 0
-    width_ratio = 0.7
+    width_ratio = 1.4
     updown_ratio = 1
-    dot_height = 0.25
 
     def draw_base(self, pen, dc):
         """Draw the letter without the dot (for use with accents)."""
         b = dc.body_bounds(offset=self.offset, width_ratio=self.width_ratio)
+        x2 = b.xmid + dc.stroke_x / 2
         # Stem
-        draw_rect(pen, b.x2 - dc.stroke_x, 0, b.x2, dc.x_height)
+        draw_rect(pen, x2 - dc.stroke_x, 0, x2, dc.x_height)
         # Left cap
         draw_rect(
             pen,
             b.x1 + (1 - self.updown_ratio) * b.width,
             dc.x_height - dc.stroke_y,
-            b.x2,
+            x2,
             dc.x_height,
         )
         # Corner curving down-left into the descender
@@ -31,7 +31,7 @@ class LowercaseJGlyph(Glyph):
             pen,
             dc.stroke_x,
             dc.stroke_y,
-            b.x2,
+            x2,
             0,
             b.xmid,
             dc.descent + self.tail_offset,
@@ -46,17 +46,4 @@ class LowercaseJGlyph(Glyph):
             dc.descent + self.tail_offset,
             b.xmid,
             dc.descent + self.tail_offset + dc.stroke_y,
-        )
-
-    def draw(self, pen, dc):
-        self.draw_base(pen, dc)
-        b = dc.body_bounds(offset=self.offset, width_ratio=self.width_ratio)
-        # Accent dot
-        dh = self.dot_height * b.height
-        draw_rect(
-            pen,
-            b.x2 - dc.stroke_x,
-            dc.accent - dh / 2,
-            b.x2,
-            dc.accent + dh / 2,
         )
