@@ -1,90 +1,133 @@
+from math import cos, sin
 import ufoLib2
 from booleanOperations.booleanGlyph import BooleanGlyph
-from math import tan, pi
 from glyphs.uppercase import UppercaseGlyph
-from draw.parallelogramm import draw_parallelogramm_vertical
 from draw.rect import draw_rect
+from draw.parallelogramm import draw_parallelogramm_vertical
+from draw.polygon import draw_polygon
 
 
 class UppercaseWGlyph(UppercaseGlyph):
     name = "uppercase_w"
     unicode = "0x57"
     offset = 0
+    overlap = 0.65
+    overlap_middle = 0.5
+    depth = 0.6
+    inner_thickness_ratio = 2.2
+    inner_height = 0.4
     width_ratio = 1.16
-    inner_stroke_ratio = 0.9
-    inner_thickness_ratio = 1.1
-    inner_offset = 0.2
+    ink_trap_height = 0.7
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
             offset=self.offset,
+            height="cap",
             width_ratio=self.width_ratio,
             min_margin=dc.min_margin,
-            height="cap",
         )
-        isx, isy = (
-            self.inner_stroke_ratio * dc.stroke_x,
-            self.inner_stroke_ratio * dc.stroke_y,
-        )
-        yi2 = b.y2 - self.inner_offset * b.height
-
-        draw_rect(
-            pen,
-            b.x1,
-            b.y1,
-            b.x1 + dc.stroke_x,
-            b.y2,
-        )
-        draw_rect(
-            pen,
-            b.x2 - dc.stroke_x,
-            b.y1,
-            b.x2,
-            b.y2,
-        )
+        sx = dc.stroke_x * self.stroke_x_ratio
+        delta = self.inner_thickness_ratio * dc.stroke_x
+        yi = b.y2 - self.inner_height * b.height
+        yik = b.y2 - self.ink_trap_height * b.height
 
         glyph = ufoLib2.objects.Glyph()
         gpen = glyph.getPen()
+
+        # Vertical stems
+        draw_rect(gpen, b.x1, b.y1, b.x1 + sx, b.y2)
+        draw_rect(gpen, b.x2 - sx, b.y1, b.x2, b.y2)
+
+        # Middle branches
         draw_parallelogramm_vertical(
             gpen,
-            isx,
-            isy,
+            0,
+            0,
             b.x1 + dc.stroke_x + dc.gap,
             b.y1,
             b.xmid - dc.gap / 2,
-            yi2,
+            yi + delta / 2,
+            direction="top-right",
+            delta=delta,
         )
-        theta, delta = draw_parallelogramm_vertical(
+        theta, _ = draw_parallelogramm_vertical(
             gpen,
-            isx,
-            isy,
+            0,
+            0,
             b.x2 - dc.stroke_x - dc.gap,
             b.y1,
             b.xmid + dc.gap / 2,
-            yi2,
+            yi + delta / 2,
             direction="top-left",
+            delta=delta,
         )
+
+        # Fill the gaps
         draw_rect(
             gpen,
             b.xmid - dc.gap / 2,
-            yi2 - delta,
+            yi - delta / 2,
             b.xmid + dc.gap / 2,
-            yi2,
+            yi,
         )
+        draw_rect(
+            gpen,
+            b.x1 + sx,
+            b.y1,
+            b.x1 + sx + dc.gap,
+            b.y1 + delta,
+        )
+        draw_rect(
+            gpen,
+            b.x2 - sx - dc.gap,
+            b.y1,
+            b.x2 - sx,
+            b.y1 + delta,
+        )
+
         cut_glyph = ufoLib2.objects.Glyph()
+
+        # Cut the upper part, where the branches meet
         draw_rect(
             cut_glyph.getPen(),
-            b.x1 + dc.stroke_x,
-            yi2 - delta / 2,
-            b.x2 - dc.stroke_x,
-            b.y2,
+            b.x1 + sx,
+            yi,
+            b.x2 - sx,
+            yi + delta / 2,
         )
+
+        le = max(0, (b.y1 + delta - yik) / cos(theta))
+        if le > 0:
+            draw_polygon(
+                cut_glyph.getPen(),
+                points=[
+                    (b.x2 - sx - dc.gap, b.y1 + delta),
+                    (
+                        b.x2 - sx - dc.gap + le * sin(theta),
+                        b.y1 + delta - le * cos(theta),
+                    ),
+                    (
+                        b.x2 - sx + le * sin(theta),
+                        b.y1 + delta - le * cos(theta),
+                    ),
+                    (b.x2 - sx, (b.y1 + b.y2 + delta) / 2),
+                ],
+            )
+            draw_polygon(
+                cut_glyph.getPen(),
+                points=[
+                    (b.x1 + sx + dc.gap, b.y1 + delta),
+                    (
+                        b.x1 + sx + dc.gap - le * sin(theta),
+                        b.y1 + delta - le * cos(theta),
+                    ),
+                    (
+                        b.x1 + sx - le * sin(theta),
+                        b.y1 + delta - le * cos(theta),
+                    ),
+                    (b.x1 + sx, (b.y1 + b.y2 + delta) / 2),
+                ],
+            )
+
         res = BooleanGlyph(glyph).difference(BooleanGlyph(cut_glyph))
         res.draw(pen)
-
-        draw_rect(
-            pen, b.x1 + dc.stroke_x, b.y1, b.x1 + dc.stroke_x + dc.gap, b.y1 + delta
-        )
-        draw_rect(
-            pen, b.x2 - dc.stroke_x - dc.gap, b.y1, b.x2 - dc.stroke_x, b.y1 + delta
-        )
