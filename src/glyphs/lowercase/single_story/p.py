@@ -1,5 +1,5 @@
 from glyphs import Glyph
-from draw.superellipse_arch import draw_superellipse_arch
+from draw.arch import draw_arch
 from draw.rect import draw_rect
 from draw.polygon import draw_polygon
 from glyphs.lowercase.single_story import SingleStoryLowercaseGlyph
@@ -25,7 +25,7 @@ class LowercasePGlyph(SingleStoryLowercaseGlyph):
         hx, hy = self.hx_ratio * b.hx, self.hy_ratio * b.hy
 
         # Bowl (open on the left, same as b)
-        arch_params = draw_superellipse_arch(
+        arch_params = draw_arch(
             pen,
             bsx,
             bsy,

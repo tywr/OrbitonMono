@@ -1,5 +1,5 @@
 from glyphs import Glyph
-from draw.superellipse_arch import draw_superellipse_arch
+from draw.arch import draw_arch
 from draw.rect import draw_rect
 from draw.polygon import draw_polygon
 
@@ -27,7 +27,7 @@ class LowercaseM2Glyph(Glyph):
 
         # Left arch (x1 to xmid) and store offset_x
 
-        arch_params = draw_superellipse_arch(
+        arch_params = draw_arch(
             pen,
             dc.stroke_x,
             self.top_stroke_y * dc.stroke_y,
@@ -43,7 +43,7 @@ class LowercaseM2Glyph(Glyph):
         )
 
         # Right arch (xmid to x2)
-        draw_superellipse_arch(
+        draw_arch(
             pen,
             dc.stroke_x,
             self.top_stroke_y * dc.stroke_y,

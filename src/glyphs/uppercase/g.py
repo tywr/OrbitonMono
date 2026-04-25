@@ -2,7 +2,7 @@ import ufoLib2
 from booleanOperations.booleanGlyph import BooleanGlyph
 from glyphs.uppercase import UppercaseGlyph
 from draw.rect import draw_rect
-from draw.superellipse_arch import draw_superellipse_arch
+from draw.arch import draw_arch
 
 
 class UppercaseGGlyph(UppercaseGlyph):
@@ -37,7 +37,7 @@ class UppercaseGGlyph(UppercaseGlyph):
         ymid = b.y1 + self.opening1 * b.height
 
         glyph = ufoLib2.objects.Glyph()
-        draw_superellipse_arch(
+        draw_arch(
             glyph.getPen(),
             sx,
             sy,

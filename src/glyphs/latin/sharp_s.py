@@ -1,9 +1,7 @@
 from glyphs import Glyph
-from draw.superellipse_loop import draw_superellipse_loop
-from draw.superellipse_arch import draw_superellipse_arch
+from draw.arch import draw_arch
 from draw.rect import draw_rect
 from draw.corner import draw_corner
-from draw.parallelogramm import draw_parallelogramm, draw_parallelogramm_vertical
 from utils.intersection import intersection_superellipses
 
 
@@ -55,9 +53,9 @@ class SharpSGlyph(Glyph):
             b.y2,
             hx * (upper_x2 - upper_x1) / b.width,
             hy * (1 - self.mid_ratio),
-            orientation="top-right"
+            orientation="top-right",
         )
-        arch1 = draw_superellipse_arch(
+        arch1 = draw_arch(
             pen,
             sx,
             sy,
@@ -73,7 +71,7 @@ class SharpSGlyph(Glyph):
         )
 
         # Lower loop (full width)
-        arch2 = draw_superellipse_arch(
+        arch2 = draw_arch(
             pen,
             sx,
             sy,
@@ -85,7 +83,7 @@ class SharpSGlyph(Glyph):
             hy * self.mid_ratio,
             taper=0.75,
             cut="left",
-            side="top"
+            side="top",
         )
 
         # Compute the intersection of the two outer superellipses

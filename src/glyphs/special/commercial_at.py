@@ -1,6 +1,6 @@
 from glyphs import Glyph
 from draw.superellipse_loop import draw_superellipse_loop
-from draw.superellipse_arch import draw_superellipse_arch
+from draw.arch import draw_arch
 from draw.rect import draw_rect
 from draw.polygon import draw_polygon
 from draw.corner import draw_corner
@@ -28,7 +28,7 @@ class CommercialAtGlyph(Glyph):
         xi1, xi2 = b.x2 - wi, b.x2
         yi1, yi2 = b.ymid - hi / 2, b.ymid + hi / 2
 
-        params = draw_superellipse_arch(
+        params = draw_arch(
             pen,
             dc.stroke_x,
             dc.stroke_alt,

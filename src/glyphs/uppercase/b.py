@@ -1,5 +1,5 @@
 from glyphs.uppercase import UppercaseGlyph
-from draw.superellipse_arch import draw_superellipse_arch
+from draw.arch import draw_arch
 from draw.rect import draw_rect
 from utils.intersection import intersection_superellipses
 
@@ -35,7 +35,7 @@ class UppercaseBGlyph(UppercaseGlyph):
         draw_rect(pen, b.x1, 0, b.x1 + sx, dc.cap)
 
         # Upper loop (narrower, displaced left)
-        arch1 = draw_superellipse_arch(
+        arch1 = draw_arch(
             pen,
             sx,
             sy,
@@ -50,7 +50,7 @@ class UppercaseBGlyph(UppercaseGlyph):
             cut="left",
         )
         # Lower loop (full width)
-        arch2 = draw_superellipse_arch(
+        arch2 = draw_arch(
             pen,
             sx,
             sy,

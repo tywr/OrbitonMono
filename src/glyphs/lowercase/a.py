@@ -1,7 +1,7 @@
 import ufoLib2
 from booleanOperations.booleanGlyph import BooleanGlyph
 from glyphs import Glyph
-from draw.superellipse_arch import draw_superellipse_arch
+from draw.arch import draw_arch
 from draw.corner import draw_corner
 from draw.rect import draw_rect
 from draw.polygon import draw_polygon
@@ -46,7 +46,7 @@ class LowercaseAGlyph(Glyph):
         chx = self.cap_hx_ratio * b.hx
 
         # Lower half half of the bowl
-        arch_params = draw_superellipse_arch(
+        arch_params = draw_arch(
             pen,
             csx,
             csy,

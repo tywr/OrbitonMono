@@ -1,6 +1,6 @@
 import ufoLib2
 from booleanOperations.booleanGlyph import BooleanGlyph
-from draw.superellipse_arch import draw_superellipse_arch
+from draw.arch import draw_arch
 from draw.rect import draw_rect
 from draw.corner import draw_corner
 from draw.polygon import draw_polygon
@@ -37,7 +37,7 @@ class LowercaseGGlyph(SingleStoryLowercaseGlyph):
         xt = b.x1 + self.tail_offset * b.width
 
         # Bowl (open on the right, mirrored from b)
-        arch_params = draw_superellipse_arch(
+        arch_params = draw_arch(
             pen,
             bsx,
             bsy,

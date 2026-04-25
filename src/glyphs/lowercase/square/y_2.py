@@ -1,7 +1,7 @@
 import ufoLib2
 from booleanOperations.booleanGlyph import BooleanGlyph
 from draw.rect import draw_rect
-from draw.superellipse_arch import draw_superellipse_arch
+from draw.arch import draw_arch
 from draw.polygon import draw_polygon
 from draw.corner import draw_corner
 from glyphs.lowercase.square import SquareLowercaseGlyph
@@ -36,7 +36,7 @@ class LowercaseY2Glyph(SquareLowercaseGlyph):
         xt = b.x1 + self.tail_offset * b.width
 
         # Bottom arch, cut at top (only lower half drawn)
-        arch_params = draw_superellipse_arch(
+        arch_params = draw_arch(
             pen,
             dc.stroke_x,
             dc.stroke_y,

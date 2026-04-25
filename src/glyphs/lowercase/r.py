@@ -1,5 +1,5 @@
 from glyphs import Glyph
-from draw.superellipse_arch import draw_superellipse_arch
+from draw.arch import draw_arch
 from draw.rect import draw_rect
 from draw.polygon import draw_polygon
 
@@ -26,7 +26,7 @@ class LowercaseRGlyph(Glyph):
         ys = b.y2 - self.loop_ratio * b.height
         xt = b.x2 - self.tail_offset * b.width
 
-        arch_params = draw_superellipse_arch(
+        arch_params = draw_arch(
             pen,
             dc.stroke_x,
             dc.stroke_y,

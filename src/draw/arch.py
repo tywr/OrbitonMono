@@ -5,7 +5,7 @@ from shapes.superellipse import Superellipse
 from draw.rect import draw_rect
 
 
-def draw_superellipse_arch(
+def draw_arch(
     pen,
     stroke_x,
     stroke_y,

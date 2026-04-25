@@ -1,4 +1,4 @@
-from draw.superellipse_arch import draw_superellipse_arch
+from draw.arch import draw_arch
 from draw.rect import draw_rect
 from draw.polygon import draw_polygon
 from glyphs.lowercase.square import SquareLowercaseGlyph
@@ -18,7 +18,7 @@ class LowercaseUGlyph(SquareLowercaseGlyph):
         arch_top = b.y2
 
         # Bottom arch, cut at top (only lower half drawn)
-        arch_params = draw_superellipse_arch(
+        arch_params = draw_arch(
             pen,
             dc.stroke_x,
             dc.stroke_y,

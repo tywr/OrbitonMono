@@ -1,5 +1,5 @@
 from glyphs.numbers import NumberGlyph
-from draw.superellipse_arch import draw_superellipse_arch
+from draw.arch import draw_arch
 from draw.rect import draw_rect
 
 
@@ -32,7 +32,7 @@ class EightGlyph(NumberGlyph):
 
         # Top loop
         taper = max(self.taper * dc.taper, 0.65)
-        top_params = draw_superellipse_arch(
+        top_params = draw_arch(
             pen,
             sx,
             sy,
@@ -47,7 +47,7 @@ class EightGlyph(NumberGlyph):
         )
 
         # Bottom loop
-        bottom_params = draw_superellipse_arch(
+        bottom_params = draw_arch(
             pen,
             sx,
             sy,

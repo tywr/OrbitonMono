@@ -1,7 +1,7 @@
 from math import cos, sin
 from glyphs.numbers import NumberGlyph
 from draw.superellipse_loop import draw_superellipse_loop
-from draw.superellipse_arch import draw_superellipse_arch
+from draw.arch import draw_arch
 from draw.polygon import draw_polygon
 from draw.parallelogramm import draw_parallelogramm
 from utils.pens import NullPen
@@ -34,7 +34,7 @@ class SixGlyph(NumberGlyph):
         xj = b.x1 + self.joint_x * sx + dc.gap
 
         # Bottom loop
-        params = draw_superellipse_arch(
+        params = draw_arch(
             pen,
             sx,
             sy,

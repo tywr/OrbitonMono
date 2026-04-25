@@ -4,7 +4,7 @@ from booleanOperations.booleanGlyph import BooleanGlyph
 
 from glyphs import Glyph
 from draw.superellipse_loop import draw_superellipse_loop
-from draw.superellipse_arch import draw_superellipse_arch
+from draw.arch import draw_arch
 from draw.rect import draw_rect
 from draw.parallelogramm import draw_parallelogramm
 from utils.pens import NullPen
@@ -91,7 +91,7 @@ class AmpersandGlyph(Glyph):
         lw = self.lower_width * b.width
         lh = yj - b.y1
 
-        draw_superellipse_arch(
+        draw_arch(
             pen,
             dc.stroke_x,
             dc.stroke_y,
@@ -107,7 +107,7 @@ class AmpersandGlyph(Glyph):
         )
 
         loop_glyph = ufoLib2.objects.Glyph()
-        draw_superellipse_arch(
+        draw_arch(
             loop_glyph.getPen(),
             dc.stroke_x,
             dc.stroke_y,
