@@ -9,6 +9,8 @@ class ZeroGlyph(NumberGlyph):
     offset = 0
     slash = 0.2
     width_ratio = 1.07
+    hx_ratio = 1.2
+    hy_ratio = 1
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
@@ -21,6 +23,8 @@ class ZeroGlyph(NumberGlyph):
             overshoot_right=True,
             number=True,
         )
+        hx = self.hx_ratio * b.hx
+        hy = self.hy_ratio * b.hy
 
         draw_loop(
             pen,
@@ -30,8 +34,8 @@ class ZeroGlyph(NumberGlyph):
             b.y1,
             b.x2,
             b.y2,
-            b.hx,
-            b.hy,
+            hx,
+            hy,
         )
 
         draw_parallelogramm_vertical(

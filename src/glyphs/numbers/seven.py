@@ -6,8 +6,8 @@ from draw.parallelogramm import draw_parallelogramm
 class SevenGlyph(NumberGlyph):
     name = "seven"
     unicode = "0x37"
-    offset = 0
-    offset_foot = 0.2
+    offset = -12
+    offset_foot = 0.3
 
     def draw(self, pen, dc):
         b = dc.body_bounds(

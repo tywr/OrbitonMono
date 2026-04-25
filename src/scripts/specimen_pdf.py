@@ -27,9 +27,9 @@ GROUPS = [
     ),
 ]
 
-BG = (0, 0, 0)
-FG = (1, 1, 1)
-LABEL_COLOR = (0.4, 0.4, 0.4)
+BG = (1, 1, 1)
+FG = (0, 0, 0)
+LABEL_COLOR = (0.5, 0.5, 0.5)
 
 MARGIN_X = 20 * mm
 TITLE_SIZE = 48

@@ -6,7 +6,7 @@ from draw.parallelogramm import draw_parallelogramm
 class FourGlyph(NumberGlyph):
     name = "four"
     unicode = "0x34"
-    offset = -5
+    offset = 6
     horizontal_ratio = 0.65
     vertical_ratio = 0.3
     mid_bar_ratio = 0.5
