@@ -1,12 +1,4 @@
-from math import cos, sin, atan, radians
-from fontTools.pens.transformPen import TransformPen
-from fontTools.misc.transform import Identity
 from glyphs import Glyph
-from draw.corner import draw_corner
-from draw.parallelogramm import draw_parallelogramm_vertical
-from utils.pens import NullPen
-from draw.rect import draw_rect
-from draw.parallelogramm import draw_parallelogramm_vertical
 
 
 class TildeGlyph(Glyph):
