@@ -15,7 +15,7 @@ class LowercaseSGlyph(Glyph):
     right_tail_offset = 0.105
     left_tail_offset = 0.0525
     hx_ratio = 1
-    hy_ratio = 1.15
+    hy_ratio = 1
     mid_height = 0.52
     opening1 = 0.28
     opening2 = 0.72
@@ -23,6 +23,8 @@ class LowercaseSGlyph(Glyph):
     left_offset = 0.08
     right_offset = 0.05
     width_ratio = 0.95
+    curve_thinning = 0.024
+    curve_ratio = 2.7
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
@@ -43,6 +45,8 @@ class LowercaseSGlyph(Glyph):
         hxt = (1 - self.left_offset - self.right_offset) * b.hx
         ym1 = (b.y2 + ymid - sy / 2) / 2
         ym2 = (b.y1 + ymid + sy / 2) / 2
+        th = self.curve_thinning * b.height
+        r = self.curve_ratio
 
         thx, thy, tihx, tihy = draw_corner(
             pen,
@@ -72,14 +76,18 @@ class LowercaseSGlyph(Glyph):
 
         # Mid Curve
         pen.moveTo((x1, ym1))
-        pen.curveTo((x1, ym1 - 2 * thy), (b.x2 - sx, ym2 + 2 * bihy), (b.x2 - sx, ym2))
+        pen.curveTo(
+            (x1, ym1 - r * thy + th), (b.x2 - sx, ym2 + r * bihy + th), (b.x2 - sx, ym2)
+        )
         pen.lineTo((b.x2, ym2))
-        pen.curveTo((b.x2, ym2 + 2 * bhy), (x1 + sx, ym1 - 2 * tihy), (x1 + sx, ym1))
+        pen.curveTo(
+            (b.x2, ym2 + r * bhy - th), (x1 + sx, ym1 - r * tihy - th), (x1 + sx, ym1)
+        )
 
         glyph = ufoLib2.objects.Glyph()
         draw_corner(
             glyph.getPen(),
-            sx,
+            sx * self.thinning,
             sy,
             x2,
             (b.y2 + ymid - sy / 2) / 2,

@@ -15,6 +15,7 @@ class LowercaseAGlyph(Glyph):
     mid_height = 0.52
     width_ratio = 1
     taper = 0.15
+    hx_ratio = 1
     cap_hx_ratio = 1.15
     cap_hy_ratio = 1
     cap_height = 0.72
@@ -39,7 +40,7 @@ class LowercaseAGlyph(Glyph):
         ry = (self.mid_height * b.height + dc.stroke_alt / 2) / b.height
         ymid = b.y1 + self.mid_height * b.height
         yl = ymid + dc.stroke_alt / 2
-        hx, hy = b.hx, b.hy * ry
+        hx, hy = b.hx * self.hx_ratio, b.hy * ry
         ycut = b.y1 + self.cap_height * b.height
         xc = b.x1 + self.cap_offset * b.width
         chx = self.cap_hx_ratio * b.hx
@@ -88,7 +89,7 @@ class LowercaseAGlyph(Glyph):
         loop_glyph = ufoLib2.objects.Glyph()
         draw_corner(
             loop_glyph.getPen(),
-            csx,
+            csx * self.thinning,
             csy,
             xc,
             b.ymid,

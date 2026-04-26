@@ -13,7 +13,7 @@ class LowercaseCGlyph(RoundLowercaseGlyph):
     opening1 = 0.28
     opening2 = 0.72
     width_ratio = 1
-    thinning = 0.82
+    thinning = 0.89
     top_offset = 0.02
 
     def draw(self, pen, dc):
