@@ -17,7 +17,7 @@ class LowercaseMGlyph(Glyph):
     hx_ratio = 0.82
     taper = 0.52
     ending_thickness = 0.75
-    min_width = 100
+    min_width = 70
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
@@ -100,26 +100,31 @@ class LowercaseMGlyph(Glyph):
 
         se1 = arch_params["inner"]
         sew = se1.x2 - se1.x1
+        sx = dc.stroke_x
         if sew < self.min_width:
             dx = self.min_width - sew
             xi1, yi1 = se1.xmid, se1.y2
             hx, hy = se1.hx, se1.hy
             se2 = arch_params_2["inner"]
             xi2, yi2 = se2.xmid, se2.y2
-            dhx = dx - hx
+            # dhx = dx - hx
 
             cpen.moveTo((xi1, mid_y))
             cpen.lineTo((xi2, mid_y))
             cpen.lineTo((xi2, yi2))
-            cpen.lineTo((xi2 - dhx, yi2))
+            cpen.lineTo((xi2 - dx, yi2))
             cpen.curveTo(
-                (xi2 - dhx - hx, yi2), (b.xmid + dx, b.ymid + hy), (b.xmid + dx, b.ymid)
+                (xi2 - dx - hx, yi2),
+                (b.xmid + sx / 2 - dx, b.ymid + hy),
+                (b.xmid + sx / 2 - dx, b.ymid),
             )
-            cpen.lineTo((b.xmid + dx, mid_y))
-            cpen.lineTo((b.xmid - dx, mid_y))
-            cpen.lineTo((b.xmid - dx, b.ymid))
+            cpen.lineTo((b.xmid + sx / 2 - dx, mid_y))
+            cpen.lineTo((b.xmid - sx / 2 + dx, mid_y))
+            cpen.lineTo((b.xmid - sx / 2 + dx, b.ymid))
             cpen.curveTo(
-                (b.xmid - dx, b.ymid + hy), (xi1 + dhx + hx, yi1), (xi1 + dhx, yi1)
+                (b.xmid - sx / 2 + dx, b.ymid + hy),
+                (xi1 + dx + hx, yi1),
+                (xi1 + dx, yi1),
             )
             cpen.lineTo((xi1, yi1))
             cpen.closePath()
