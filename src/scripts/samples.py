@@ -120,13 +120,12 @@ class GravityNoirStyle(Style):
 
 
 SAMPLE_CHAR = """\
-LETTERS
-——————————————————————————
-ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz
-
-NUMBERS
-——————————————————————————
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+abcdefghijklmnopqrstuvwxyz
 0123456789
+!"#$%&'()+=,-./:;<*>
+?@[\]^_`{|}~
+-> => __ -- == ===
 """
 
 
@@ -193,18 +192,20 @@ def _lexer(cls=TextLexer):
     return lex
 
 
-SAMPLES = [
-    ("sample_char.png", _lexer(), SAMPLE_CHAR),
-    ("sample_1.png", _lexer(PythonLexer), SAMPLE_1),
-    ("sample_2.png", _lexer(CppLexer), SAMPLE_2),
-    ("sample_3.png", _lexer(HaskellLexer), SAMPLE_3),
-]
-
-
 FONT_SIZE = 40
+CHAR_FONT_SIZE = 72
 IMAGE_PAD = 72
 LINE_PAD = 12
 TARGET_CHARS = 56
+
+
+# (filename, lexer, code, font_size)
+SAMPLES = [
+    ("sample_char.png", _lexer(), SAMPLE_CHAR, CHAR_FONT_SIZE),
+    ("sample_1.png", _lexer(PythonLexer), SAMPLE_1, FONT_SIZE),
+    ("sample_2.png", _lexer(CppLexer), SAMPLE_2, FONT_SIZE),
+    ("sample_3.png", _lexer(HaskellLexer), SAMPLE_3, FONT_SIZE),
+]
 
 
 def _target_image_width(font_path):
@@ -214,14 +215,14 @@ def _target_image_width(font_path):
     return int(round(char_w * TARGET_CHARS)) + 2 * IMAGE_PAD
 
 
-def render_sample(output, lexer, code, font_path, target_width):
+def render_sample(output, lexer, code, font_path, target_width, font_size=FONT_SIZE):
     import io
 
     bold_path = font_path.replace("-Regular", "-Bold")
     formatter = ImageFormatter(
         font_name=font_path,
         font_name_bold=bold_path if os.path.exists(bold_path) else font_path,
-        font_size=FONT_SIZE,
+        font_size=font_size,
         line_numbers=False,
         style=GravityNoirStyle,
         image_pad=IMAGE_PAD,
@@ -363,13 +364,14 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     target_width = _target_image_width(args.font)
-    for filename, lexer, code in SAMPLES:
+    for filename, lexer, code, font_size in SAMPLES:
         render_sample(
             os.path.join(args.output_dir, filename),
             lexer,
             code,
             args.font,
             target_width,
+            font_size=font_size,
         )
 
     render_composition(

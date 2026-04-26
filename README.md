@@ -2,13 +2,15 @@
 
 A compact neo-grotesk font designed for coding.
 
-![Specimen](assets/specimen.png)
+![Specimen](specimens/specimen.png)
+
+## Characters
+
+![characters](assets/samples/sample_char.png)
 
 ## Samples
 
 ![python](assets/samples/les_drus.png)
-
-## Code Samples
 
 ### Python
 
