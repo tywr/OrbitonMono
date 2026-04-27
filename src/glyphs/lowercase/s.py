@@ -12,8 +12,8 @@ class LowercaseSGlyph(Glyph):
     width_ratio = 1
     stroke_x_ratio = 1.01
     stroke_y_ratio = 1.03
-    right_tail_offset = 0.105
-    left_tail_offset = 0.0525
+    right_tail_offset = 0.01
+    left_tail_offset = 0.01
     hx_ratio = 1
     hy_ratio = 1
     mid_height = 0.52
@@ -102,11 +102,11 @@ class LowercaseSGlyph(Glyph):
             sx * self.thinning,
             sy,
             b.x1,
-            b.ymid,
+            ym2,
             b.xmid,
             b.y1,
             hx,
-            hy,
+            hy * self.mid_height,
             orientation="bottom-right",
         )
         cut_glyph = ufoLib2.objects.Glyph()

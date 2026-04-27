@@ -11,10 +11,10 @@ class UppercaseSGlyph(UppercaseGlyph):
     offset = -10
     stroke_x_ratio = UppercaseGlyph.stroke_x_ratio * 1.00
     stroke_y_ratio = UppercaseGlyph.stroke_y_ratio * 1.05
-    right_tail_offset = 0.105
-    left_tail_offset = 0.0525
-    hx_ratio = 1
-    hy_ratio = 1
+    right_tail_offset = 0.01
+    left_tail_offset = 0.01
+    hx_ratio = 0.9
+    hy_ratio = 0.8
     mid_height = 0.53
     opening1 = 0.28
     opening2 = 0.72
@@ -103,11 +103,12 @@ class UppercaseSGlyph(UppercaseGlyph):
             sx * self.thinning,
             sy,
             b.x1,
-            b.ymid,
+            ym2,
             b.xmid,
             b.y1,
             hx,
-            hy,
+            # hy,
+            hy * self.mid_height,
             orientation="bottom-right",
         )
         cut_glyph = ufoLib2.objects.Glyph()
