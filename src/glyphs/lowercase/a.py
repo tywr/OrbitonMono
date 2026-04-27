@@ -23,6 +23,7 @@ class LowercaseAGlyph(Glyph):
     thinning = 0.89
     cap_stroke_x_ratio = 1.01
     cap_stroke_y_ratio = 1.09
+    ending_thickness = 0.8
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
@@ -36,7 +37,7 @@ class LowercaseAGlyph(Glyph):
             self.cap_stroke_x_ratio * dc.stroke_x,
             self.cap_stroke_y_ratio * dc.stroke_y,
         )
-        dx = sx - dc.stroke_x
+        dx = csx - dc.stroke_x
         ry = (self.mid_height * b.height + dc.stroke_alt / 2) / b.height
         ymid = b.y1 + self.mid_height * b.height
         yl = ymid + dc.stroke_alt / 2
@@ -104,14 +105,6 @@ class LowercaseAGlyph(Glyph):
         result = BooleanGlyph(loop_glyph).difference(BooleanGlyph(cut_glyph))
         result.draw(pen)
 
-        # Stem
-        draw_rect(
-            pen,
-            b.x2 - sx,
-            0,
-            b.x2,
-            b.ymid,
-        )
 
         # Fill the gap
         (_, y1), (_, y2) = arch_params["outer"].intersection_x(
@@ -119,12 +112,30 @@ class LowercaseAGlyph(Glyph):
         )
         y1, y2 = min(y1, y2), max(y1, y2)
 
-        # Fill the gap
+        # Stem
+        draw_rect(
+            pen,
+            b.x2 - sx,
+            y1,
+            b.x2,
+            b.ymid,
+        )
+
         draw_polygon(
             pen,
             points=[
+                (b.x2 - self.ending_thickness * dc.stroke_x, 0),
+                (b.x2, 0),
+                (b.x2, y1),
+                (b.x2 - dc.stroke_x, y1),
+            ],
+        )
+
+        draw_polygon(
+            pen,
+            points=[
+                (b.x2 - dc.stroke_x + dc.stroke_x * dc.taper / 2, b.ymid),
                 (b.x2 - dc.stroke_x - dc.gap, y1),
                 (b.x2 - dc.stroke_x, y1),
-                (b.x2 - dc.stroke_x + dc.stroke_x * dc.taper / 2, ymid),
             ],
         )
