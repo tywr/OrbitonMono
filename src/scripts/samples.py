@@ -194,7 +194,7 @@ def _lexer(cls=TextLexer):
 
 FONT_SIZE = 40
 CHAR_FONT_SIZE = 72
-IMAGE_PAD = 72
+IMAGE_PAD = 108
 LINE_PAD = 12
 TARGET_CHARS = 56
 

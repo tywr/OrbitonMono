@@ -8,10 +8,10 @@ class UppercaseKGlyph(UppercaseGlyph):
     name = "uppercase_k"
     unicode = "0x4B"
     offset = 38
-    branch_ratio = 0.68
-    width_ratio = 1.08
-    mid_ratio = 0.53
-    upper_branch_offset = 0.01
+    branch_ratio = 0.65
+    width_ratio = 1.16
+    mid_ratio = 0.52
+    upper_branch_offset = 0.1
 
     def draw(self, pen, dc):
         b = dc.body_bounds(

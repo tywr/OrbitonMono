@@ -7,10 +7,10 @@ from utils.intersection import intersection_superellipses
 class UppercaseBGlyph(UppercaseGlyph):
     name = "uppercase_b"
     unicode = "0x42"
-    offset = 12
+    offset = 10
     upper_ratio = 0.9  # Upper loop width as a fraction of the lower loop width
     mid_ratio = 0.52
-    width_ratio = 1.06
+    width_ratio = 1.07
 
     def draw(self, pen, dc):
         b = dc.body_bounds(

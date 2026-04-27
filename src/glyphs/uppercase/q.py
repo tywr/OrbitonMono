@@ -9,7 +9,7 @@ class UppercaseQGlyph(UppercaseGlyph):
     offset = 0
     tail_width = 0.45
     tail_height = 0.2
-    width_ratio = 1.12
+    width_ratio = 1.08
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
@@ -17,8 +17,6 @@ class UppercaseQGlyph(UppercaseGlyph):
             height="cap",
             overshoot_bottom=True,
             overshoot_top=True,
-            overshoot_left=True,
-            overshoot_right=True,
             width_ratio=self.width_ratio,
             uppercase=True,
         )

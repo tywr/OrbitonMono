@@ -17,14 +17,14 @@ class UppercaseMGlyph(UppercaseGlyph):
     inner_thickness_ratio = 2.6
     inner_height = 0.2
     width_ratio = 1.16
-    ink_trap_height = 0.6
+    ink_trap_height = 0.7
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
             offset=self.offset,
             height="cap",
             width_ratio=self.width_ratio,
-            min_margin=dc.min_margin,
+            min_margin=dc.min_margin_uppercase,
         )
         sx, sy = dc.stroke_x * self.stroke_x_ratio, dc.stroke_y * self.stroke_y_ratio
         delta = self.inner_thickness_ratio * dc.stroke_x
@@ -99,7 +99,7 @@ class UppercaseMGlyph(UppercaseGlyph):
                         b.y2 - delta + le * cos(theta),
                     ),
                     (
-                        b.x2 - sx + le * sin(theta) + dc.gap,
+                        b.x2 - sx + le * sin(theta),
                         b.y2 - delta + le * cos(theta),
                     ),
                     (b.x2 - sx, (b.y1 + b.y2 - delta) / 2),
@@ -114,7 +114,7 @@ class UppercaseMGlyph(UppercaseGlyph):
                         b.y2 - delta + le * cos(theta),
                     ),
                     (
-                        b.x1 + sx - le * sin(theta) - dc.gap,
+                        b.x1 + sx - le * sin(theta),
                         b.y2 - delta + le * cos(theta),
                     ),
                     (b.x1 + sx, (b.y1 + b.y2 - delta) / 2),
@@ -123,4 +123,3 @@ class UppercaseMGlyph(UppercaseGlyph):
 
         res = BooleanGlyph(glyph).difference(BooleanGlyph(cut_glyph))
         res.draw(pen)
-

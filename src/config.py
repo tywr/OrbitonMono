@@ -24,7 +24,8 @@ class FontConfig:
     parenthesis: int = 300
     parenthesis_length: int = 1060
 
-    min_margin: int = 25
+    min_margin_lowercase: int = 36.5
+    min_margin_uppercase: int = 32.8
 
     default_stroke = 90
     italic_angle: float = 9.4
@@ -53,8 +54,8 @@ class DrawConfig(FontConfig):
     hx: int = 172
     hy: int = 164
 
-    cap_hx: int = 186
-    cap_hy: int = 178
+    cap_hx: int = 178
+    cap_hy: int = 188
 
     gap: int = 10
 
@@ -70,7 +71,7 @@ class DrawConfig(FontConfig):
         brx = 1.5
         ratio_x = exp((w - 400) * log(brx) / 300)
 
-        bry = 1.25
+        bry = 1.36
         ratio_y = exp((w - 400) * log(bry) / 300)
 
         bhy = 1.3
@@ -134,7 +135,7 @@ class DrawConfig(FontConfig):
         x2 = self.window_width / 2 + width / 2 + self.stroke_x / 2 + offset
         y2 = getattr(self, height)
 
-        # For some wide characters (w, m, W, M) we fix a min margin for bolder
+        # For some wide characters (w, m, W, M) we fix a min margin for bolder weights
         # weights
         if min_margin:
             x1 = max(min_margin, x1)

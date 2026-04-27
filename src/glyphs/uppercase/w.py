@@ -14,9 +14,9 @@ class UppercaseWGlyph(UppercaseGlyph):
     overlap = 0.65
     overlap_middle = 0.5
     depth = 0.6
-    inner_thickness_ratio = 1.9
+    inner_thickness_ratio = 2
     inner_height = 0.4
-    width_ratio = 1.16
+    width_ratio = 1.18
     ink_trap_height = 0.7
 
     def draw(self, pen, dc):
@@ -24,7 +24,7 @@ class UppercaseWGlyph(UppercaseGlyph):
             offset=self.offset,
             height="cap",
             width_ratio=self.width_ratio,
-            min_margin=dc.min_margin,
+            min_margin=dc.min_margin_uppercase,
         )
         sx = dc.stroke_x * self.stroke_x_ratio
         delta = self.inner_thickness_ratio * dc.stroke_x
