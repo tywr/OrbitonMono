@@ -6,10 +6,10 @@ class Dieresis(Accent):
     name = "dieresis"
     unicode = "0xA8"
     gap = 0.38
-    dot_width = 18
+    stroke_width = 1.1
 
     def draw_at(self, pen, dc, x, y):
-        dw = dc.stroke_x / 2 + self.dot_width
+        dw = self.stroke_width * dc.stroke_x / 2
         g = self.gap * dc.width
         xm1 = x - g / 2 - dw / 2
         xm2 = x + g / 2 + dw / 2
