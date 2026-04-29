@@ -6,28 +6,26 @@ from draw.square_corner import draw_square_corner
 class LowercaseLGlyph(Glyph):
     name = "lowercase_l"
     unicode = "0x6C"
-    # default_italic = True
-    offset = 4
-    width_ratio = 1.08
-    cap = 0.5
+    offset = -6
+    width_ratio = 1.1
+    mid_ratio = 0.48
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
             offset=self.offset, height="ascent", width_ratio=self.width_ratio
         )
         ym4 = b.y1 + b.height / 4
+        xmid = b.x1 + self.mid_ratio * b.width
 
         # Stem
-        draw_rect(
-            pen, b.xmid - dc.stroke_x / 2, ym4, b.xmid + dc.stroke_x / 2, dc.ascent
-        )
+        draw_rect(pen, xmid - dc.stroke_x / 2, ym4, xmid + dc.stroke_x / 2, dc.ascent)
 
         # Footer
         draw_square_corner(
             pen,
             dc.stroke_x,
             dc.stroke_y,
-            b.xmid - dc.stroke_x / 2,
+            xmid - dc.stroke_x / 2,
             ym4,
             b.x2,
             b.y1,
@@ -37,8 +35,8 @@ class LowercaseLGlyph(Glyph):
         # Left cap
         draw_rect(
             pen,
-            b.xmid - b.width * self.cap,
+            b.x1,
             dc.ascent - dc.stroke_y,
-            b.xmid,
+            xmid,
             dc.ascent,
         )
