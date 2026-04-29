@@ -15,19 +15,19 @@ class DoubleLowLineGlyph(ContextualLigatureGlyph):
     forbidden_neighbors = ["low_line"]
     number_characters = 2
     width_ratio = 1
+    stroke_ratio = 0.8
 
     def draw(self, pen, dc):
         b = dc.body_bounds(
             offset=self.offset, height="x_height", width_ratio=self.width_ratio
         )
         # Draw a bar that spans two full glyph widths edge-to-edge
-        draw_dented_rect(
-            pen, b.x1, -dc.stroke_y, dc.window_width, 0, side="right"
-        )
+        s = self.stroke_ratio * dc.stroke_x
+        draw_dented_rect(pen, b.x1, -s, dc.window_width, 0, side="right")
         draw_dented_rect(
             pen,
             dc.window_width,
-            -dc.stroke_y,
+            -s,
             b.x2 + dc.window_width,
             0,
             side="left",
