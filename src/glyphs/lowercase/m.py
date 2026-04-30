@@ -4,7 +4,6 @@ from booleanOperations.booleanGlyph import BooleanGlyph
 from glyphs import Glyph
 from draw.arch import draw_arch
 from draw.rect import draw_rect
-from draw.polygon import draw_polygon
 
 
 class LowercaseMGlyph(Glyph):
@@ -15,8 +14,8 @@ class LowercaseMGlyph(Glyph):
     mid_len = 0.7
     top_stroke_y = 1
     hx_ratio = 0.82
-    taper = 0.52
-    min_taper = 0.25
+    taper = 0.25
+    min_taper = 0.2
     ending_thickness = 0.75
     min_width = 74
 
