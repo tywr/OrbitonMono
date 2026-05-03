@@ -9,7 +9,7 @@ class LowercaseRGlyph(Glyph):
     unicode = "0x72"
     offset = 10
     loop_ratio = 0.92
-    hx_ratio = 1.2
+    hx_ratio = 1.05
     hy_ratio = 1
     taper = 0.5
     ending_thickness = 0.8
