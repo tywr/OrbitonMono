@@ -32,17 +32,17 @@ class LowercaseJGlyph(DottedLowercaseGlyph):
             dc.stroke_y,
             x2,
             0,
-            b.xmid,
+            b.x1,
             dc.descent + self.tail_offset,
             # dc.hx * 0.5,
             # dc.hy,
             orientation="bottom-left",
         )
         # Extension after the corner to the left
-        draw_rect(
-            pen,
-            b.x1,
-            dc.descent + self.tail_offset,
-            b.xmid,
-            dc.descent + self.tail_offset + dc.stroke_y,
-        )
+        # draw_rect(
+        #     pen,
+        #     b.x1,
+        #     dc.descent + self.tail_offset,
+        #     b.xmid,
+        #     dc.descent + self.tail_offset + dc.stroke_y,
+        # )

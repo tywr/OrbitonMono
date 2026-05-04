@@ -6,8 +6,8 @@ def draw_square_corner(
     y1,
     x2,
     y2,
-    gx=25,
-    gy=50,
+    gx=200,
+    gy=200,
     orientation="bottom-right",
 ):
     """Draw a solid quarter-curve corner using superellipse handles.
@@ -23,71 +23,48 @@ def draw_square_corner(
     """
     w = abs(x2 - x1)
     h = abs(y2 - y1)
+    sx, sy = stroke_x, stroke_y
 
     if orientation == "bottom-left":
-        ix1 = x1 - stroke_x
-        iy1 = y1
-        ix2 = x2
-        iy2 = y2 + stroke_y
-        xc1, yc1 = x1, y1 - h + stroke_y + gy
-        xc2, yc2 = x2 + w - stroke_x - gx, y2
-
         pen.moveTo((x1, y1))
-        pen.lineTo((ix1, iy1))
-        pen.lineTo((ix1, iy2))
-        pen.lineTo((ix2, iy2))
+        pen.lineTo((x1, y2 + gy))
+        pen.curveTo((x1, y2 + sy / 2), (x1 - sx / 2, y2), (x1 - gx, y2))
         pen.lineTo((x2, y2))
-        pen.lineTo((xc2, yc2))
-        pen.curveTo((xc2 + stroke_x, yc2), (xc1, yc1 - stroke_y), (xc1, yc1))
+        pen.lineTo((x2, y2 + sy))
+        pen.lineTo((x1 - sx - gx, y2 + sy))
+        pen.curveTo((x1 - sx, y2 + sy), (x1 - sx, y2 + sy), (x1 - sx, y2 + sy + gy))
+        pen.lineTo((x1 - sx, y1))
         pen.closePath()
 
     elif orientation == "bottom-right":
-        ix1 = x1 + stroke_x
-        iy1 = y1
-        ix2 = x2
-        iy2 = y2 + stroke_y
-        xc1, yc1 = x1, y2 + stroke_y + gy
-        xc2, yc2 = x1 + stroke_x + gx, y2
-
         pen.moveTo((x1, y1))
-        pen.lineTo((xc1, yc1))
-        pen.curveTo((xc1, yc1 - stroke_y), (xc2 - stroke_x, yc2), (xc2, yc2))
+        pen.lineTo((x1, y2 + gy))
+        pen.curveTo((x1, y2 + sy / 2), (x1 + sx / 2, y2), (x1 + gx, y2))
         pen.lineTo((x2, y2))
-        pen.lineTo((ix2, iy2))
-        pen.lineTo((ix1, iy2))
-        pen.lineTo((ix1, iy1))
+        pen.lineTo((x2, y2 + sy))
+        pen.lineTo((x1 + sx + gx, y2 + sy))
+        pen.curveTo((x1 + sx, y2 + sy), (x1 + sx, y2 + sy), (x1 + sx, y2 + sy + gy))
+        pen.lineTo((x1 + sx, y1))
         pen.closePath()
 
     elif orientation == "top-left":
-        ix1 = x1 - stroke_x
-        iy1 = y1
-        ix2 = x2
-        iy2 = y2 - stroke_y
-        xc1, yc1 = x1, y2 - stroke_y - gy
-        xc2, yc2 = x1 - stroke_x - gx, y2
-
         pen.moveTo((x1, y1))
-        pen.lineTo((xc1, yc1))
-        pen.curveTo((xc1, yc1 + stroke_y), (xc2 + stroke_x, yc2), (xc2, yc2))
+        pen.lineTo((x1, y2 - gy))
+        pen.curveTo((x1, y2 - sy / 2), (x1 - sx / 2, y2), (x1 - gx, y2))
         pen.lineTo((x2, y2))
-        pen.lineTo((ix2, iy2))
-        pen.lineTo((ix1, iy2))
-        pen.lineTo((ix1, iy1))
+        pen.lineTo((x2, y2 - sy))
+        pen.lineTo((x1 - sx - gx, y2 - sy))
+        pen.curveTo((x1 - sx, y2 - sy), (x1 - sx, y2 - sy), (x1 - sx, y2 - sy - gy))
+        pen.lineTo((x1 - sx, y1))
         pen.closePath()
 
     elif orientation == "top-right":
-        ix1 = x1 + stroke_x
-        iy1 = y1
-        ix2 = x2
-        iy2 = y2 - stroke_y
-        xc1, yc1 = x1, y2 - stroke_y - gy
-        xc2, yc2 = x1 + stroke_x + gx, y2
-
         pen.moveTo((x1, y1))
-        pen.lineTo((ix1, iy1))
-        pen.lineTo((ix1, iy2))
-        pen.lineTo((ix2, iy2))
+        pen.lineTo((x1, y2 - gy))
+        pen.curveTo((x1, y2 - sy / 2), (x1 + sx / 2, y2), (x1 + gx, y2))
         pen.lineTo((x2, y2))
-        pen.lineTo((xc2, yc2))
-        pen.curveTo((xc2 - stroke_x, yc2), (xc1, yc1 + stroke_y), (xc1, yc1))
+        pen.lineTo((x2, y2 - sy))
+        pen.lineTo((x1 + sx + gx, y2 - sy))
+        pen.curveTo((x1 + sx, y2 - sy), (x1 + sx, y2 - sy), (x1 + sx, y2 - sy - gy))
+        pen.lineTo((x1 + sx, y1))
         pen.closePath()
