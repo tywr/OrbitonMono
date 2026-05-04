@@ -69,11 +69,18 @@ class LowercaseAGlyph(Glyph):
             dc.stroke_alt,
             b.x1,
             (b.y1 + yl) / 2,
-            b.x2 - dc.stroke_x,
+            b.xmid,
             yl,
-            b.width / 2 - dc.stroke_x + hx * self.hx_bowl_ratio,
+            hx,
             hy,
             orientation="top-right",
+        )
+        draw_rect(
+            pen,
+            b.xmid,
+            yl - dc.stroke_alt,
+            b.x2,
+            yl,
         )
 
         # Cap

@@ -9,12 +9,12 @@ class FontConfig:
     units_per_em: int = 1000
     window_ascent: int = 1025
     window_descent: int = -300
-    window_width: int = 580
+    window_width: int = 600
 
     ascent: int = 750
     descent: int = -200
     cap: int = 710
-    x_height: int = 520
+    x_height: int = 550
 
     accent: int = 685
     accent_cap: int = 890
@@ -51,10 +51,10 @@ class DrawConfig(FontConfig):
 
     width: int = 348
 
-    hx: int = 150
-    hy: int = 170
+    hx: int = 180
+    hy: int = 180
 
-    cap_hx: int = 150
+    cap_hx: int = 180
     cap_hy: int = 190
 
     gap: int = 10
