@@ -11,8 +11,8 @@ class SingleStoryLowercaseGlyph(Glyph, ABC):
 
     ending_thickness = 0.8
 
-    bowl_stroke_x_ratio = 1.09
-    bowl_stroke_y_ratio = 1.01
+    bowl_stroke_x_ratio = 1.01
+    bowl_stroke_y_ratio = 1.00
 
     hx_ratio = 1.03
     hy_ratio = 1
