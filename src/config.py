@@ -16,7 +16,7 @@ class FontConfig:
     cap: int = 710
     x_height: int = 550
 
-    accent: int = 685
+    accent: int = 715
     accent_cap: int = 890
 
     math: int = 300
