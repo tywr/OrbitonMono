@@ -1,6 +1,9 @@
+import ufoLib2
+from booleanOperations.booleanGlyph import BooleanGlyph
 from glyphs import Glyph
 from draw.square_corner import draw_square_corner
 from draw.rect import draw_rect
+from draw.polygon import draw_polygon
 
 
 class LowercaseTGlyph(Glyph):
@@ -18,14 +21,6 @@ class LowercaseTGlyph(Glyph):
         right_len = b.width * self.rl_ratio - dc.stroke_x / 2
         left_len = b.width * (1 - self.rl_ratio) - dc.stroke_x / 2
 
-        # Stem
-        draw_rect(
-            pen,
-            b.xmid - dc.stroke_x / 2,
-            b.ymid,
-            b.xmid + dc.stroke_x / 2,
-            (1 + self.up_ratio) * dc.x_height,
-        )
         # Cross-bar at x_height
         draw_rect(
             pen,
@@ -53,3 +48,32 @@ class LowercaseTGlyph(Glyph):
             b.xmid + right_len + dc.stroke_x / 2,
             dc.stroke_y,
         )
+
+        glyph = ufoLib2.objects.Glyph()
+
+        # Stem
+        draw_rect(
+            glyph.getPen(),
+            b.xmid - dc.stroke_x / 2,
+            b.ymid,
+            b.xmid + dc.stroke_x / 2,
+            (1 + self.up_ratio) * dc.x_height,
+        )
+        cut_glyph = ufoLib2.objects.Glyph()
+
+        draw_polygon(
+            cut_glyph.getPen(),
+            points=[
+                (b.xmid + dc.stroke_x / 2, (1 + self.up_ratio) * dc.x_height),
+                (
+                    b.xmid - left_len - dc.stroke_x / 2,
+                    dc.x_height,
+                ),
+                (
+                    b.xmid - left_len - dc.stroke_x / 2,
+                    (1 + self.up_ratio) * dc.x_height,
+                ),
+            ],
+        )
+        res = BooleanGlyph(glyph).difference(BooleanGlyph(cut_glyph))
+        res.draw(pen)
