@@ -18,8 +18,8 @@ class LowercaseSGlyph(Glyph):
     opening1 = 0.33
     opening2 = 0.66
     thinning = 1
-    left_offset = 0.06
-    right_offset = 0.06
+    left_offset = 0.04
+    right_offset = 0.04
     curve_thinning = 0.024
     curve_ratio = 2.8
     width_ratio = 1

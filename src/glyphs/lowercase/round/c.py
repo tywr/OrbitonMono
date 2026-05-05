@@ -10,8 +10,8 @@ class LowercaseCGlyph(RoundLowercaseGlyph):
     name = "lowercase_c"
     unicode = "0x63"
     offset = 5
-    opening1 = 0.31
-    opening2 = 0.69
+    opening1 = 0.33
+    opening2 = 0.66
     width_ratio = 1
     thinning = 1
     top_offset = 0.00
