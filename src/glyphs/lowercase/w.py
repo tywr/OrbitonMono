@@ -6,7 +6,7 @@ class LowercaseWGlyph(Glyph):
     name = "lowercase_w"
     unicode = "0x77"
     offset = 0
-    outer_branch_ratio = 0.35
+    outer_branch_ratio = 0.25
     inner_height = 1
     width_ratio = 1.26
     stroke_ratio = 0.88
@@ -20,8 +20,8 @@ class LowercaseWGlyph(Glyph):
         )
         sx = dc.stroke_x * self.stroke_ratio
         isx = dc.stroke_x * self.inner_stroke_ratio
-        xi1 = b.x1 + self.outer_branch_ratio * b.width
-        xi2 = b.x2 - self.outer_branch_ratio * b.width
+        xi1 = b.x1 + self.outer_branch_ratio * b.width + sx / 2
+        xi2 = b.x2 - self.outer_branch_ratio * b.width - sx / 2
         yi = b.y1 + self.inner_height * b.height
 
         draw_parallelogramm(
