@@ -31,12 +31,13 @@ class LowercaseMGlyph(Glyph):
         taper2 = max(self.min_taper_2, self.taper2 * dc.taper)
         mid_y = (1 - self.mid_len) * (b.height - b.y1)
         hx, hy = b.hx * self.hx_ratio, b.hy
+        sx = max(0, 0.7 * (dc.stroke_x - 90)) + min(90, dc.stroke_x)
 
-        wo = (b.width - 3 * dc.stroke_x) / 2
+        wo = (b.width - 3 * sx) / 2
         if wo < self.min_width:
-            smid = b.width - 2 * dc.stroke_x - 2 * self.min_width
+            smid = b.width - 2 * sx - 2 * self.min_width
         else:
-            smid = dc.stroke_x
+            smid = sx
         mid_offset = smid / 2
 
         # Left arch (x1 to xmid) and store offset_x
@@ -47,7 +48,7 @@ class LowercaseMGlyph(Glyph):
             pen,
             smid,
             self.top_stroke_y * dc.stroke_y,
-            b.x1 + (dc.stroke_x - smid),
+            b.x1 + (sx - smid),
             b.y1,
             b.xmid + mid_offset,
             b.y2,
@@ -61,9 +62,9 @@ class LowercaseMGlyph(Glyph):
         # Right arch (xmid to x2)
         draw_arch(
             pen,
-            dc.stroke_x,
+            sx,
             self.top_stroke_y * dc.stroke_y,
-            b.xmid - mid_offset - (dc.stroke_x - smid),
+            b.xmid - mid_offset - (sx - smid),
             b.y1,
             b.x2,
             b.y2,
@@ -75,10 +76,10 @@ class LowercaseMGlyph(Glyph):
         )
 
         # Left stem
-        draw_rect(pen, b.x1, 0, b.x1 + dc.stroke_x, dc.x_height)
+        draw_rect(pen, b.x1, 0, b.x1 + sx, dc.x_height)
 
         # Right foot — reaches up to the arch midpoint
-        draw_rect(pen, b.x2 - dc.stroke_x, 0, b.x2, b.ymid)
+        draw_rect(pen, b.x2 - sx, 0, b.x2, b.ymid)
 
         # Middle stem extension
         draw_rect(
@@ -95,7 +96,7 @@ class LowercaseMGlyph(Glyph):
         #
         # se1 = arch_params["inner"]
         # sew = se1.x2 - se1.x1
-        # sx = dc.stroke_x
+        # sx = sx
         # if sew < self.min_width:
         #     dx = self.min_width - sew
         #     xi1, yi1 = se1.xmid, se1.y2

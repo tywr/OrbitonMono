@@ -26,8 +26,9 @@ class UppercaseWGlyph(UppercaseGlyph):
             width_ratio=self.width_ratio,
             min_margin=dc.min_margin_uppercase,
         )
-        sx = dc.stroke_x * self.stroke_x_ratio
-        delta = self.inner_thickness_ratio * dc.stroke_x
+        tsx = dc.stroke_x * self.stroke_x_ratio
+        sx = max(0, 0.65 * (tsx - 90)) + min(90, tsx)
+        delta = self.inner_thickness_ratio * sx
         yi = b.y2 - self.inner_height * b.height
         yik = b.y2 - self.ink_trap_height * b.height
 

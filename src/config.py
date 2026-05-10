@@ -25,7 +25,7 @@ class FontConfig:
     parenthesis_length: int = 1060
 
     min_margin_lowercase: int = 26
-    min_margin_uppercase: int = 24
+    min_margin_uppercase: int = 40
 
     default_stroke = 90
     italic_angle: float = 9.4
@@ -68,10 +68,10 @@ class DrawConfig(FontConfig):
         """Return a DrawConfig with heavier stroke weights for a bold variant."""
         from math import log, exp
 
-        brx = 1.5
+        brx = 1.7
         ratio_x = exp((w - 400) * log(brx) / 300)
 
-        bry = 1.5
+        bry = 1.2
         ratio_y = exp((w - 400) * log(bry) / 300)
 
         bhy = 1.3
