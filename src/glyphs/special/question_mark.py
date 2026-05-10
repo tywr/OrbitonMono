@@ -10,6 +10,7 @@ class QuestionMarkGlyph(Glyph):
     offset = 0
     width_ratio = 1
     loop_ratio = 0.6
+    hx_ratio = 1
     gap = 0.35
     height_overflow = 0.05
     taper_length = 0.25
@@ -30,6 +31,7 @@ class QuestionMarkGlyph(Glyph):
         dh = self.height_overflow * b.height
         h = self.loop_ratio * b.height
         sx, sy = dc.stroke_x, dc.stroke_y
+        hx = self.hx_ratio * b.hx
         draw_loop(
             pen,
             dc.stroke_x,
@@ -38,7 +40,7 @@ class QuestionMarkGlyph(Glyph):
             b.y2 - h + dh,
             b.x2,
             b.y2 + dh,
-            b.hx,
+            hx,
             b.hy * self.loop_ratio,
             cut="bottom",
         )
@@ -50,7 +52,7 @@ class QuestionMarkGlyph(Glyph):
             b.y2 - h + dh,
             b.x2,
             b.y2 + dh,
-            b.hx,
+            hx,
             b.hy * self.loop_ratio,
             cut="left",
         )
